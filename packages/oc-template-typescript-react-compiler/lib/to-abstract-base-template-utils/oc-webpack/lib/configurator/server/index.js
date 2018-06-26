@@ -7,35 +7,31 @@ const path = require("path");
 const webpack = require("webpack");
 
 module.exports = function webpackConfigGenerator(options) {
+  const outputPath = path.join(options.serverPath, "../build");
   const production =
     options.production !== undefined ? options.production : "true";
 
   const sourceMaps = !production;
-  const devtool = sourceMaps ? "#source-map" : "";
+  const devtool = sourceMaps ? "source-map" : "";
 
+  console.log('aaaaaaaaaaaaaaaaaaaaaaaaa');
+  console.log(outputPath);
+  console.log(options);
   const jsLoaders = [
     {
-      loader: require.resolve("babel-loader"),
+      loader: require.resolve("ts-loader"),
       options: {
-        cacheDirectory: true,
-        retainLines: true,
-        sourceMaps,
-        sourceRoot: path.join(options.serverPath, ".."),
-        babelrc: false,
-        presets: [
-          [
-            require.resolve("babel-preset-env"),
-            {
-              modules: false,
-              targets: {
-                node: 6
-              }
-            }
-          ]
-        ],
-        plugins: [
-          [require.resolve("babel-plugin-transform-object-rest-spread")]
-        ]
+        // logLevel: 'info',
+        // onlyCompileBundledFiles : true,
+        compilerOptions: {
+          outDir: outputPath,
+          noImplicitAny: true,
+          module: 'es6',
+          target: 'es6',
+          jsx: 'react',
+          allowJs: true,
+          sourceMap: sourceMaps
+        }
       }
     }
   ];
@@ -67,7 +63,7 @@ module.exports = function webpackConfigGenerator(options) {
     entry: options.serverPath,
     target: "node",
     output: {
-      path: path.join(options.serverPath, "../build"),
+      path: outputPath,
       filename: options.publishFileName,
       libraryTarget: "commonjs2",
       devtoolModuleFilenameTemplate: "[absolute-resource-path]",
@@ -77,11 +73,14 @@ module.exports = function webpackConfigGenerator(options) {
     module: {
       rules: [
         {
-          test: /\.js$/,
+          test: /\.tsx?$/,
           exclude: /node_modules/,
           use: jsLoaders
         }
       ]
+    },
+    resolve: {
+      extensions: [ '.tsx', '.ts', '.js' ]
     },
     plugins,
     logger: options.logger || console,

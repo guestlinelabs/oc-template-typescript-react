@@ -16,8 +16,10 @@ const higherOrderServerTemplate = require("./higherOrderServerTemplate");
 module.exports = (options, callback) => {
   const serverFileName = options.componentPackage.oc.files.data;
   let serverPath = path.join(options.componentPath, serverFileName);
+  let ocContextPath = path.join(options.componentPath, 'OCContext.ts');
   if (process.platform === "win32") {
     serverPath = serverPath.split("\\").join("\\\\");
+    ocContextPath = ocContextPath.split("\\").join("\\\\");
   }
   const publishFileName = options.publishFileName || "server.js";
   const publishPath = options.publishPath;
@@ -29,14 +31,16 @@ module.exports = (options, callback) => {
 
   const higherOrderServerContent = higherOrderServerTemplate({
     serverPath,
+    ocContextPath,
     componentName,
     componentVersion,
     bundleHashKey: options.compiledViewInfo.bundle.hashKey
   });
+  console.log('super high', higherOrderServerContent);
   const tempFolder = path.join(serverPath, "../temp");
   const higherOrderServerPath = path.join(
     tempFolder,
-    "__oc_higherOrderServer.js"
+    "__oc_higherOrderServer.ts"
   );
 
   const config = webpackConfigurator({
@@ -49,6 +53,9 @@ module.exports = (options, callback) => {
 
   async.waterfall(
     [
+      next => fs.outputFile(
+        path.join(tempFolder, 'tsconfig.json'), '{"files": ["./__oc_higherOrderServer.ts"]}', next
+      ),
       next =>
         fs.outputFile(higherOrderServerPath, higherOrderServerContent, next),
       next => compiler(config, next),

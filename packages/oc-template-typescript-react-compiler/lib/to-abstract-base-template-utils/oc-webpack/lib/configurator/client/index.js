@@ -12,7 +12,7 @@ module.exports = options => {
   const buildPath = options.buildPath || "/build";
   const production = options.production;
   const buildIncludes = options.buildIncludes.concat(
-    "oc-template-react-compiler/utils"
+    "oc-template-typescript-react-compiler/utils"
   );
   const excludeRegex = createExcludeRegex(buildIncludes);
   const localIdentName = !production

@@ -2,7 +2,7 @@
 
 const createCompile = require("oc-generic-template-compiler").createCompile;
 const compileStatics = require("oc-statics-compiler");
-const getInfo = require("oc-template-react").getInfo;
+const getInfo = require("oc-template-typescript-react").getInfo;
 
 const compileServer = require("./compileServer");
 const compileView = require("./compileView");

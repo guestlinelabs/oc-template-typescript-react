@@ -1,11 +1,14 @@
 const higherOrderServerTemplate = ({
   serverPath,
+  ocContextPath,
   bundleHashKey,
   componentName,
   componentVersion
 }) => `
 import { data as dataProvider } from '${serverPath}';
-export const data = (context, callback) => {
+import { OC } from '${ocContextPath}';
+
+export const data = (context : OC.Context, callback : (error: any, data?: any) => void) => {
   dataProvider(context, (error, model) => {
     if (error) {
       return callback(error);

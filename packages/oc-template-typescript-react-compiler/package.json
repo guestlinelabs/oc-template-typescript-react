@@ -1,5 +1,5 @@
 {
-  "name": "oc-template-react-compiler",
+  "name": "oc-template-typescript-react-compiler",
   "version": "5.1.4",
   "description": "OC-Template-REACT-Compiler",
   "main": "index.js",
@@ -44,7 +44,7 @@
     "oc-minify-file": "1.0.14",
     "oc-react-component-wrapper": "1.0.2",
     "oc-statics-compiler": "2.0.10",
-    "oc-template-react": "2.0.12",
+    "oc-template-typescript-react": "file:../oc-template-typescript-react",
     "oc-templates-messages": "1.0.2",
     "oc-view-wrapper": "1.0.3",
     "postcss-extend": "^1.0.5",
@@ -53,6 +53,8 @@
     "postcss-loader": "^2.0.9",
     "prop-types": "15.6.1",
     "react": "16.4.0",
+    "ts-loader": "^4.4.1",
+    "typescript": "^2.9.2",
     "webpack": "^4.8.3"
   },
   "files": [

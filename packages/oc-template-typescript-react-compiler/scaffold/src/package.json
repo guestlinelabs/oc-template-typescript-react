@@ -4,10 +4,10 @@
   "version": "1.0.0",
   "oc": {
     "files": {
-      "data": "server.js",
+      "data": "server.ts",
       "template": {
         "src": "app.js",
-        "type": "oc-template-react"
+        "type": "oc-template-typescript-react"
       }
     },
     "parameters": {
@@ -21,6 +21,6 @@
     }
   },
   "devDependencies": {
-    "oc-template-react-compiler": "*"
+    "oc-template-typescript-react-compiler": "*"
   }
 }
