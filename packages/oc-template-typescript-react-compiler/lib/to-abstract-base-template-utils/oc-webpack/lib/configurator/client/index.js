@@ -65,7 +65,7 @@ module.exports = options => {
 
   const cacheDirectory = !production;
   const polyfills = ["Object.assign"];
-  console.log(path.join(options.viewPath, '../../../node_modules'));
+
   return {
     mode: production ? "production" : "development",
     optimization: {
@@ -116,13 +116,7 @@ module.exports = options => {
                   allowJs: true,
                   sourceMap: false,
                   allowSyntheticDefaultImports: true,
-                  baseUrl:  path.join(options.viewPath, '../../../node_modules'),
-                  // paths: {
-                  //   react: ['C:\\Users\\piotr\\Documents\\workspace\\oc-template-react\\node_modules\\react'],//[path.join(__dirname, "../../node_modules/react")],
-                  //   "react-dom": ['C:\\Users\\piotr\\Documents\\workspace\\oc-template-react\\node_modules\\react-dom'],//[path.join(__dirname, "../../node_modules/react-dom")],
-                  //   "prop-types": ['C:\\Users\\piotr\\Documents\\workspace\\oc-template-react\\node_modules\\prop-types'],//[path.join(__dirname, "../../node_modules/prop-types")]
-                  //   PropTypes: ['C:\\Users\\piotr\\Documents\\workspace\\oc-template-react\\node_modules\\prop-types'],//[path.join(__dirname, "../../node_modules/prop-types")]
-                  // }
+                  baseUrl:  path.join(options.viewPath, '../../../node_modules')
                 }
               }
             }
@@ -132,12 +126,7 @@ module.exports = options => {
     },
     plugins,
     resolve: {
-      extensions: [ '.tsx', '.ts', '.js', '.json', '.css' ],
-      // alias: {
-      //   react: path.join(__dirname, "../../node_modules/react"),
-      //   "react-dom": path.join(__dirname, "../../node_modules/react-dom"),
-      //   "prop-types": path.join(__dirname, "../../node_modules/prop-types")
-      // }
+      extensions: [ '.tsx', '.ts', '.js', '.json', '.css' ]
     }
   };
 };

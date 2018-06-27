@@ -18,7 +18,6 @@ module.exports = function compiler(config, callback) {
 
     // handleFatalError
     if (error) {
-      console.log('yoyoyo', error);
       return callback(error);
     }
 

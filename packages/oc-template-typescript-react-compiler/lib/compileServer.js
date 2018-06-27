@@ -36,8 +36,7 @@ module.exports = (options, callback) => {
     componentVersion,
     bundleHashKey: options.compiledViewInfo.bundle.hashKey
   });
-  console.log('super high', higherOrderServerContent);
-  const tempFolder = path.join(serverPath, "../temp");
+  const tempFolder = path.join(serverPath, "../_package/temp");
   const higherOrderServerPath = path.join(
     tempFolder,
     "__oc_higherOrderServer.ts"
@@ -60,7 +59,7 @@ module.exports = (options, callback) => {
         fs.outputFile(higherOrderServerPath, higherOrderServerContent, next),
       next => compiler(config, next),
       (data, next) => {
-        const basePath = path.join(serverPath, "../temp/build");
+        const basePath = path.join(tempFolder, "build");
         const memory = new MemoryFS(data);
         const getCompiled = fileName =>
           memory.readFileSync(`${basePath}/${fileName}`, "UTF8");
