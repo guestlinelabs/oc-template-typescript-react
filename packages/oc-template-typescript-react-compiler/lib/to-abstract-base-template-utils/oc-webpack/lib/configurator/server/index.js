@@ -14,15 +14,10 @@ module.exports = function webpackConfigGenerator(options) {
   const sourceMaps = !production;
   const devtool = sourceMaps ? "source-map" : "";
 
-  console.log('aaaaaaaaaaaaaaaaaaaaaaaaa');
-  console.log(outputPath);
-  console.log(options);
   const jsLoaders = [
     {
       loader: require.resolve("ts-loader"),
       options: {
-        // logLevel: 'info',
-        // onlyCompileBundledFiles : true,
         compilerOptions: {
           outDir: outputPath,
           noImplicitAny: true,
@@ -80,7 +75,7 @@ module.exports = function webpackConfigGenerator(options) {
       ]
     },
     resolve: {
-      extensions: [ '.tsx', '.ts', '.js' ]
+      extensions: [ '.tsx', '.ts', '.js', '.json' ]
     },
     plugins,
     logger: options.logger || console,

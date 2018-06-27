@@ -26,6 +26,7 @@ module.exports = (options, callback) => {
     viewPath = viewPath.split("\\").join("\\\\");
   }
   const publishPath = options.publishPath;
+  const tempPath = path.join(publishPath, "temp");
   const publishFileName = options.publishFileName || "template.js";
   const componentPackage = options.componentPackage;
   const { getInfo } = require("../index");
@@ -33,10 +34,9 @@ module.exports = (options, callback) => {
   const production = options.production;
 
   const reactOCProviderContent = reactOCProviderTemplate({ viewPath });
-  const reactOCProviderName = "reactOCProvider.js";
+  const reactOCProviderName = "reactOCProvider.tsx";
   const reactOCProviderPath = path.join(
-    publishPath,
-    "temp",
+    tempPath,
     reactOCProviderName
   );
 
@@ -106,6 +106,17 @@ module.exports = (options, callback) => {
 
   async.waterfall(
     [
+      next => fs.outputFile(
+        path.join(tempPath, 'tsconfig.json'), JSON.stringify({
+          files: [reactOCProviderName],
+          paths: {
+            react: [path.join(__dirname, "../../node_modules/react")],
+            "react-dom": [path.join(__dirname, "../../node_modules/react-dom")],
+            "prop-types": [path.join(__dirname, "../../node_modules/prop-types")]
+          }
+        }), 
+        next
+      ),
       next => fs.outputFile(reactOCProviderPath, reactOCProviderContent, next),
       next => compile({ viewPath: reactOCProviderPath }, next),
       (compiled, next) =>

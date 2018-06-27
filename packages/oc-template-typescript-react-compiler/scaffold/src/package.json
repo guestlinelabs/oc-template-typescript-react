@@ -6,7 +6,7 @@
     "files": {
       "data": "server.ts",
       "template": {
-        "src": "app.js",
+        "src": "app.tsx",
         "type": "oc-template-typescript-react"
       }
     },
