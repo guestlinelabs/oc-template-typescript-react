@@ -1,7 +1,7 @@
 {
   "name": "oc-template-typescript-react-compiler",
-  "version": "5.1.4",
-  "description": "OC-Template-REACT-Compiler",
+  "version": "1.0.1",
+  "description": "",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -44,7 +44,7 @@
     "oc-minify-file": "1.0.14",
     "oc-react-component-wrapper": "1.0.2",
     "oc-statics-compiler": "2.0.10",
-    "oc-template-typescript-react": "file:../oc-template-typescript-react",
+    "oc-template-typescript-react": "^1.0.0",
     "oc-templates-messages": "1.0.2",
     "oc-view-wrapper": "1.0.3",
     "postcss-extend": "^1.0.5",

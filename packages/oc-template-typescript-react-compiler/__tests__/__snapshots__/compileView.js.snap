@@ -8,7 +8,7 @@ Object {
   "template": Object {
     "hashKey": "dummyData",
     "src": "template.js",
-    "type": "oc-template-react",
+    "type": "oc-template-typescript-react",
   },
 }
 `;

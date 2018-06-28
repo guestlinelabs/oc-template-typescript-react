@@ -3,7 +3,7 @@
 exports[`Happy path 1`] = `
 Object {
   "devDependencies": Object {
-    "oc-template-react-compiler": "*",
+    "oc-template-typescript-react-compiler": "*",
   },
   "name": "react-component",
   "oc": Object {
@@ -20,7 +20,7 @@ Object {
       "template": Object {
         "hashKey": "dummyData",
         "src": "template.js",
-        "type": "oc-template-react",
+        "type": "oc-template-typescript-react",
         "version": "",
       },
     },
@@ -46,7 +46,7 @@ say(text);
   },
   Object {
     "path": "../../../mocks/react-component/_compile-tests-package1/package.json",
-    "source": "{\\"name\\":\\"react-component\\",\\"version\\":\\"1.0.0\\",\\"oc\\":{\\"files\\":{\\"static\\":[\\"assets\\"],\\"template\\":{\\"type\\":\\"oc-template-react\\",\\"src\\":\\"template.js\\",\\"version\\":\\"6.6.6\\"},\\"dataProvider\\":{\\"type\\":\\"node.js\\",\\"src\\":\\"server.js\\"}},\\"version\\":\\"1.0.0\\",\\"packaged\\":true,},\\"devDependencies\\":{\\"oc-template-react-compiler\\":\\"*\\"}}
+    "source": "{\\"name\\":\\"react-component\\",\\"version\\":\\"1.0.0\\",\\"oc\\":{\\"files\\":{\\"static\\":[\\"assets\\"],\\"template\\":{\\"type\\":\\"oc-template-typescript-react\\",\\"src\\":\\"template.js\\",\\"version\\":\\"6.6.6\\"},\\"dataProvider\\":{\\"type\\":\\"node.js\\",\\"src\\":\\"server.js\\"}},\\"version\\":\\"1.0.0\\",\\"packaged\\":true,},\\"devDependencies\\":{\\"oc-template-typescript-react-compiler\\":\\"*\\"}}
 ",
   },
   Object {
@@ -67,7 +67,7 @@ say(text);
 exports[`Happy path 3`] = `
 Object {
   "devDependencies": Object {
-    "oc-template-react-compiler": "*",
+    "oc-template-typescript-react-compiler": "*",
   },
   "name": "react-component-with-css",
   "oc": Object {
@@ -84,7 +84,7 @@ Object {
       "template": Object {
         "hashKey": "dummyData",
         "src": "template.js",
-        "type": "oc-template-react",
+        "type": "oc-template-typescript-react",
         "version": "",
       },
     },
@@ -110,7 +110,7 @@ say(text);
   },
   Object {
     "path": "../../../mocks/react-component-with-css/_compile-tests-package1/package.json",
-    "source": "{\\"name\\":\\"react-component-with-css\\",\\"version\\":\\"1.0.0\\",\\"oc\\":{\\"files\\":{\\"static\\":[\\"assets\\"],\\"template\\":{\\"type\\":\\"oc-template-react\\",\\"src\\":\\"template.js\\",\\"version\\":\\"6.6.6\\"},\\"dataProvider\\":{\\"type\\":\\"node.js\\",\\"src\\":\\"server.js\\"}},\\"version\\":\\"1.0.0\\",\\"packaged\\":true,},\\"devDependencies\\":{\\"oc-template-react-compiler\\":\\"*\\"}}
+    "source": "{\\"name\\":\\"react-component-with-css\\",\\"version\\":\\"1.0.0\\",\\"oc\\":{\\"files\\":{\\"static\\":[\\"assets\\"],\\"template\\":{\\"type\\":\\"oc-template-typescript-react\\",\\"src\\":\\"template.js\\",\\"version\\":\\"6.6.6\\"},\\"dataProvider\\":{\\"type\\":\\"node.js\\",\\"src\\":\\"server.js\\"}},\\"version\\":\\"1.0.0\\",\\"packaged\\":true,},\\"devDependencies\\":{\\"oc-template-typescript-react-compiler\\":\\"*\\"}}
 ",
   },
   Object {
@@ -135,7 +135,7 @@ say(text);
 exports[`Should handle empty static folder 1`] = `
 Object {
   "devDependencies": Object {
-    "oc-template-react-compiler": "*",
+    "oc-template-typescript-react-compiler": "*",
   },
   "name": "react-component",
   "oc": Object {
@@ -150,7 +150,7 @@ Object {
       "template": Object {
         "hashKey": "dummyData",
         "src": "template.js",
-        "type": "oc-template-react",
+        "type": "oc-template-typescript-react",
         "version": "",
       },
     },
@@ -165,7 +165,7 @@ exports[`Should handle empty static folder 2`] = `
 Array [
   Object {
     "path": "../../../mocks/react-component/_compile-tests-package2/package.json",
-    "source": "{\\"name\\":\\"react-component\\",\\"version\\":\\"1.0.0\\",\\"oc\\":{\\"files\\":{\\"template\\":{\\"type\\":\\"oc-template-react\\",\\"src\\":\\"template.js\\",\\"version\\":\\"6.6.6\\"},\\"dataProvider\\":{\\"type\\":\\"node.js\\",\\"src\\":\\"server.js\\"},\\"static\\":[]},\\"version\\":\\"1.0.0\\",\\"packaged\\":true,},\\"devDependencies\\":{\\"oc-template-react-compiler\\":\\"*\\"}}
+    "source": "{\\"name\\":\\"react-component\\",\\"version\\":\\"1.0.0\\",\\"oc\\":{\\"files\\":{\\"template\\":{\\"type\\":\\"oc-template-typescript-react\\",\\"src\\":\\"template.js\\",\\"version\\":\\"6.6.6\\"},\\"dataProvider\\":{\\"type\\":\\"node.js\\",\\"src\\":\\"server.js\\"},\\"static\\":[]},\\"version\\":\\"1.0.0\\",\\"packaged\\":true,},\\"devDependencies\\":{\\"oc-template-typescript-react-compiler\\":\\"*\\"}}
 ",
   },
   Object {
@@ -186,7 +186,7 @@ Array [
 exports[`Should handle empty static folder 3`] = `
 Object {
   "devDependencies": Object {
-    "oc-template-react-compiler": "*",
+    "oc-template-typescript-react-compiler": "*",
   },
   "name": "react-component-with-css",
   "oc": Object {
@@ -201,7 +201,7 @@ Object {
       "template": Object {
         "hashKey": "dummyData",
         "src": "template.js",
-        "type": "oc-template-react",
+        "type": "oc-template-typescript-react",
         "version": "",
       },
     },
@@ -216,7 +216,7 @@ exports[`Should handle empty static folder 4`] = `
 Array [
   Object {
     "path": "../../../mocks/react-component-with-css/_compile-tests-package2/package.json",
-    "source": "{\\"name\\":\\"react-component-with-css\\",\\"version\\":\\"1.0.0\\",\\"oc\\":{\\"files\\":{\\"template\\":{\\"type\\":\\"oc-template-react\\",\\"src\\":\\"template.js\\",\\"version\\":\\"6.6.6\\"},\\"dataProvider\\":{\\"type\\":\\"node.js\\",\\"src\\":\\"server.js\\"},\\"static\\":[]},\\"version\\":\\"1.0.0\\",\\"packaged\\":true,},\\"devDependencies\\":{\\"oc-template-react-compiler\\":\\"*\\"}}
+    "source": "{\\"name\\":\\"react-component-with-css\\",\\"version\\":\\"1.0.0\\",\\"oc\\":{\\"files\\":{\\"template\\":{\\"type\\":\\"oc-template-typescript-react\\",\\"src\\":\\"template.js\\",\\"version\\":\\"6.6.6\\"},\\"dataProvider\\":{\\"type\\":\\"node.js\\",\\"src\\":\\"server.js\\"},\\"static\\":[]},\\"version\\":\\"1.0.0\\",\\"packaged\\":true,},\\"devDependencies\\":{\\"oc-template-typescript-react-compiler\\":\\"*\\"}}
 ",
   },
   Object {
@@ -241,7 +241,7 @@ Array [
 exports[`Should handle server.js-less components 1`] = `
 Object {
   "devDependencies": Object {
-    "oc-template-react-compiler": "*",
+    "oc-template-typescript-react-compiler": "*",
   },
   "name": "react-component",
   "oc": Object {
@@ -253,7 +253,7 @@ Object {
       "template": Object {
         "hashKey": "dummyData",
         "src": "template.js",
-        "type": "oc-template-react",
+        "type": "oc-template-typescript-react",
         "version": "",
       },
     },
@@ -279,7 +279,7 @@ say(text);
   },
   Object {
     "path": "../../../mocks/react-component/_compile-tests-package4/package.json",
-    "source": "{\\"name\\":\\"react-component\\",\\"version\\":\\"1.0.0\\",\\"oc\\":{\\"files\\":{\\"static\\":[\\"assets\\"],\\"template\\":{\\"type\\":\\"oc-template-react\\",\\"src\\":\\"template.js\\",\\"version\\":\\"6.6.6\\"}},\\"version\\":\\"1.0.0\\",\\"packaged\\":true,},\\"devDependencies\\":{\\"oc-template-react-compiler\\":\\"*\\"}}
+    "source": "{\\"name\\":\\"react-component\\",\\"version\\":\\"1.0.0\\",\\"oc\\":{\\"files\\":{\\"static\\":[\\"assets\\"],\\"template\\":{\\"type\\":\\"oc-template-typescript-react\\",\\"src\\":\\"template.js\\",\\"version\\":\\"6.6.6\\"}},\\"version\\":\\"1.0.0\\",\\"packaged\\":true,},\\"devDependencies\\":{\\"oc-template-typescript-react-compiler\\":\\"*\\"}}
 ",
   },
   Object {
@@ -296,7 +296,7 @@ say(text);
 exports[`Should handle server.js-less components 3`] = `
 Object {
   "devDependencies": Object {
-    "oc-template-react-compiler": "*",
+    "oc-template-typescript-react-compiler": "*",
   },
   "name": "react-component-with-css",
   "oc": Object {
@@ -308,7 +308,7 @@ Object {
       "template": Object {
         "hashKey": "dummyData",
         "src": "template.js",
-        "type": "oc-template-react",
+        "type": "oc-template-typescript-react",
         "version": "",
       },
     },
@@ -334,7 +334,7 @@ say(text);
   },
   Object {
     "path": "../../../mocks/react-component-with-css/_compile-tests-package4/package.json",
-    "source": "{\\"name\\":\\"react-component-with-css\\",\\"version\\":\\"1.0.0\\",\\"oc\\":{\\"files\\":{\\"static\\":[\\"assets\\"],\\"template\\":{\\"type\\":\\"oc-template-react\\",\\"src\\":\\"template.js\\",\\"version\\":\\"6.6.6\\"}},\\"version\\":\\"1.0.0\\",\\"packaged\\":true,},\\"devDependencies\\":{\\"oc-template-react-compiler\\":\\"*\\"}}
+    "source": "{\\"name\\":\\"react-component-with-css\\",\\"version\\":\\"1.0.0\\",\\"oc\\":{\\"files\\":{\\"static\\":[\\"assets\\"],\\"template\\":{\\"type\\":\\"oc-template-typescript-react\\",\\"src\\":\\"template.js\\",\\"version\\":\\"6.6.6\\"}},\\"version\\":\\"1.0.0\\",\\"packaged\\":true,},\\"devDependencies\\":{\\"oc-template-typescript-react-compiler\\":\\"*\\"}}
 ",
   },
   Object {

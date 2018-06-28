@@ -27,6 +27,6 @@ Object {
       "url": "https://unpkg.com/react-dom@16.4.0/umd/react-dom.production.min.js",
     },
   ],
-  "type": "oc-template-react",
+  "type": "oc-template-typescript-react",
 }
 `;

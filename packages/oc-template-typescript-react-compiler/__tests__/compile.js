@@ -5,7 +5,7 @@ const fs = require("fs-extra");
 const nodeDir = require("node-dir");
 const path = require("path");
 const compile = require("../lib/compile.js");
-jest.mock("oc-template-react", () => ({
+jest.mock("oc-template-typescript-react", () => ({
   getInfo() {
     return {
       version: "6.6.6",
