@@ -1,0 +1,55 @@
+{
+  "name": "oc-template-typescript-react",
+  "version": "1.0.0",
+  "description": "OC-Template-React",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/opencomponents/oc-template-react.git"
+  },
+  "bugs": {
+    "url": "https://github.com/opencomponents/oc-template-react/issues"
+  },
+  "homepage": "https://github.com/opencomponents/oc-template-react#readme",
+  "keywords": [
+    "oc",
+    "opencomponents",
+    "react",
+    "oc-template"
+  ],
+  "author": {
+    "name": "Piotr Bazydlo",
+    "email": "piotr.bazydlo@gmail.com"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "minimal-request": "3.0.0",
+    "nice-cache": "0.0.5",
+    "oc-generic-template-renderer": "2.0.4",
+    "react": "16.4.0",
+    "react-dom": "16.4.0"
+  },
+  "files": [
+    "lib",
+    "index.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "externals": {
+    "Object.assign": {
+      "global": [
+        "Object",
+        "assign"
+      ],
+      "url": "https://unpkg.com/es6-object-assign@1.1.0/dist/object-assign-auto.min.js"
+    },
+    "react": {
+      "global": "React",
+      "url": "https://unpkg.com/react@16.4.0/umd/react.production.min.js"
+    },
+    "react-dom": {
+      "global": "ReactDOM",
+      "url": "https://unpkg.com/react-dom@16.4.0/umd/react-dom.production.min.js"
+    }
+  }
+}

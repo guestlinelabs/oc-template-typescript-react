@@ -1,1 +1,0 @@
-# oc-react-component-wrapper
