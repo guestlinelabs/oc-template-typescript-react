@@ -5,12 +5,12 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/opencomponents/oc-template-react.git"
+    "url": "https://github.com/guestlinelabs/oc-template-typescript-react.git"
   },
   "bugs": {
-    "url": "https://github.com/opencomponents/oc-template-react/issues"
+    "url": "https://github.com/guestlinelabs/oc-template-typescript-react/issues"
   },
-  "homepage": "https://github.com/opencomponents/oc-template-react#readme",
+  "homepage": "https://github.com/guestlinelabs/oc-template-typescript-react#readme",
   "keywords": [
     "oc",
     "opencomponents",
