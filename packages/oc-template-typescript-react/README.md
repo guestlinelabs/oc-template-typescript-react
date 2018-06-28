@@ -1,3 +1,3 @@
-# oc-template-react - Renderer module
+# oc-template-typescript-react - Renderer module
 
-OC template to handle components of type `oc-template-react`
+OC template to handle components of type `oc-template-typescript-react`
