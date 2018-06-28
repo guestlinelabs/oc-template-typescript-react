@@ -21,6 +21,8 @@ Initialize a component with the oc-template-react and follow the CLI instruction
 
 ```
 $ oc init <your-component-name> oc-template-typescript-react
+$ cd <your-component-name>
+$ npm install
 ```
 
 ## Extra info:
