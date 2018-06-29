@@ -1,18 +1,13 @@
 import React from "react";
-import PropTypes from "prop-types";
 
-const withDataProvider = BaseComponent => {
-  const Enhanced = (props, context) => {
+const withDataProvider = (BaseComponent: any) => {
+  const Enhanced = (props: any, context: any) => {
     const propsWithGetData = {
       ...props,
       getData: context.getData
     };
 
     return <BaseComponent {...propsWithGetData} />;
-  };
-
-  Enhanced.contextTypes = {
-    getData: PropTypes.func
   };
 
   return Enhanced;
