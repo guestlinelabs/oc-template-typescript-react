@@ -109,12 +109,18 @@ module.exports = (options, callback) => {
       next => fs.outputFile(
         path.join(tempPath, 'tsconfig.json'), JSON.stringify({
           files: [reactOCProviderName],
+          compilerOptions: {
+            lib: [
+              "es6",
+              "dom"
+            ]
+          },
           paths: {
             react: [path.join(__dirname, "../../node_modules/react")],
             "react-dom": [path.join(__dirname, "../../node_modules/react-dom")],
             "prop-types": [path.join(__dirname, "../../node_modules/prop-types")]
           }
-        }), 
+        }),
         next
       ),
       next => fs.outputFile(reactOCProviderPath, reactOCProviderContent, next),

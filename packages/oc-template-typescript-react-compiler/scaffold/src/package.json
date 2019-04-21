@@ -20,12 +20,11 @@
       }
     }
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
-    "@types/react": "^16.4.2",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
+    "@types/react": "^16.8.0",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0",
     "oc-template-typescript-react-compiler": "*"
   }
 }
