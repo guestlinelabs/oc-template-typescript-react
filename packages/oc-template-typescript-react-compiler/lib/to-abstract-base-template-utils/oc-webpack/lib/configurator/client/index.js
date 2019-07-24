@@ -19,30 +19,45 @@ module.exports = options => {
     ? "oc__[path][name]-[ext]__[local]__[hash:base64:8]"
     : "[local]__[hash:base64:8]";
 
+  const cssModuleLoader = {
+    loader: require.resolve("css-loader"),
+    options: {
+      importLoaders: 1,
+      modules: true,
+      localIdentName,
+      camelCase: true
+    }
+  };
+
+
+  const postCssModuleLoader = {
+    loader: require.resolve("postcss-loader"),
+    options: {
+      ident: "postcss",
+      plugins: [
+        require("postcss-import"),
+        require("postcss-extend"),
+        require("postcss-icss-values"),
+        require("autoprefixer")
+      ]
+    }
+  };
+
   const cssLoader = {
     test: /\.css$/,
     use: [
+      MiniCssExtractPlugin.loader, cssModuleLoader, postCssModuleLoader
+    ]
+  };
+
+  const sassLoader = {
+    test: /\.scss$/,
+    use: [
       MiniCssExtractPlugin.loader,
+      cssModuleLoader,
+      postCssModuleLoader,
       {
-        loader: require.resolve("css-loader"),
-        options: {
-          importLoaders: 1,
-          modules: true,
-          localIdentName,
-          camelCase: true
-        }
-      },
-      {
-        loader: require.resolve("postcss-loader"),
-        options: {
-          ident: "postcss",
-          plugins: [
-            require("postcss-import"),
-            require("postcss-extend"),
-            require("postcss-icss-values"),
-            require("autoprefixer")
-          ]
-        }
+        loader: require.resolve("sass-loader"),
       }
     ]
   };
@@ -83,6 +98,7 @@ module.exports = options => {
     module: {
       rules: [
         cssLoader,
+        sassLoader,
         {
           test: /\.tsx?$/,
           exclude: excludeRegex,
