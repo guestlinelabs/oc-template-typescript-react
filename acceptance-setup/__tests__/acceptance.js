@@ -47,7 +47,7 @@ beforeAll(done => {
         baseUrl: registryUrl,
         env: { name: "local" },
         hotReloading: false,
-        templates: [require("../../packages/oc-template-react")]
+        templates: [require("../../packages/oc-template-typescript-react")]
       });
 
       registry.start(err => {

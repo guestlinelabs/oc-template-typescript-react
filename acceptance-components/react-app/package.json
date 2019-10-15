@@ -6,7 +6,7 @@
     "files": {
       "data": "server.js",
       "template": {
-        "src": "app.js",
+        "src": "app.tsx",
         "type": "oc-template-react"
       }
     },
@@ -22,9 +22,10 @@
   },
   "dependencies": {
     "normalize.css": "^7.0.0",
-    "oc-template-react-compiler": "5.1.4"
+    "oc-template-typescript-react-compiler": "../packages/oc-template-typescript-react-compiler"
   },
   "devDependencies": {
-    "oc-template-react-compiler": "5.1.4"
+    "oc-template-typescript-react-compiler": "../packages/oc-template-typescript-react-compiler",
+    "oc-template-react-compiler": "*"
   }
 }

@@ -2,7 +2,7 @@ import React from "react";
 import {
   withDataProvider,
   withSettingProvider
-} from "oc-template-react-compiler/utils";
+} from "oc-template-typescript-react-compiler/utils";
 
 import styles, { superSpecial } from "./styles.css";
 
