@@ -53,9 +53,7 @@ test("invalid component", done => {
   };
 
   compileView(options, (err, compiledViewInfo) => {
-    expect(err).toContain(
-      "Adjacent JSX elements must be wrapped in an enclosing tag"
-    );
+    expect(err).toContain("JSX expressions must have one parent element");
     done();
   });
 });
