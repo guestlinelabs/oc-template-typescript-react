@@ -6,7 +6,7 @@
       "static": ["assets"],
       "data": "server.js",
       "template": {
-        "src": "app.js",
+        "src": "app.tsx",
         "type": "oc-template-react"
       }
     }

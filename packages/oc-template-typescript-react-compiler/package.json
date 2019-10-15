@@ -55,6 +55,7 @@
     "react": "^16.8.0",
     "ts-loader": "^4.4.1",
     "typescript": "^3.6.4",
+    "typings-for-css-modules-loader": "^1.7.0",
     "webpack": "^4.8.3"
   },
   "files": [

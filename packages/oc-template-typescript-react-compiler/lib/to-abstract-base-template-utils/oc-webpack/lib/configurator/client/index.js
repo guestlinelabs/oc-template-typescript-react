@@ -24,7 +24,7 @@ module.exports = options => {
     use: [
       MiniCssExtractPlugin.loader,
       {
-        loader: require.resolve("css-loader"),
+        loader: require.resolve("typings-for-css-modules-loader"),
         options: {
           importLoaders: 1,
           modules: true,
@@ -110,13 +110,13 @@ module.exports = options => {
                 compilerOptions: {
                   outDir: buildPath,
                   noImplicitAny: true,
-                  module: 'es6',
-                  target: 'es5',
-                  jsx: 'react',
+                  module: "es6",
+                  target: "es5",
+                  jsx: "react",
                   allowJs: true,
                   sourceMap: false,
                   allowSyntheticDefaultImports: true,
-                  baseUrl:  path.join(options.viewPath, '../../../node_modules')
+                  baseUrl: path.join(options.viewPath, "../../../node_modules")
                 }
               }
             }
@@ -126,7 +126,7 @@ module.exports = options => {
     },
     plugins,
     resolve: {
-      extensions: [ '.tsx', '.ts', '.js', '.json', '.css' ]
+      extensions: [".tsx", ".ts", ".js", ".json", ".css"]
     }
   };
 };
