@@ -77,15 +77,13 @@ const components = ["react-component", "react-component-with-css"].map(
 const execute = (options, cb) => {
   compile(options, (err, result) => {
     if (err) {
-      return cb(err);
-      // return fs.remove(options.publishPath, () => cb(err));
+      return fs.remove(options.publishPath, () => cb(err));
     }
 
     result.oc.date = "";
     result.oc.files.template.version = "";
     nodeDir.paths(options.publishPath, (err2, res2) => {
-      const files = _
-        .chain(res2.files)
+      const files = _.chain(res2.files)
         .map(filePath => {
           const source = fs.readFileSync(filePath, "UTF8");
           return {

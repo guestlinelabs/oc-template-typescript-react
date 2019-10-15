@@ -1,4 +1,4 @@
-const removeTsExtension = path => path.replace(/\.ts$/, '');
+const removeTsExtension = path => path.replace(/\.ts$/, "");
 
 const higherOrderServerTemplate = ({
   serverPath,
