@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "@types/react": "^16.9.6",
     "codecov": "3.0.2",
     "husky": "^0.14.3",
     "jest": "23.1.0",

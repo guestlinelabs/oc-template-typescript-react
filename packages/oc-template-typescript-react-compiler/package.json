@@ -54,7 +54,7 @@
     "prop-types": "15.6.1",
     "react": "^16.8.0",
     "ts-loader": "^4.4.1",
-    "typescript": "^2.9.2",
+    "typescript": "^3.6.4",
     "webpack": "^4.8.3"
   },
   "files": [
@@ -64,5 +64,8 @@
     "scaffold",
     "README.md",
     "LICENSE"
-  ]
+  ],
+  "devDependencies": {
+    "@types/react": "^16.9.6"
+  }
 }

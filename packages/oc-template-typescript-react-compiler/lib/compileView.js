@@ -110,15 +110,26 @@ module.exports = (options, callback) => {
         path.join(tempPath, 'tsconfig.json'), JSON.stringify({
           files: [reactOCProviderName],
           compilerOptions: {
+            traceResolution: true,
+            module: "commonjs",
+            target: "es5",
             lib: [
               "es6",
               "dom"
+            ],
+            jsx: "react",
+            typeRoots: [
+              path.join(__dirname, "../node_modules/@types"),
+              // ''
             ]
           },
           paths: {
-            react: [path.join(__dirname, "../../node_modules/react")],
-            "react-dom": [path.join(__dirname, "../../node_modules/react-dom")],
-            "prop-types": [path.join(__dirname, "../../node_modules/prop-types")]
+            // react: [path.join(__dirname, "../../node_modules/react")],
+            // "react-dom": [path.join(__dirname, "../../node_modules/react-dom")],
+            // "prop-types": [path.join(__dirname, "../../node_modules/prop-types")]
+            react: [path.join(__dirname, "../node_modules/react")],
+            "react-dom": [path.join(__dirname, "../node_modules/react-dom")],
+            "prop-types": [path.join(__dirname, "../node_modules/prop-types")]
           }
         }),
         next
