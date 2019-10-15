@@ -7,11 +7,11 @@
       "data": "server.js",
       "template": {
         "src": "app.tsx",
-        "type": "oc-template-react"
+        "type": "oc-template-typescript-react"
       }
     }
   },
   "devDependencies": {
-    "oc-template-react-compiler": "*"
+    "oc-template-typescript-react-compiler": "*"
   }
 }
