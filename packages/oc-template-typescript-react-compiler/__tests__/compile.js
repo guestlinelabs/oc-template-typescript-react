@@ -111,7 +111,7 @@ const execute = (options, cb) => {
 _.each(components, scenarios => {
   _.each(scenarios, (scenario, testName) => {
     test(testName, done => {
-      execute(scenario, (err, data) => {
+      execute(scenario, err => {
         expect(err).toBeNull();
         done();
       });

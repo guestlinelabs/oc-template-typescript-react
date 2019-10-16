@@ -40,8 +40,5 @@
       "!packages/**/scaffold/**/*",
       "!packages/**/utils/**/*"
     ]
-  },
-  "dependencies": {
-    "normalize.css": "^7.0.0"
   }
 }
