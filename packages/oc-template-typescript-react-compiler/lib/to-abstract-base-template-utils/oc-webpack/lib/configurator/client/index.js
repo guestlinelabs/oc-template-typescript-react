@@ -27,9 +27,9 @@ module.exports = options => {
         loader: require.resolve("css-loader"),
         options: {
           importLoaders: 1,
-          modules: true,
-          localIdentName,
-          camelCase: true
+          modules: {
+            localIdentName
+          }
         }
       },
       {
@@ -110,9 +110,11 @@ module.exports = options => {
                 compilerOptions: {
                   outDir: buildPath,
                   noImplicitAny: true,
-                  module: "es6",
+                  module: "commonjs",
+                  esModuleInterop: true,
                   target: "es5",
-                  jsx: "react",
+                  lib: ["es6", "dom"],
+                  jsx: "preserve",
                   allowJs: true,
                   sourceMap: false,
                   allowSyntheticDefaultImports: true,

@@ -115,13 +115,9 @@ module.exports = (options, callback) => {
               jsx: "react",
               typeRoots: [
                 path.join(__dirname, "../node_modules/@types")
-                // ''
               ]
             },
             paths: {
-              // react: [path.join(__dirname, "../../node_modules/react")],
-              // "react-dom": [path.join(__dirname, "../../node_modules/react-dom")],
-              // "prop-types": [path.join(__dirname, "../../node_modules/prop-types")]
               react: [path.join(__dirname, "../node_modules/react")],
               "react-dom": [path.join(__dirname, "../node_modules/react-dom")],
               "prop-types": [path.join(__dirname, "../node_modules/prop-types")]
