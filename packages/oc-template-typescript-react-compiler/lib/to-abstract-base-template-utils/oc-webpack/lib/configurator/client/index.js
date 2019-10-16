@@ -110,13 +110,15 @@ module.exports = options => {
                 compilerOptions: {
                   outDir: buildPath,
                   noImplicitAny: true,
-                  module: 'es6',
-                  target: 'es5',
-                  jsx: 'react',
+                  module: "commonjs",
+                  esModuleInterop: true,
+                  target: "es5",
+                  lib: ["es6", "dom"],
+                  jsx: "preserve",
                   allowJs: true,
                   sourceMap: false,
                   allowSyntheticDefaultImports: true,
-                  baseUrl:  path.join(options.viewPath, '../../../node_modules')
+                  baseUrl: path.join(options.viewPath, "../../../node_modules")
                 }
               }
             }
@@ -126,7 +128,7 @@ module.exports = options => {
     },
     plugins,
     resolve: {
-      extensions: [ '.tsx', '.ts', '.js', '.json', '.css' ]
+      extensions: [".tsx", ".ts", ".js", ".json", ".css"]
     }
   };
 };
