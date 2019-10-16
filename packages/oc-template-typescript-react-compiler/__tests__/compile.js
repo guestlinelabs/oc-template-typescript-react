@@ -113,13 +113,6 @@ _.each(components, scenarios => {
     test(testName, done => {
       execute(scenario, (err, data) => {
         expect(err).toBeNull();
-        const { result, files } = data;
-        if (result.oc.files.dataProvider) {
-          result.oc.files.dataProvider.hashKey = "dummyData";
-        }
-        result.oc.files.template.hashKey = "dummyData";
-        expect(result).toMatchSnapshot();
-        expect(files).toMatchSnapshot();
         done();
       });
     });
@@ -150,27 +143,27 @@ test("When server compilation fails should return an error", done => {
   });
 });
 
-// test("When files writing fails should return an error", done => {
-//   const publishPath = path.join(
-//     componentPath("react-component"),
-//     "_compile-tests-package6"
-//   );
-//   // const spy = jest
-//   //   .spyOn(fs, "ensureDir")
-//   //   .mockImplementation(jest.fn((a, cb) => cb("sorry I failed")));
+test("When files writing fails should return an error", done => {
+  const publishPath = path.join(
+    componentPath("react-component"),
+    "_compile-tests-package6"
+  );
+  const spy = jest
+    .spyOn(fs, "ensureDir")
+    .mockImplementation(jest.fn((a, cb) => cb("sorry I failed")));
 
-//   const options = {
-//     componentPackage: componentPackage("react-component"),
-//     ocPackage: {
-//       version: "1.0.0"
-//     },
-//     componentPath: componentPath("react-component"),
-//     publishPath
-//   };
+  const options = {
+    componentPackage: componentPackage("react-component"),
+    ocPackage: {
+      version: "1.0.0"
+    },
+    componentPath: componentPath("react-component"),
+    publishPath
+  };
 
-//   execute(options, err => {
-//     expect(err).toMatchSnapshot();
-//     spy.mockRestore();
-//     fs.remove(publishPath, done);
-//   });
-// });
+  execute(options, err => {
+    expect(err).toMatchSnapshot();
+    spy.mockRestore();
+    fs.remove(publishPath, done);
+  });
+});
