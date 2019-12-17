@@ -8,7 +8,7 @@ const higherOrderServerTemplate = ({
   componentVersion
 }) => `
 import { data as dataProvider } from '${removeTsExtension(serverPath)}';
-import { OC } from '${removeTsExtension(ocContextPath)}';
+import * as OC from '${removeTsExtension(ocContextPath)}';
 
 export const data = (context : OC.Context, callback : (error: any, data?: any) => void) => {
   dataProvider(context, (error: any, model: any) => {

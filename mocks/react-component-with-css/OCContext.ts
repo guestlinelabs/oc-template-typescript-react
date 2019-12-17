@@ -1,9 +1,3 @@
-interface Params {
-    __oc_Retry: string;
-    name: string;
-    getMoreData: boolean;
-  }
-  
   export interface AcceptLanguage {
     code: string;
     script?: any;
@@ -44,7 +38,7 @@ interface Params {
     acceptLanguage: AcceptLanguage[];
     baseUrl: string;
     env: Env;
-    params: Params;
+    params: any;
     plugins: Plugins;
     requestHeaders: RequestHeaders;
     staticPath: string;

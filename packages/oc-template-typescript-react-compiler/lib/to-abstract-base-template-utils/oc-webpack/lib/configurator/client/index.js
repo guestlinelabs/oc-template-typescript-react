@@ -84,7 +84,7 @@ module.exports = options => {
       rules: [
         cssLoader,
         {
-          test: /\.tsx?$/,
+          test: /\.(t|j)sx?$/,
           exclude: excludeRegex,
           use: [
             {
