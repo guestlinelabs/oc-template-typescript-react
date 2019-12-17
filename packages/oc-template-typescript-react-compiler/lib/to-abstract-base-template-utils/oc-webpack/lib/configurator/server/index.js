@@ -19,13 +19,10 @@ module.exports = function webpackConfigGenerator(options) {
       loader: require.resolve("ts-loader"),
       options: {
         compilerOptions: {
+          ...options.tsConfig.compilerOptions,
           outDir: outputPath,
-          noImplicitAny: true,
-          module: 'es6',
-          target: 'es6',
-          jsx: 'react',
-          allowJs: true,
-          sourceMap: sourceMaps
+          module: "es6",
+          target: "es6"
         }
       }
     }
@@ -75,7 +72,7 @@ module.exports = function webpackConfigGenerator(options) {
       ]
     },
     resolve: {
-      extensions: [ '.tsx', '.ts', '.js', '.json' ]
+      extensions: [".tsx", ".ts", ".js", ".json"]
     },
     plugins,
     logger: options.logger || console,
