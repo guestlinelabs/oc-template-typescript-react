@@ -6,6 +6,7 @@ const hashBuilder = require("oc-hash-builder");
 const MemoryFS = require("memory-fs");
 const path = require("path");
 const reactComponentWrapper = require("oc-react-component-wrapper");
+const getTsConfig = require("./tsConfig");
 
 const {
   compiler,
@@ -16,7 +17,7 @@ const higherOrderServerTemplate = require("./higherOrderServerTemplate");
 module.exports = (options, callback) => {
   const serverFileName = options.componentPackage.oc.files.data;
   let serverPath = path.join(options.componentPath, serverFileName);
-  let ocContextPath = path.join(options.componentPath, 'OCContext.ts');
+  let ocContextPath = path.join(options.componentPath, "OCContext.ts");
   if (process.platform === "win32") {
     serverPath = serverPath.split("\\").join("\\\\");
     ocContextPath = ocContextPath.split("\\").join("\\\\");
@@ -41,8 +42,10 @@ module.exports = (options, callback) => {
     tempFolder,
     "__oc_higherOrderServer.ts"
   );
+  const tsConfig = getTsConfig(options.componentPath);
 
   const config = webpackConfigurator({
+    tsConfig,
     serverPath: higherOrderServerPath,
     publishFileName,
     dependencies,
@@ -52,9 +55,12 @@ module.exports = (options, callback) => {
 
   async.waterfall(
     [
-      next => fs.outputFile(
-        path.join(tempFolder, 'tsconfig.json'), '{"files": ["./__oc_higherOrderServer.ts"]}', next
-      ),
+      next =>
+        fs.outputFile(
+          path.join(tempFolder, "tsconfig.json"),
+          '{"files": ["./__oc_higherOrderServer.ts"]}',
+          next
+        ),
       next =>
         fs.outputFile(higherOrderServerPath, higherOrderServerContent, next),
       next => compiler(config, next),
