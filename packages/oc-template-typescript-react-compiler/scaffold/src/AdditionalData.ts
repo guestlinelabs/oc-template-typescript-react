@@ -1,4 +1,4 @@
 export interface AdditionalData {
-    Age: number;
-    HairColour: string;
+  Age: number;
+  HairColour: string;
 }
