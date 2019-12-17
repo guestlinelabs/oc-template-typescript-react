@@ -107,8 +107,8 @@ module.exports = options => {
             {
               loader: require.resolve("ts-loader"),
               options: {
+                configFile: path.join(options.componentPath, "tsconfig.json"),
                 compilerOptions: {
-                  ...options.tsConfig.compilerOptions,
                   outDir: buildPath,
                   noImplicitAny: true,
                   module: "commonjs",

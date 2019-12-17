@@ -1,5 +1,4 @@
 import React from "react";
-// @ts-ignore
 import styles from "./styles.css";
 import { AdditionalData } from "./AdditionalData";
 
