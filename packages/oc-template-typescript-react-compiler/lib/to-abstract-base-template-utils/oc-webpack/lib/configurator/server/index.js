@@ -18,8 +18,8 @@ module.exports = function webpackConfigGenerator(options) {
     {
       loader: require.resolve("ts-loader"),
       options: {
+        configFile: path.join(options.componentPath, "tsconfig.json"),
         compilerOptions: {
-          ...options.tsConfig.compilerOptions,
           outDir: outputPath,
           module: "es6",
           target: "es6"

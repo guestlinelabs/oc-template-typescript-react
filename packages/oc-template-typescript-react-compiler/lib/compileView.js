@@ -18,10 +18,10 @@ const {
 const fontFamilyUnicodeParser = require("./to-abstract-base-template-utils/font-family-unicode-parser");
 const reactOCProviderTemplate = require("./reactOCProviderTemplate");
 const viewTemplate = require("./viewTemplate");
-const getTsConfig = require("./tsConfig");
 
 module.exports = (options, callback) => {
   const viewFileName = options.componentPackage.oc.files.template.src;
+  const componentPath = options.componentPath;
   let viewPath = path.join(options.componentPath, viewFileName);
   if (process.platform === "win32") {
     viewPath = viewPath.split("\\").join("\\\\");
@@ -33,7 +33,6 @@ module.exports = (options, callback) => {
   const { getInfo } = require("../index");
   const externals = getInfo().externals;
   const production = options.production;
-  const tsConfig = getTsConfig(options.componentPath);
 
   const reactOCProviderContent = reactOCProviderTemplate({ viewPath });
   const reactOCProviderName = "reactOCProvider.tsx";
@@ -41,7 +40,7 @@ module.exports = (options, callback) => {
 
   const compile = (options, cb) => {
     const config = webpackConfigurator({
-      tsConfig,
+      componentPath,
       viewPath: options.viewPath,
       externals: externals.reduce((externals, dep) => {
         externals[dep.name] = dep.global;
