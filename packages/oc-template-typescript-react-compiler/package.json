@@ -1,6 +1,6 @@
 {
   "name": "oc-template-typescript-react-compiler",
-  "version": "2.2.3",
+  "version": "2.2.4",
   "description": "",
   "main": "index.js",
   "repository": {
@@ -52,7 +52,7 @@
     "postcss-import": "^11.0.0",
     "postcss-loader": "^2.0.9",
     "prop-types": "15.6.1",
-    "react": "^16.8.0",
+    "react": "16.9.0",
     "ts-loader": "^6.2.0",
     "typescript": "^3.6.4",
     "webpack": "^4.8.3"
