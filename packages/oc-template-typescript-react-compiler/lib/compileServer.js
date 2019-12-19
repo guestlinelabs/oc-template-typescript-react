@@ -61,7 +61,9 @@ module.exports = (options, callback) => {
         ),
       next =>
         fs.outputFile(higherOrderServerPath, higherOrderServerContent, next),
-      next => compiler(config, next),
+      next => {
+        return compiler(config, next);
+      },
       (data, next) => {
         const basePath = path.join(tempFolder, "build");
         const memory = new MemoryFS(data);
@@ -85,8 +87,8 @@ module.exports = (options, callback) => {
           next(null, result);
         });
       },
-      (compiledFiles, next) =>
-        async.eachOf(
+      (compiledFiles, next) => {
+        return async.eachOf(
           compiledFiles,
           (fileContent, fileName, next) =>
             fs.writeFile(path.join(publishPath, fileName), fileContent, next),
@@ -103,7 +105,8 @@ module.exports = (options, callback) => {
                     src: publishFileName
                   }
             )
-        )
+        );
+      }
     ],
     (err, data) => fs.remove(tempFolder, err2 => callback(err, data))
   );

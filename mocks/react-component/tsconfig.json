@@ -20,5 +20,6 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react"
-  }
+  },
+  "exclude": ["assets"]
 }
