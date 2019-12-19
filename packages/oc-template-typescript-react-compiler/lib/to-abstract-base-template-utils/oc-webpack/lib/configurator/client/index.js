@@ -110,15 +110,11 @@ module.exports = options => {
                 configFile: path.join(options.componentPath, "tsconfig.json"),
                 compilerOptions: {
                   outDir: buildPath,
-                  noImplicitAny: true,
-                  module: "commonjs",
-                  esModuleInterop: true,
-                  target: "es5",
-                  lib: ["es6", "dom"],
-                  jsx: "preserve",
-                  allowJs: true,
-                  sourceMap: false,
-                  allowSyntheticDefaultImports: true,
+                  module: "esnext",
+                  moduleResolution: "node",
+                  resolveJsonModule: true,
+                  isolatedModules: true,
+                  jsx: "react",
                   baseUrl: path.join(options.viewPath, "../../../node_modules")
                 }
               }
