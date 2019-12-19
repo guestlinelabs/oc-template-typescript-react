@@ -4,7 +4,7 @@
   "oc": {
     "files": {
       "static": ["assets"],
-      "data": "server.js",
+      "data": "server.ts",
       "template": {
         "src": "app.tsx",
         "type": "oc-template-typescript-react"
