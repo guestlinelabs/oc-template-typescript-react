@@ -10,6 +10,8 @@ module.exports = function webpackConfigGenerator(options) {
   const outputPath = path.join(options.serverPath, "../build");
   const production =
     options.production !== undefined ? options.production : "true";
+  const skipTypecheck =
+    !production && process.env.TSC_SKIP_TYPECHECK === "true";
 
   const sourceMaps = !production;
   const devtool = sourceMaps ? "source-map" : "";
@@ -18,6 +20,7 @@ module.exports = function webpackConfigGenerator(options) {
     {
       loader: require.resolve("ts-loader"),
       options: {
+        transpileOnly: skipTypecheck,
         configFile: path.join(options.componentPath, "tsconfig.json"),
         compilerOptions: {
           outDir: outputPath,
