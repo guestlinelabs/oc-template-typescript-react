@@ -11,6 +11,8 @@ const createExcludeRegex = require("../createExcludeRegex");
 module.exports = options => {
   const buildPath = options.buildPath || "/build";
   const production = options.production;
+  const skipTypecheck =
+    !production && process.env.TSC_SKIP_TYPECHECK === "true";
   const buildIncludes = options.buildIncludes.concat(
     "oc-template-typescript-react-compiler/utils"
   );
@@ -108,6 +110,7 @@ module.exports = options => {
               loader: require.resolve("ts-loader"),
               options: {
                 configFile: path.join(options.componentPath, "tsconfig.json"),
+                transpileOnly: skipTypecheck,
                 compilerOptions: {
                   outDir: buildPath,
                   module: "esnext",
