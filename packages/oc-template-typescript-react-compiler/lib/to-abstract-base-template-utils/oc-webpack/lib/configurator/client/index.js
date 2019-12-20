@@ -3,7 +3,9 @@
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const MinifyPlugin = require("babel-minify-webpack-plugin");
 const path = require("path");
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const webpack = require("webpack");
+const resolve = require("resolve");
 const _ = require("lodash");
 
 const createExcludeRegex = require("../createExcludeRegex");
@@ -11,6 +13,7 @@ const createExcludeRegex = require("../createExcludeRegex");
 module.exports = options => {
   const buildPath = options.buildPath || "/build";
   const production = options.production;
+  process.env.BABEL_ENV = production ? "production" : "development";
   const skipTypecheck =
     !production && process.env.TSC_SKIP_TYPECHECK === "true";
   const buildIncludes = options.buildIncludes.concat(
@@ -64,8 +67,37 @@ module.exports = options => {
   if (production) {
     plugins = plugins.concat(new MinifyPlugin());
   }
+  if (!skipTypecheck) {
+    plugins = plugins.concat(
+      new ForkTsCheckerWebpackPlugin({
+        typescript: resolve.sync("typescript", {
+          basedir: path.join(options.componentPath, "node_modules")
+        }),
+        compilerOptions: {
+          allowJs: false
+        },
+        async: !production,
+        useTypescriptIncrementalApi: true,
+        checkSyntacticErrors: true,
+        resolveModuleNameModule: process.versions.pnp
+          ? path.join(__dirnamem, "..", pnpTs.js)
+          : undefined,
+        resolveTypeReferenceDirectiveModule: process.versions.pnp
+          ? path.join(__dirnamem, "..", pnpTs.js)
+          : undefined,
+        tsconfig: path.join(options.componentPath, "tsconfig.json"),
+        reportFiles: [
+          "**",
+          "!**/__tests__/**",
+          "!**/?(*.)(spec|test).*",
+          "!**/src/setupProxy.*",
+          "!**/src/setupTests.*"
+        ],
+        silent: true
+      })
+    );
+  }
 
-  const cacheDirectory = !production;
   const polyfills = ["Object.assign"];
 
   return {
@@ -92,34 +124,15 @@ module.exports = options => {
             {
               loader: require.resolve("babel-loader"),
               options: {
-                cacheDirectory,
+                customize: require.resolve(
+                  "babel-preset-react-app/webpack-overrides"
+                ),
+                cacheCompression: false,
+                compact: !!production,
+                cacheDirectory: !production,
                 babelrc: false,
-                presets: [
-                  [
-                    require.resolve("babel-preset-env"),
-                    { modules: false, loose: true }
-                  ],
-                  [require.resolve("babel-preset-react")]
-                ],
-                plugins: [
-                  [require.resolve("babel-plugin-transform-object-rest-spread")]
-                ]
-              }
-            },
-            {
-              loader: require.resolve("ts-loader"),
-              options: {
-                configFile: path.join(options.componentPath, "tsconfig.json"),
-                transpileOnly: skipTypecheck,
-                compilerOptions: {
-                  outDir: buildPath,
-                  module: "esnext",
-                  moduleResolution: "node",
-                  resolveJsonModule: true,
-                  isolatedModules: true,
-                  jsx: "react",
-                  baseUrl: path.join(options.viewPath, "../../../node_modules")
-                }
+                configFile: false,
+                presets: [require.resolve("babel-preset-react-app")]
               }
             }
           ]

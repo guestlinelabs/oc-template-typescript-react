@@ -1,6 +1,6 @@
 {
   "name": "oc-template-typescript-react-compiler",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "",
   "main": "index.js",
   "repository": {
@@ -23,14 +23,14 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@babel/core": "7.7.7",
     "async": "^2.4.1",
     "autoprefixer": "^8.5.0",
-    "babel-loader": "^7.1.2",
+    "babel-loader": "8.0.6",
     "babel-minify-webpack-plugin": "0.3.1",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.6.0",
-    "babel-preset-react": "^6.24.1",
+    "babel-preset-react-app": "^9.1.0",
     "css-loader": "^0.28.5",
+    "fork-ts-checker-webpack-plugin": "^4.0.0-beta.4",
     "fs-extra": "6.0.1",
     "infinite-loop-loader": "^1.0.3",
     "lodash": "^4.17.4",
@@ -53,7 +53,9 @@
     "postcss-loader": "^2.0.9",
     "prop-types": "15.6.1",
     "react": "16.9.0",
+    "resolve": "^1.14.1",
     "ts-loader": "^6.2.0",
+    "ts-pnp": "^1.1.5",
     "typescript": "^3.6.4",
     "webpack": "^4.8.3"
   },

@@ -1,5 +1,7 @@
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 100000;
 
+process.env.TSC_SKIP_TYPECHECK = "true";
+
 const _ = require("lodash");
 const fs = require("fs-extra");
 const nodeDir = require("node-dir");

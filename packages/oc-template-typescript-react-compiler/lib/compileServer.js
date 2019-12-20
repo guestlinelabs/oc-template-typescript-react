@@ -54,12 +54,6 @@ module.exports = (options, callback) => {
   async.waterfall(
     [
       next =>
-        fs.outputFile(
-          path.join(tempFolder, "tsconfig.json"),
-          '{"files": ["./__oc_higherOrderServer.ts"]}',
-          next
-        ),
-      next =>
         fs.outputFile(higherOrderServerPath, higherOrderServerContent, next),
       next => {
         return compiler(config, next);

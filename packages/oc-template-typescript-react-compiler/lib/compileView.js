@@ -105,26 +105,6 @@ module.exports = (options, callback) => {
 
   async.waterfall(
     [
-      next =>
-        fs.outputFile(
-          path.join(tempPath, "tsconfig.json"),
-          JSON.stringify({
-            files: [reactOCProviderName],
-            compilerOptions: {
-              module: "commonjs",
-              target: "es5",
-              lib: ["es6", "dom"],
-              jsx: "react",
-              typeRoots: [path.join(__dirname, "../node_modules/@types")]
-            },
-            paths: {
-              react: [path.join(__dirname, "../node_modules/react")],
-              "react-dom": [path.join(__dirname, "../node_modules/react-dom")],
-              "prop-types": [path.join(__dirname, "../node_modules/prop-types")]
-            }
-          }),
-          next
-        ),
       next => fs.outputFile(reactOCProviderPath, reactOCProviderContent, next),
       next => compile({ viewPath: reactOCProviderPath }, next),
       (compiled, next) =>
