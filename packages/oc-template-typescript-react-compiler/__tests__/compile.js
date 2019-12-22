@@ -70,9 +70,11 @@ const componentScenarios = (componentName, i) => ({
   }
 });
 
-const components = ["react-component", "react-component-with-css"].map(
-  componentScenarios
-);
+const components = [
+  "react-component",
+  "react-component-with-css",
+  "react-component-with-scss"
+].map(componentScenarios);
 
 const execute = (options, cb) => {
   compile(options, (err, result) => {

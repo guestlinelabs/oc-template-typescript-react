@@ -40,5 +40,6 @@
       "!packages/**/scaffold/**/*",
       "!packages/**/utils/**/*"
     ]
-  }
+  },
+  "dependencies": {}
 }

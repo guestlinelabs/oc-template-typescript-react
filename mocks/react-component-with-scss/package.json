@@ -1,0 +1,19 @@
+{
+  "name": "react-component-with-css",
+  "version": "1.0.0",
+  "oc": {
+    "files": {
+      "static": [
+        "assets"
+      ],
+      "data": "server.ts",
+      "template": {
+        "src": "app.tsx",
+        "type": "oc-template-typescript-react"
+      }
+    }
+  },
+  "devDependencies": {
+    "oc-template-typescript-react-compiler": "*"
+  }
+}
