@@ -24,18 +24,15 @@ module.exports = options => {
     ? "oc__[path][name]-[ext]__[local]__[hash:base64:8]"
     : "[local]__[hash:base64:8]";
 
-  const cssLoader = {
-    test: /\.css$/,
-    use: [
-      MiniCssExtractPlugin.loader,
+  const getStyleLoaders = (cssOptions, preProcessor) => {
+    const loaders = [
+      !production && require.resolve("style-loader"),
+      production && {
+        loader: MiniCssExtractPlugin.loader
+      },
       {
         loader: require.resolve("css-loader"),
-        options: {
-          importLoaders: 1,
-          modules: true,
-          localIdentName,
-          camelCase: true
-        }
+        options: cssOptions
       },
       {
         loader: require.resolve("postcss-loader"),
@@ -49,7 +46,18 @@ module.exports = options => {
           ]
         }
       }
-    ]
+    ].filter(Boolean);
+    if (preProcessor) {
+      loaders.push(
+        {
+          loader: require.resolve("resolve-url-loader")
+        },
+        {
+          loader: require.resolve(preProcessor)
+        }
+      );
+    }
+    return loaders;
   };
 
   let plugins = [
@@ -116,7 +124,27 @@ module.exports = options => {
     externals: _.omit(options.externals, polyfills),
     module: {
       rules: [
-        cssLoader,
+        {
+          test: /\.css$/,
+          use: getStyleLoaders({
+            importLoaders: 1,
+            modules: true,
+            localIdentName,
+            camelCase: true
+          })
+        },
+        {
+          test: /\.(scss|sass)$/,
+          use: getStyleLoaders(
+            {
+              importLoaders: 2,
+              modules: true,
+              localIdentName,
+              camelCase: true
+            },
+            "sass-loader"
+          )
+        },
         {
           test: /\.(t|j)sx?$/,
           exclude: excludeRegex,
