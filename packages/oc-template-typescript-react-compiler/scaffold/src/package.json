@@ -4,9 +4,9 @@
   "version": "1.0.0",
   "oc": {
     "files": {
-      "data": "server.ts",
+      "data": "src/server.ts",
       "template": {
-        "src": "app.tsx",
+        "src": "src/app.tsx",
         "type": "oc-template-typescript-react"
       }
     },

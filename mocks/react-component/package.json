@@ -6,9 +6,9 @@
       "static": [
         "assets"
       ],
-      "data": "server.ts",
+      "data": "src/server.ts",
       "template": {
-        "src": "app.tsx",
+        "src": "src/app.tsx",
         "type": "oc-template-typescript-react"
       }
     }
