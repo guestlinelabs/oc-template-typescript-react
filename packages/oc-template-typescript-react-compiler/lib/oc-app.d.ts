@@ -17,12 +17,16 @@ declare module "*.sass" {
   export default classes;
 }
 
-declare var oc: {
-  events: {
-    on: (eventName: string, fn: (...data: any[]) => void) => void;
-    fire: (eventName: string, data?: any) => void;
-  };
-};
+declare global {
+  interface Window {
+    oc: {
+      events: {
+        on: (eventName: string, fn: (...data: any[]) => void) => void;
+        fire: (eventName: string, data?: any) => void;
+      };
+    };
+  }
+}
 
 export interface AcceptLanguage {
   code: string;
