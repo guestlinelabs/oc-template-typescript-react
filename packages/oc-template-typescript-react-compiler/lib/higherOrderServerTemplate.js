@@ -2,15 +2,13 @@ const removeTsExtension = path => path.replace(/\.tsx?$/, "");
 
 const higherOrderServerTemplate = ({
   serverPath,
-  ocContextPath,
   bundleHashKey,
   componentName,
   componentVersion
 }) => `
 import { data as dataProvider } from '${removeTsExtension(serverPath)}';
-import * as OC from '${removeTsExtension(ocContextPath)}';
 
-export const data = (context : OC.Context, callback : (error: any, data?: any) => void) => {
+export const data = (context : any, callback : (error: any, data?: any) => void) => {
   dataProvider(context, (error: any, model: any) => {
     if (error) {
       return callback(error);
