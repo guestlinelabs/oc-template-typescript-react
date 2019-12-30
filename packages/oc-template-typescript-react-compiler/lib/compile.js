@@ -6,6 +6,14 @@ const getInfo = require("oc-template-typescript-react").getInfo;
 
 const compileServer = require("./compileServer");
 const compileView = require("./compileView");
+const verifyConfig = require("./verifyConfig");
+
+const compiler = createCompile({
+  compileServer,
+  compileStatics,
+  compileView,
+  getInfo
+});
 
 // OPTIONS
 // =======
@@ -18,9 +26,8 @@ const compileView = require("./compileView");
 // verbose,
 // watch,
 // production
-module.exports = createCompile({
-  compileServer,
-  compileStatics,
-  compileView,
-  getInfo
-});
+module.exports = function compile(options, callback) {
+  verifyConfig(options.componentPath);
+
+  return compiler(options, callback);
+};
