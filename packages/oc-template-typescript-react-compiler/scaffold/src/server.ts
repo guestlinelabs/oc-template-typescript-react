@@ -1,8 +1,8 @@
-import * as OC from "./OCContext";
+import { Context } from "oc-template-typescript-react-compiler";
 import { AdditionalData } from "./AdditionalData";
 
 export function data(
-  context: OC.Context,
+  context: Context,
   callback: (error: any, data: any) => void
 ) {
   let name = context.params.name;

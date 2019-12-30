@@ -16,10 +16,8 @@ module.exports = (options, callback) => {
   const componentPath = options.componentPath;
   const serverFileName = options.componentPackage.oc.files.data;
   let serverPath = path.join(options.componentPath, serverFileName);
-  let ocContextPath = path.join(options.componentPath, "OCContext.ts");
   if (process.platform === "win32") {
     serverPath = serverPath.split("\\").join("\\\\");
-    ocContextPath = ocContextPath.split("\\").join("\\\\");
   }
   const publishFileName = options.publishFileName || "server.js";
   const publishPath = options.publishPath;
@@ -31,7 +29,6 @@ module.exports = (options, callback) => {
 
   const higherOrderServerContent = higherOrderServerTemplate({
     serverPath,
-    ocContextPath,
     componentName,
     componentVersion,
     bundleHashKey: options.compiledViewInfo.bundle.hashKey
