@@ -94,6 +94,46 @@ module.exports = function webpackConfigGenerator(options) {
     externals: externalDependenciesHandlers(options.dependencies),
     module: {
       rules: [
+        // First, run the linter.
+        // It's important to do this before Babel processes the JS
+        {
+          test: /\.(js|mjs|jsx|ts|tsx)$/,
+          enforce: "pre",
+          use: [
+            {
+              options: {
+                cache: true,
+                formatter: require.resolve("../eslintFormatter"),
+                eslintPath: require.resolve("eslint"),
+                resolvePluginsRelativeTo: __dirname,
+                ignore: process.env.EXTEND_ESLINT === "true",
+                baseConfig: (() => {
+                  // We allow overriding the config only if the env variable is set
+                  if (process.env.EXTEND_ESLINT === "true") {
+                    const eslintCli = new eslint.CLIEngine();
+                    let eslintConfig;
+                    try {
+                      eslintConfig = eslintCli.getConfigForFile(
+                        path.join(options.componentPath, "src", "index.js")
+                      );
+                    } catch (e) {
+                      console.error(e);
+                      process.exit(1);
+                    }
+                    return eslintConfig;
+                  } else {
+                    return {
+                      extends: [require.resolve("eslint-config-react-app")]
+                    };
+                  }
+                })(),
+                useEslintrc: false
+              },
+              loader: require.resolve("eslint-loader")
+            }
+          ],
+          include: path.join(options.componentPath, "src")
+        },
         {
           test: /\.tsx?$/,
           exclude: /node_modules/,
