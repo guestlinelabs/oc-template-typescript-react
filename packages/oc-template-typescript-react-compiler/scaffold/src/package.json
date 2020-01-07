@@ -2,6 +2,9 @@
   "name": "base-component-react",
   "description": "",
   "version": "1.0.0",
+  "scripts": {
+    "test": "jest-run"
+  },
   "oc": {
     "files": {
       "data": "src/server.ts",
@@ -22,9 +25,15 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@types/react": "16.9.16",
+    "@types/enzyme": "*",
+    "@types/jest": "*",
+    "@types/react": "*",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "*",
+    "jest": "*",
+    "jest-run": "*",
+    "oc-template-typescript-react-compiler": "*",
     "react": "16.9.0",
-    "react-dom": "16.9.0",
-    "oc-template-typescript-react-compiler": "*"
+    "react-dom": "16.9.0"
   }
 }
