@@ -1,4 +1,4 @@
-# WIP oc-template-typescript-react
+# oc-template-typescript-react
 
 react-templates with typescript support & utilties for the [OpenComponents](https://github.com/opentable/oc) template system
 
@@ -24,6 +24,10 @@ $ npm install
 ```
 
 ## Extra info:
+
+### linting
+
+Like in [Create React App](https://create-react-app.dev/docs/setting-up-your-editor/#displaying-lint-output-in-the-editor), linting will be done during the build, and you can extend it from .eslintrc.json, by setting the EXTEND_ESLINT environment variable to true.
 
 ### package.json requirements
 
