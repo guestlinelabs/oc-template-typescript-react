@@ -17,26 +17,6 @@ module.exports = function webpackConfigGenerator(options) {
   const sourceMaps = !production;
   const devtool = sourceMaps ? "source-map" : "";
 
-  const fileLoaders = [
-    production && {
-      loader: require.resolve("infinite-loop-loader")
-    },
-    {
-      loader: require.resolve("babel-loader"),
-      options: {
-        customize: require.resolve("babel-preset-react-app/webpack-overrides"),
-        cacheCompression: false,
-        sourceMaps,
-        sourceRoot: path.join(options.serverPath, ".."),
-        compact: !!production,
-        cacheDirectory: !production,
-        babelrc: false,
-        configFile: false,
-        presets: [require.resolve("@babel/preset-typescript")]
-      }
-    }
-  ].filter(Boolean);
-
   const plugins = [
     new webpack.DefinePlugin({
       "process.env.NODE_ENV": JSON.stringify(
@@ -137,7 +117,33 @@ module.exports = function webpackConfigGenerator(options) {
         {
           test: /\.tsx?$/,
           exclude: /node_modules/,
-          use: fileLoaders
+          use: [
+            {
+              loader: require.resolve("babel-loader"),
+              options: {
+                customize: require.resolve(
+                  "babel-preset-react-app/webpack-overrides"
+                ),
+                cacheCompression: false,
+                sourceMaps,
+                sourceRoot: path.join(options.serverPath, ".."),
+                compact: !!production,
+                cacheDirectory: !production,
+                babelrc: false,
+                configFile: false,
+                presets: [require.resolve("@babel/preset-typescript")]
+              }
+            }
+          ]
+        },
+        {
+          test: /\.jsx?$/,
+          exclude: /node_modules/,
+          use: [
+            production && {
+              loader: require.resolve("infinite-loop-loader")
+            }
+          ].filter(Boolean)
         }
       ]
     },
