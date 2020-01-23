@@ -32,7 +32,7 @@ module.exports = function webpackConfigGenerator(options) {
         cacheDirectory: !production,
         babelrc: false,
         configFile: false,
-        presets: [require.resolve("babel-preset-react-app")]
+        presets: [require.resolve("@babel/preset-typescript")]
       }
     }
   ].filter(Boolean);
