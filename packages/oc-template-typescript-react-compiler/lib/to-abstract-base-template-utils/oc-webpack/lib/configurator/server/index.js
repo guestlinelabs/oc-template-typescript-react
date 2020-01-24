@@ -131,7 +131,10 @@ module.exports = function webpackConfigGenerator(options) {
                 cacheDirectory: !production,
                 babelrc: false,
                 configFile: false,
-                presets: [require.resolve("@babel/preset-typescript")]
+                presets: [require.resolve("@babel/preset-typescript")],
+                plugins: [
+                  require.resolve("@babel/plugin-proposal-object-rest-spread")
+                ]
               }
             }
           ]
