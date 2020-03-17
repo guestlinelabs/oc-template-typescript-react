@@ -73,4 +73,5 @@ export interface Context {
   requestHeaders: RequestHeaders;
   staticPath: string;
   templates: Template[];
+  setEmptyResponse: () => void;
 }
