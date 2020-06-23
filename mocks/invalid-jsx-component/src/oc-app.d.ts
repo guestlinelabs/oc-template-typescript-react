@@ -62,11 +62,11 @@ export interface Template {
   externals: External[];
 }
 
-export interface Context {
+export interface Context<T = any> {
   acceptLanguage: AcceptLanguage[];
   baseUrl: string;
   env: Env;
-  params: any;
+  params: T;
   plugins: Plugins;
   requestHeaders: RequestHeaders;
   staticPath: string;

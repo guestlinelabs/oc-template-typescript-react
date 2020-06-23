@@ -2,17 +2,17 @@
 /// <reference types="react" />
 /// <reference types="react-dom" />
 
-declare module "*.css" {
+declare module '*.css' {
   const classes: { readonly [key: string]: string };
   export default classes;
 }
 
-declare module "*.scss" {
+declare module '*.scss' {
   const classes: { readonly [key: string]: string };
   export default classes;
 }
 
-declare module "*.sass" {
+declare module '*.sass' {
   const classes: { readonly [key: string]: string };
   export default classes;
 }
@@ -45,11 +45,11 @@ export interface RequestHeaders {
   host: string;
   connection: string;
   accept: string;
-  "user-agent": string;
-  "content-type": string;
+  'user-agent': string;
+  'content-type': string;
   referer: string;
-  "accept-encoding": string;
-  "accept-language": string;
+  'accept-encoding': string;
+  'accept-language': string;
 }
 
 export interface External {
@@ -64,11 +64,11 @@ export interface Template {
   externals: External[];
 }
 
-export interface Context {
+export interface Context<T = any> {
   acceptLanguage: AcceptLanguage[];
   baseUrl: string;
   env: Env;
-  params: any;
+  params: T;
   plugins: Plugins;
   requestHeaders: RequestHeaders;
   staticPath: string;
