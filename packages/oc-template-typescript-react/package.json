@@ -1,6 +1,6 @@
 {
   "name": "oc-template-typescript-react",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "OC-Template-React",
   "main": "index.js",
   "repository": {
@@ -22,6 +22,7 @@
     "email": "piotr.bazydlo@gmail.com"
   },
   "license": "MIT",
+  "types": "./lib/oc-app.d.ts",
   "dependencies": {
     "minimal-request": "3.0.0",
     "nice-cache": "0.0.5",
