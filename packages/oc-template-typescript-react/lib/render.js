@@ -1,8 +1,6 @@
-const PropTypes = require("prop-types");
 const React = require("react");
 const ReactDOM = require("react-dom");
 const ReactDOMServer = require("react-dom/server");
-const vm = require("vm");
 
 const createPredicate = require("./to-be-published/get-js-from-url");
 const tryGetCached = require("./to-be-published/try-get-cached");
@@ -18,8 +16,7 @@ module.exports = (options, callback) => {
       url,
       globals: {
         React,
-        ReactDOM,
-        PropTypes
+        ReactDOM
       },
       extractor
     });

@@ -1,6 +1,6 @@
 {
   "name": "oc-template-typescript-react-compiler",
-  "version": "3.3.2",
+  "version": "3.3.3",
   "description": "",
   "main": "index.js",
   "repository": {
@@ -59,14 +59,13 @@
     "oc-minify-file": "1.0.14",
     "oc-react-component-wrapper": "1.0.2",
     "oc-statics-compiler": "2.0.10",
-    "oc-template-typescript-react": "^3.1.1",
+    "oc-template-typescript-react": "^3.1.2",
     "oc-templates-messages": "1.0.2",
     "oc-view-wrapper": "1.0.3",
     "postcss-extend": "^1.0.5",
     "postcss-icss-values": "^2.0.1",
     "postcss-import": "^11.0.0",
     "postcss-loader": "^2.0.9",
-    "prop-types": "15.6.1",
     "react": "16.9.0",
     "react-dom": "16.9.0",
     "resolve": "^1.14.1",
