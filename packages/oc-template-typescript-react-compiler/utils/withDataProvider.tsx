@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const withDataProvider = (BaseComponent: any) => {
   const Enhanced = (props: any, context: any) => {

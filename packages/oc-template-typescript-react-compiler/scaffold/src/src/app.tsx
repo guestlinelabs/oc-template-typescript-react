@@ -1,6 +1,6 @@
-import React from "react";
-import styles from "./styles.css";
-import { AdditionalData } from "./AdditionalData";
+import React from 'react';
+import styles from './styles.css';
+import { AdditionalData } from './AdditionalData';
 
 interface State {
   name: string;
@@ -9,24 +9,21 @@ interface State {
 class App extends React.Component<any, State> {
   constructor(props: any, context: any) {
     super(props);
-    console.log("props", props);
+    console.log('props', props);
     this.state = {
       name: props.name
     };
   }
 
   fetchMoreData() {
-    this.props.getData(
-      { getMoreData: true },
-      (err: any, data: AdditionalData, moreData?: any) => {
-        if (err) return alert(err);
-        console.log(data);
-        console.log(moreData);
-        this.setState({
-          name: `${this.state.name} with Age ${data.Age} and beautiful ${data.HairColour} hair`
-        });
-      }
-    );
+    this.props.getData({ getMoreData: true }, (err: any, data: AdditionalData, moreData?: any) => {
+      if (err) return alert(err);
+      console.log(data);
+      console.log(moreData);
+      this.setState({
+        name: `${this.state.name} with Age ${data.Age} and beautiful ${data.HairColour} hair`
+      });
+    });
   }
 
   render() {

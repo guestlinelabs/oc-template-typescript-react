@@ -8,10 +8,12 @@ test("should create a regex that match against any node module set aside given o
   expect(regex).toBeInstanceOf(RegExp);
 
   expect(regex.test("node_modules/lodash")).toBe(true);
-  expect(regex.test("node_modules/oc-template-typescript-react-compiler")).toBe(true);
-
-  expect(regex.test("node_modules/oc-template-typescript-react-compiler/utils")).toBe(
-    false
+  expect(regex.test("node_modules/oc-template-typescript-react-compiler")).toBe(
+    true
   );
+
+  expect(
+    regex.test("node_modules/oc-template-typescript-react-compiler/utils")
+  ).toBe(false);
   expect(regex.test("node_modules/underscore")).toBe(false);
 });
