@@ -59,7 +59,7 @@
     "oc-minify-file": "1.0.14",
     "oc-react-component-wrapper": "1.0.2",
     "oc-statics-compiler": "2.0.10",
-    "oc-template-typescript-react": "^2.0.0",
+    "oc-template-typescript-react": "^3.1.1",
     "oc-templates-messages": "1.0.2",
     "oc-view-wrapper": "1.0.3",
     "postcss-extend": "^1.0.5",

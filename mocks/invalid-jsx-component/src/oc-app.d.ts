@@ -1,4 +1,4 @@
-/// <reference types="oc-template-typescript-react-compiler" />
+/// <reference types="oc-template-typescript-react" />
 
 /// <reference types="node" />
 /// <reference types="react" />

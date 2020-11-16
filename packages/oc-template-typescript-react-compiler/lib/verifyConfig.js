@@ -227,7 +227,7 @@ function verifyTypeScriptSetup(componentPath) {
   if (!fs.existsSync(paths.appTypeDeclarations)) {
     fs.writeFileSync(
       paths.appTypeDeclarations,
-      `/// <reference types="oc-template-typescript-react-compiler" />${os.EOL}`
+      `/// <reference types="oc-template-typescript-react" />${os.EOL}`
     );
   }
 }
