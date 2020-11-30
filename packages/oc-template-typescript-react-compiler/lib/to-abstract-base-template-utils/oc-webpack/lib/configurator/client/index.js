@@ -88,10 +88,10 @@ module.exports = options => {
         useTypescriptIncrementalApi: true,
         checkSyntacticErrors: true,
         resolveModuleNameModule: process.versions.pnp
-          ? path.join(__dirnamem, "..", pnpTs.js)
+          ? path.join(__dirname, "..", "pnpTs.js")
           : undefined,
         resolveTypeReferenceDirectiveModule: process.versions.pnp
-          ? path.join(__dirnamem, "..", pnpTs.js)
+          ? path.join(__dirname, "..", "pnpTs.js")
           : undefined,
         tsconfig: path.join(options.componentPath, "tsconfig.json"),
         reportFiles: [
