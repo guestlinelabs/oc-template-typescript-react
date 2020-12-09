@@ -8,7 +8,12 @@ const viewTemplate = ({
   var modelHTML =  model.__html ? model.__html : '';
   var staticPath = model.reactComponent.props._staticPath;
   var props = JSON.stringify(model.reactComponent.props);
-  return '<div id="${reactRoot}" class="${reactRoot}">' + modelHTML + '</div>' +
+  window.oc = window.oc || {};
+  window.oc.__typescriptReactTemplate = window.oc.__typescriptReactTemplate || { count: 0 };
+  var count = window.oc.__typescriptReactTemplate.count;
+  var templateId = "${reactRoot}-" + count;
+  window.oc.__typescriptReactTemplate.count++;
+  return '<div id="' + templateId + '" class="${reactRoot}">' + modelHTML + '</div>' +
     '${css ? "<style>" + css + "</style>" : ""}' +
     '<script>' +
     'window.oc = window.oc || {};' +
@@ -20,7 +25,7 @@ const viewTemplate = ({
           '["oc", "reactComponents", "${bundleHash}"],' + 
           '"' + staticPath + '${bundleName}.js",' +
           'function(ReactComponent){' +
-            'var targetNode = document.getElementById("${reactRoot}");' +
+            'var targetNode = document.getElementById("' + templateId + '");' +
             'targetNode.setAttribute("id","");' +
             'ReactDOM.render(React.createElement(ReactComponent,' +  props + '),targetNode);' +
           '}' +
