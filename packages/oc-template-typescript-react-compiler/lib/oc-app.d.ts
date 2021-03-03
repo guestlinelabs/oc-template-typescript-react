@@ -1,11 +1,13 @@
 interface OC {
   cmd: {
-    push: (oc: OC) => void;
+    push: (cb: (oc: OC) => void) => void;
   };
   events: {
     on: (eventName: string, fn: (...data: any[]) => void) => void;
     fire: (eventName: string, data?: any) => void;
   };
+  renderNestedComponent: (ocElement: any, cb: () => void) => void;
+  $: (ocElement: any) => any;
 }
 
 declare global {
