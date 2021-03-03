@@ -1,6 +1,9 @@
 declare global {
   interface Window {
     oc: {
+      cmd: {
+        push: (oc: any) => void,
+      },
       events: {
         on: (eventName: string, fn: (...data: any[]) => void) => void;
         fire: (eventName: string, data?: any) => void;
