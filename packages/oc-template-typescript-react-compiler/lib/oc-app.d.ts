@@ -1,4 +1,10 @@
 interface OC {
+  conf: {
+    templates: Array<{
+      type: string;
+      externals: string[];
+    }>;
+  };
   cmd: {
     push: (cb: (oc: OC) => void) => void;
   };
