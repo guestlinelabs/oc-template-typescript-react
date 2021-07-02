@@ -108,6 +108,98 @@ module.exports = options => {
 
   const polyfills = ["Object.assign"];
 
+  let rules = [];
+  if (process.env.OC_DISABLE_ESLINT !== "true") {
+    // First, run the linter.
+    // It's important to do this before Babel processes the JS.
+    rules.push(
+    {
+      test: /\.(js|mjs|jsx|ts|tsx)$/,
+      enforce: "pre",
+      use: [
+        {
+          options: {
+            cache: true,
+            formatter: require.resolve("../eslintFormatter"),
+            eslintPath: require.resolve("eslint"),
+            resolvePluginsRelativeTo: __dirname,
+            ignore: process.env.EXTEND_ESLINT === "true",
+            baseConfig: (() => {
+              // We allow overriding the config only if the env variable is set
+              if (process.env.EXTEND_ESLINT === "true") {
+                const eslintCli = new eslint.CLIEngine();
+                let eslintConfig;
+                try {
+                  eslintConfig = eslintCli.getConfigForFile(
+                    path.join(options.componentPath, "src", "index.js")
+                  );
+                } catch (e) {
+                  console.error(e);
+                  process.exit(1);
+                }
+                return eslintConfig;
+              } else {
+                return {
+                  extends: [require.resolve("eslint-config-react-app")]
+                };
+              }
+            })(),
+            useEslintrc: false
+          },
+          loader: require.resolve("eslint-loader")
+        }
+      ],
+      include: path.join(options.componentPath, "src")
+    });
+  }
+  rules = rules.concat([
+    {
+      oneOf: [
+        {
+          test: /\.css$/,
+          use: getStyleLoaders({
+            importLoaders: 1,
+            modules: true,
+            localIdentName,
+            camelCase: true
+          })
+        },
+        {
+          test: /\.(scss|sass)$/,
+          use: getStyleLoaders(
+            {
+              importLoaders: 2,
+              modules: true,
+              localIdentName,
+              camelCase: true
+            },
+            "sass-loader"
+          )
+        },
+        {
+          test: /\.(t|j)sx?$/,
+          exclude: excludeRegex,
+          use: [
+            {
+              loader: require.resolve("babel-loader"),
+              options: {
+                customize: require.resolve(
+                  "babel-preset-react-app/webpack-overrides"
+                ),
+                cacheCompression: false,
+                compact: !!production,
+                cacheDirectory: !production,
+                babelrc: false,
+                configFile: false,
+                presets: [require.resolve("babel-preset-react-app")]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]);
+  
   return {
     mode: production ? "production" : "development",
     optimization: {
@@ -123,93 +215,7 @@ module.exports = options => {
     },
     externals: _.omit(options.externals, polyfills),
     module: {
-      rules: [
-        // First, run the linter.
-        // It's important to do this before Babel processes the JS.
-        {
-          test: /\.(js|mjs|jsx|ts|tsx)$/,
-          enforce: "pre",
-          use: [
-            {
-              options: {
-                cache: true,
-                formatter: require.resolve("../eslintFormatter"),
-                eslintPath: require.resolve("eslint"),
-                resolvePluginsRelativeTo: __dirname,
-                ignore: process.env.EXTEND_ESLINT === "true",
-                baseConfig: (() => {
-                  // We allow overriding the config only if the env variable is set
-                  if (process.env.EXTEND_ESLINT === "true") {
-                    const eslintCli = new eslint.CLIEngine();
-                    let eslintConfig;
-                    try {
-                      eslintConfig = eslintCli.getConfigForFile(
-                        path.join(options.componentPath, "src", "index.js")
-                      );
-                    } catch (e) {
-                      console.error(e);
-                      process.exit(1);
-                    }
-                    return eslintConfig;
-                  } else {
-                    return {
-                      extends: [require.resolve("eslint-config-react-app")]
-                    };
-                  }
-                })(),
-                useEslintrc: false
-              },
-              loader: require.resolve("eslint-loader")
-            }
-          ],
-          include: path.join(options.componentPath, "src")
-        },
-        {
-          oneOf: [
-            {
-              test: /\.css$/,
-              use: getStyleLoaders({
-                importLoaders: 1,
-                modules: true,
-                localIdentName,
-                camelCase: true
-              })
-            },
-            {
-              test: /\.(scss|sass)$/,
-              use: getStyleLoaders(
-                {
-                  importLoaders: 2,
-                  modules: true,
-                  localIdentName,
-                  camelCase: true
-                },
-                "sass-loader"
-              )
-            },
-            {
-              test: /\.(t|j)sx?$/,
-              exclude: excludeRegex,
-              use: [
-                {
-                  loader: require.resolve("babel-loader"),
-                  options: {
-                    customize: require.resolve(
-                      "babel-preset-react-app/webpack-overrides"
-                    ),
-                    cacheCompression: false,
-                    compact: !!production,
-                    cacheDirectory: !production,
-                    babelrc: false,
-                    configFile: false,
-                    presets: [require.resolve("babel-preset-react-app")]
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ]
+      rules
     },
     plugins,
     resolve: {
