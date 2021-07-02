@@ -76,34 +76,33 @@ module.exports = options => {
     plugins = plugins.concat(new MinifyPlugin());
   }
   if (!skipTypecheck) {
-    plugins = plugins.concat(
-      new ForkTsCheckerWebpackPlugin({
-        typescript: resolve.sync("typescript", {
-          basedir: path.join(options.componentPath, "node_modules")
-        }),
-        compilerOptions: {
-          allowJs: false
-        },
-        async: !production,
-        useTypescriptIncrementalApi: true,
-        checkSyntacticErrors: true,
-        resolveModuleNameModule: process.versions.pnp
-          ? path.join(__dirname, "..", "pnpTs.js")
-          : undefined,
-        resolveTypeReferenceDirectiveModule: process.versions.pnp
-          ? path.join(__dirname, "..", "pnpTs.js")
-          : undefined,
-        tsconfig: path.join(options.componentPath, "tsconfig.json"),
-        reportFiles: [
-          "**",
-          "!**/__tests__/**",
-          "!**/?(*.)(spec|test).*",
-          "!**/src/setupProxy.*",
-          "!**/src/setupTests.*"
-        ],
-        silent: true
-      })
-    );
+    const typeChecker = new ForkTsCheckerWebpackPlugin({
+      typescript: resolve.sync("typescript", {
+        basedir: path.join(options.componentPath, "node_modules")
+      }),
+      compilerOptions: {
+        allowJs: false
+      },
+      async: !production,
+      useTypescriptIncrementalApi: true,
+      checkSyntacticErrors: true,
+      resolveModuleNameModule: process.versions.pnp
+        ? path.join(__dirname, "..", "pnpTs.js")
+        : undefined,
+      resolveTypeReferenceDirectiveModule: process.versions.pnp
+        ? path.join(__dirname, "..", "pnpTs.js")
+        : undefined,
+      tsconfig: path.join(options.componentPath, "tsconfig.json"),
+      reportFiles: [
+        "**",
+        "!**/__tests__/**",
+        "!**/?(*.)(spec|test).*",
+        "!**/src/setupProxy.*",
+        "!**/src/setupTests.*"
+      ],
+      silent: true
+    });
+    plugins = plugins.concat(typeChecker);
   }
 
   const polyfills = ["Object.assign"];

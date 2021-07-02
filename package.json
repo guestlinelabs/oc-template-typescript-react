@@ -41,5 +41,7 @@
       "!packages/**/utils/**/*"
     ]
   },
-  "dependencies": {}
+  "dependencies": {
+    "typescript": "^3.2.1"
+  }
 }
