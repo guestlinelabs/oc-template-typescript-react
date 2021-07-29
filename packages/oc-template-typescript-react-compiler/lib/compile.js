@@ -1,12 +1,12 @@
-"use strict";
+'use strict';
 
-const createCompile = require("oc-generic-template-compiler").createCompile;
-const compileStatics = require("oc-statics-compiler");
-const getInfo = require("oc-template-typescript-react").getInfo;
+const createCompile = require('oc-generic-template-compiler').createCompile;
+const compileStatics = require('oc-statics-compiler');
+const getInfo = require('oc-template-typescript-react').getInfo;
 
-const compileServer = require("./compileServer");
-const compileView = require("./compileView");
-const verifyConfig = require("./verifyConfig");
+const compileServer = require('./compileServer');
+const compileView = require('./compileView');
+const verifyConfig = require('./verifyConfig');
 
 const compiler = createCompile({
   compileServer,
