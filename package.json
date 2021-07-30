@@ -41,5 +41,6 @@
       "!packages/**/utils/**/*"
     ]
   },
-  "dependencies": {}
+  "dependencies": {},
+  "version": "3.4.0-beta.8"
 }
