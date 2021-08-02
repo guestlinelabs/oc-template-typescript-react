@@ -75,11 +75,10 @@ module.exports = (options, callback) => {
         // Remove it once this get merged: https://github.com/webpack-contrib/css-loader/pull/523
         css = fontFamilyUnicodeParser(memoryFs.readFileSync(`/build/main.css`, 'UTF8'));
 
+        const cssPath = path.join(publishPath, `styles.css`);
         // We convert single quotes to double quotes in order to
         // support the viewTemplate's string interpolation
-        css = minifyFile('.css', css).replace(/'/g, '"');
-        const cssPath = path.join(publishPath, `styles.css`);
-        fs.outputFileSync(cssPath, css);
+        fs.outputFileSync(cssPath, css.replace(/'/g, '"'));
       }
 
       const reactRoot = `oc-reactRoot-${componentPackage.name}`;

@@ -58,7 +58,6 @@
     "oc-generic-template-compiler": "2.0.4",
     "oc-get-unix-utc-timestamp": "1.0.2",
     "oc-hash-builder": "1.0.2",
-    "oc-minify-file": "1.0.14",
     "oc-statics-compiler": "2.0.10",
     "oc-template-typescript-react": "^3.1.2",
     "oc-templates-messages": "1.0.2",
