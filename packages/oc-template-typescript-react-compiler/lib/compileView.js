@@ -4,7 +4,6 @@ const async = require('async');
 const fs = require('fs-extra');
 const hashBuilder = require('oc-hash-builder');
 const MemoryFS = require('memory-fs');
-const minifyFile = require('oc-minify-file');
 const ocViewWrapper = require('oc-view-wrapper');
 const path = require('path');
 const strings = require('oc-templates-messages');
