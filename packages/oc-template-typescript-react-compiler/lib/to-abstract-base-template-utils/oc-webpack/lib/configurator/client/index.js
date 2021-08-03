@@ -33,7 +33,7 @@ function getCacheIdentifier(environment, packages) {
   return cacheIdentifier;
 }
 
-module.exports = (options) => {
+module.exports = options => {
   const buildPath = options.buildPath || '/build';
   const appNodeModules = path.join(options.componentPath, 'node_modules');
   const appSrc = path.join(options.componentPath, 'src');
@@ -162,7 +162,9 @@ module.exports = (options) => {
       path: buildPath,
       pathinfo: isEnvDevelopment,
       filename: options.publishFileName,
-      futureEmitAssets: true
+      futureEmitAssets: true,
+      libraryTarget: 'assign',
+      library: 'module'
     },
     externals: _.omit(options.externals, polyfills),
     module: {
