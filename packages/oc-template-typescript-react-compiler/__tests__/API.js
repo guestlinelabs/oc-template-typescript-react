@@ -1,5 +1,5 @@
-const compiler = require("../index");
+const compiler = require('../index');
 
-test("should expose the correct methods", () => {
+test('should expose the correct methods', () => {
   expect(compiler).toMatchSnapshot();
 });

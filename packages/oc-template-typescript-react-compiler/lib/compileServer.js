@@ -90,6 +90,6 @@ module.exports = (options, callback) => {
         );
       }
     ],
-    (err, data) => fs.remove(tempFolder, (err2) => callback(err, data))
+    (err, data) => fs.remove(tempFolder, (_err2) => callback(err, data))
   );
 };
