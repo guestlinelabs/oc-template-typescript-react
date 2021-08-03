@@ -17,5 +17,6 @@ steps:
 
   - script: |
       npm install
+      npm run lint
       npm test
-    displayName: 'npm install and test'
+    displayName: 'npm install, lint and test'

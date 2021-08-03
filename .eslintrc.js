@@ -4,11 +4,13 @@ module.exports = {
     commonjs: true,
     es2021: true,
     jest: true,
-    jasmine: true,
+    jasmine: true
   },
   extends: 'eslint:recommended',
   parserOptions: {
-    ecmaVersion: 12,
+    ecmaVersion: 12
   },
-  rules: {},
+  rules: {
+    'no-unused-vars': ['error', { argsIgnorePattern: '^_' }]
+  }
 };

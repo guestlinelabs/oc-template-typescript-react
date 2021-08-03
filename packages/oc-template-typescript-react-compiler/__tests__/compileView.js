@@ -27,7 +27,7 @@ test('valid component', (done) => {
         .readFileSync(path.join(publishPath, publishFileName), 'UTF8')
         .replace(viewHashKey, 'dummyData')
         .replace(
-          /\[\"oc\",.*?\"reactComponents\",.*?\".*?\"\]/g,
+          /\["oc",.*?"reactComponents",.*?".*?"\]/g,
           '["oc", "reactComponents", "dummyContent"]'
         )
     ).toMatchSnapshot();
@@ -49,7 +49,7 @@ test('invalid component', (done) => {
     production: true
   };
 
-  compileView(options, (err, compiledViewInfo) => {
+  compileView(options, (err, _compiledViewInfo) => {
     expect(err).toContain('Adjacent JSX elements must be wrapped in an enclosing tag');
     done();
   });
