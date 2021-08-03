@@ -14,7 +14,9 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 
 const createExcludeRegex = require('../createExcludeRegex');
 
-const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
+// const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
+// DISABLE UNTIL FIGURE HOW TO MAKE IT WORK WITH TESTS
+const shouldUseSourceMap = false;
 const disableESLintPlugin = process.env.DISABLE_ESLINT_PLUGIN === 'true';
 const emitErrorsAsWarnings = process.env.ESLINT_NO_DEV_ERRORS === 'true';
 
@@ -242,7 +244,7 @@ module.exports = options => {
             }
           ]
         }
-      ]
+      ].filter(Boolean)
     },
     plugins: [
       new MiniCssExtractPlugin({
