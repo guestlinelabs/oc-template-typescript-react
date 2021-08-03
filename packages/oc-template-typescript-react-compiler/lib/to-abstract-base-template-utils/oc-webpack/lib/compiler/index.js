@@ -29,6 +29,7 @@ module.exports = function compiler(config, callback) {
     }
     // handleWarnings
     if (stats.hasWarnings()) {
+      // eslint-disable-next-line
       warning = info.warnings.toString();
     }
 
