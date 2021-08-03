@@ -1,41 +1,45 @@
-"use strict";
+'use strict';
 
-const async = require("async");
-const fs = require("fs-extra");
-const hashBuilder = require("oc-hash-builder");
-const MemoryFS = require("memory-fs");
-const minifyFile = require("oc-minify-file");
-const ocViewWrapper = require("oc-view-wrapper");
-const path = require("path");
-const reactComponentWrapper = require("oc-react-component-wrapper");
-const strings = require("oc-templates-messages");
+const async = require('async');
+const fs = require('fs-extra');
+const hashBuilder = require('oc-hash-builder');
+const MemoryFS = require('memory-fs');
+const ocViewWrapper = require('oc-view-wrapper');
+const path = require('path');
+const strings = require('oc-templates-messages');
+
+const reactComponentWrapper = (hash, content, nameSpace) => {
+  nameSpace = nameSpace || 'oc';
+  return `var ${nameSpace}=${nameSpace}||{};${nameSpace}.reactComponents=${nameSpace}.reactComponents||{};${nameSpace}.reactComponents['${hash}']=${nameSpace}.reactComponents['${hash}']||(function(){var ${content}
+	; return module.default}())`;
+};
 
 const {
   compiler,
   configurator: { client: webpackConfigurator }
-} = require("./to-abstract-base-template-utils/oc-webpack");
+} = require('./to-abstract-base-template-utils/oc-webpack');
 
-const fontFamilyUnicodeParser = require("./to-abstract-base-template-utils/font-family-unicode-parser");
-const reactOCProviderTemplate = require("./reactOCProviderTemplate");
-const viewTemplate = require("./viewTemplate");
+const fontFamilyUnicodeParser = require('./to-abstract-base-template-utils/font-family-unicode-parser');
+const reactOCProviderTemplate = require('./reactOCProviderTemplate');
+const viewTemplate = require('./viewTemplate');
 
 module.exports = (options, callback) => {
   const viewFileName = options.componentPackage.oc.files.template.src;
   const componentPath = options.componentPath;
   let viewPath = path.join(options.componentPath, viewFileName);
-  if (process.platform === "win32") {
-    viewPath = viewPath.split("\\").join("\\\\");
+  if (process.platform === 'win32') {
+    viewPath = viewPath.split('\\').join('\\\\');
   }
   const publishPath = options.publishPath;
-  const tempPath = path.join(publishPath, "temp");
-  const publishFileName = options.publishFileName || "template.js";
+  const tempPath = path.join(publishPath, 'temp');
+  const publishFileName = options.publishFileName || 'template.js';
   const componentPackage = options.componentPackage;
-  const { getInfo } = require("../index");
+  const { getInfo } = require('../index');
   const externals = getInfo().externals;
   const production = options.production;
 
   const reactOCProviderContent = reactOCProviderTemplate({ viewPath });
-  const reactOCProviderName = "reactOCProvider.tsx";
+  const reactOCProviderName = 'reactOCProvider.tsx';
   const reactOCProviderPath = path.join(tempPath, reactOCProviderName);
 
   const compile = (options, cb) => {
@@ -56,30 +60,24 @@ module.exports = (options, callback) => {
       }
 
       const memoryFs = new MemoryFS(data);
-      const bundle = memoryFs.readFileSync(
-        `/build/${config.output.filename}`,
-        "UTF8"
-      );
+      const bundle = memoryFs.readFileSync(`/build/${config.output.filename}`, 'UTF8');
 
       const bundleHash = hashBuilder.fromString(bundle);
-      const bundleName = "react-component";
+      const bundleName = 'react-component';
       const bundlePath = path.join(publishPath, `${bundleName}.js`);
       const wrappedBundle = reactComponentWrapper(bundleHash, bundle);
       fs.outputFileSync(bundlePath, wrappedBundle);
 
       let css = null;
-      if (data.build["main.css"]) {
+      if (data.build['main.css']) {
         // This is an awesome hack by KimTaro that will blow your mind.
         // Remove it once this get merged: https://github.com/webpack-contrib/css-loader/pull/523
-        css = fontFamilyUnicodeParser(
-          memoryFs.readFileSync(`/build/main.css`, "UTF8")
-        );
+        css = fontFamilyUnicodeParser(memoryFs.readFileSync(`/build/main.css`, 'UTF8'));
 
+        const cssPath = path.join(publishPath, `styles.css`);
         // We convert single quotes to double quotes in order to
         // support the viewTemplate's string interpolation
-        css = minifyFile(".css", css).replace(/\'/g, '"');
-        const cssPath = path.join(publishPath, `styles.css`);
-        fs.outputFileSync(cssPath, css);
+        fs.outputFileSync(cssPath, css.replace(/'/g, '"'));
       }
 
       const reactRoot = `oc-reactRoot-${componentPackage.name}`;
@@ -92,7 +90,7 @@ module.exports = (options, callback) => {
       });
 
       const templateStringCompressed = production
-        ? templateString.replace(/\s+/g, " ")
+        ? templateString.replace(/\s+/g, ' ')
         : templateString;
       const hash = hashBuilder.fromString(templateStringCompressed);
       const view = ocViewWrapper(hash, templateStringCompressed);
@@ -105,16 +103,13 @@ module.exports = (options, callback) => {
 
   async.waterfall(
     [
-      next => fs.outputFile(reactOCProviderPath, reactOCProviderContent, next),
-      next => compile({ viewPath: reactOCProviderPath }, next),
+      (next) => fs.outputFile(reactOCProviderPath, reactOCProviderContent, next),
+      (next) => compile({ viewPath: reactOCProviderPath }, next),
+      (compiled, next) => fs.remove(reactOCProviderPath, (err) => next(err, compiled)),
+      (compiled, next) => fs.ensureDir(publishPath, (err) => next(err, compiled)),
       (compiled, next) =>
-        fs.remove(reactOCProviderPath, err => next(err, compiled)),
-      (compiled, next) => fs.ensureDir(publishPath, err => next(err, compiled)),
-      (compiled, next) =>
-        fs.writeFile(
-          path.join(publishPath, publishFileName),
-          compiled.template.view,
-          err => next(err, compiled)
+        fs.writeFile(path.join(publishPath, publishFileName), compiled.template.view, (err) =>
+          next(err, compiled)
         )
     ],
     (err, compiled) => {

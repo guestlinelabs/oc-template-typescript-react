@@ -10,6 +10,6 @@ module.exports = (opts, cb) => {
   return cb(null, jsText);
 };
 
-module.exports.__setResponse = jsText => {
+module.exports.__setResponse = (jsText) => {
   state.jsText = jsText;
 };

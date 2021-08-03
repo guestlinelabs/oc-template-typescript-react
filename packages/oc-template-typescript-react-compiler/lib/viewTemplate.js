@@ -1,10 +1,4 @@
-const viewTemplate = ({
-  reactRoot,
-  css,
-  externals,
-  bundleHash,
-  bundleName
-}) => `function(model){
+const viewTemplate = ({ reactRoot, css, externals, bundleHash, bundleName }) => `function(model){
   var modelHTML =  model.__html ? model.__html : '';
   var staticPath = model.reactComponent.props._staticPath;
   var props = JSON.stringify(model.reactComponent.props);
@@ -14,12 +8,12 @@ const viewTemplate = ({
   var templateId = "${reactRoot}-" + count;
   window.oc.__typescriptReactTemplate.count++;
   return '<div id="' + templateId + '" class="${reactRoot}">' + modelHTML + '</div>' +
-    '${css ? "<style>" + css + "</style>" : ""}' +
+    '${css ? '<style>' + css + '</style>' : ''}' +
     '<script>' +
     'window.oc = window.oc || {};' +
     'oc.cmd = oc.cmd || [];' +
     'oc.cmd.push(function(oc){' +
-    '${css ? "oc.events.fire(\\'oc:cssDidMount\\', \\'" + css + "\\');" : ""}' +
+    '${css ? "oc.events.fire(\\'oc:cssDidMount\\', \\'" + css + "\\');" : ''}' +
       'oc.requireSeries(${JSON.stringify(externals)}, function(){' +
         'oc.require(' +
           '["oc", "reactComponents", "${bundleHash}"],' + 

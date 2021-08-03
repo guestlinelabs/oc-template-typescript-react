@@ -15,6 +15,6 @@ const obj = {
   a: 'a'
 };
 
-const spread = {
+export const spread = {
   ...obj
 };

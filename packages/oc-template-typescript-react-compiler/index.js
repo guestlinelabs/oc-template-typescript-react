@@ -1,7 +1,7 @@
-"use strict";
+'use strict';
 
-const compile = require("./lib/compile");
-const template = require("oc-template-typescript-react");
+const compile = require('./lib/compile');
+const template = require('oc-template-typescript-react');
 
 module.exports = {
   compile,

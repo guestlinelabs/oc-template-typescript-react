@@ -1,168 +1,180 @@
-"use strict";
+'use strict';
 
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const MinifyPlugin = require("babel-minify-webpack-plugin");
-const path = require("path");
-const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
-const webpack = require("webpack");
-const resolve = require("resolve");
-const _ = require("lodash");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const path = require('path');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const webpack = require('webpack');
+const resolve = require('resolve');
+const _ = require('lodash');
+const postcssNormalize = require('postcss-normalize');
+const TerserPlugin = require('terser-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const safePostCssParser = require('postcss-safe-parser');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
-const createExcludeRegex = require("../createExcludeRegex");
+const createExcludeRegex = require('../createExcludeRegex');
+
+// const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
+// DISABLE UNTIL FIGURE HOW TO MAKE IT WORK WITH TESTS
+const shouldUseSourceMap = false;
+const disableESLintPlugin = process.env.DISABLE_ESLINT_PLUGIN === 'true';
+const emitErrorsAsWarnings = process.env.ESLINT_NO_DEV_ERRORS === 'true';
+
+function getCacheIdentifier(environment, packages) {
+  let cacheIdentifier = environment == null ? '' : environment.toString();
+  for (const packageName of packages) {
+    cacheIdentifier += `:${packageName}@`;
+    try {
+      cacheIdentifier += require(`${packageName}/package.json`).version;
+    } catch (_) {
+      // ignored
+    }
+  }
+  return cacheIdentifier;
+}
 
 module.exports = options => {
-  const buildPath = options.buildPath || "/build";
-  const production = options.production;
-  process.env.BABEL_ENV = production ? "production" : "development";
-  const skipTypecheck =
-    !production && process.env.TSC_SKIP_TYPECHECK === "true";
-  const buildIncludes = options.buildIncludes.concat(
-    "oc-template-typescript-react-compiler/utils"
-  );
+  const buildPath = options.buildPath || '/build';
+  const appNodeModules = path.join(options.componentPath, 'node_modules');
+  const appSrc = path.join(options.componentPath, 'src');
+  const isEnvProduction = !!options.production;
+  const isEnvDevelopment = !isEnvProduction;
+
+  process.env.BABEL_ENV = isEnvProduction ? 'production' : 'development';
+  const skipTypecheck = isEnvDevelopment && process.env.TSC_SKIP_TYPECHECK === 'true';
+  const buildIncludes = options.buildIncludes.concat('oc-template-typescript-react-compiler/utils');
   const excludeRegex = createExcludeRegex(buildIncludes);
-  const localIdentName = !production
-    ? "oc__[path][name]-[ext]__[local]__[hash:base64:8]"
-    : "[local]__[hash:base64:8]";
+  const localIdentName = isEnvDevelopment
+    ? 'oc__[path][name]-[ext]__[local]__[hash:base64:8]'
+    : '[local]__[hash:base64:8]';
 
   const getStyleLoaders = (cssOptions, preProcessor) => {
     const loaders = [
-      !production && require.resolve("style-loader"),
-      production && {
+      isEnvDevelopment && require.resolve('style-loader'),
+      isEnvProduction && {
         loader: MiniCssExtractPlugin.loader
       },
       {
-        loader: require.resolve("css-loader"),
+        loader: require.resolve('css-loader'),
         options: cssOptions
       },
       {
-        loader: require.resolve("postcss-loader"),
+        loader: require.resolve('postcss-loader'),
         options: {
-          ident: "postcss",
-          plugins: [
-            require("postcss-import"),
-            require("postcss-extend"),
-            require("postcss-icss-values"),
-            require("autoprefixer")
-          ]
+          postcssOptions: {
+            plugins: [
+              require('postcss-flexbugs-fixes'),
+              [
+                require('postcss-preset-env'),
+                {
+                  autoprefixer: {
+                    flexbox: 'no-2009'
+                  },
+                  stage: 3
+                }
+              ],
+              postcssNormalize()
+            ]
+          },
+          sourceMap: isEnvProduction && shouldUseSourceMap
         }
       }
     ].filter(Boolean);
     if (preProcessor) {
       loaders.push(
         {
-          loader: require.resolve("resolve-url-loader")
+          loader: require.resolve('resolve-url-loader'),
+          options: {
+            sourceMap: isEnvProduction ? shouldUseSourceMap : true,
+            root: appSrc
+          }
         },
         {
-          loader: require.resolve(preProcessor)
+          loader: require.resolve(preProcessor),
+          options: {
+            sourceMap: true
+          }
         }
       );
     }
     return loaders;
   };
 
-  let plugins = [
-    new MiniCssExtractPlugin({
-      filename: "[name].css",
-      allChunks: true,
-      ignoreOrder: true
-    }),
-    new webpack.DefinePlugin({
-      "process.env.NODE_ENV": JSON.stringify(
-        production ? "production" : "development"
-      )
-    })
-  ];
-  if (production) {
-    plugins = plugins.concat(new MinifyPlugin());
-  }
-  if (!skipTypecheck) {
-    plugins = plugins.concat(
-      new ForkTsCheckerWebpackPlugin({
-        typescript: resolve.sync("typescript", {
-          basedir: path.join(options.componentPath, "node_modules")
-        }),
-        compilerOptions: {
-          allowJs: false
-        },
-        async: !production,
-        useTypescriptIncrementalApi: true,
-        checkSyntacticErrors: true,
-        resolveModuleNameModule: process.versions.pnp
-          ? path.join(__dirname, "..", "pnpTs.js")
-          : undefined,
-        resolveTypeReferenceDirectiveModule: process.versions.pnp
-          ? path.join(__dirname, "..", "pnpTs.js")
-          : undefined,
-        tsconfig: path.join(options.componentPath, "tsconfig.json"),
-        reportFiles: [
-          "**",
-          "!**/__tests__/**",
-          "!**/?(*.)(spec|test).*",
-          "!**/src/setupProxy.*",
-          "!**/src/setupTests.*"
-        ],
-        silent: true
-      })
-    );
-  }
-
-  const polyfills = ["Object.assign"];
+  const polyfills = ['Object.assign'];
 
   return {
-    mode: production ? "production" : "development",
+    context: options.componentPath,
+    mode: isEnvProduction ? 'production' : 'development',
+    bail: isEnvProduction,
+    devtool: isEnvProduction
+      ? shouldUseSourceMap
+        ? 'source-map'
+        : false
+      : 'cheap-module-source-map',
     optimization: {
       // https://webpack.js.org/configuration/optimization/
       // Override production mode optimization for minification
       // As it currently breakes the build, still rely on babel-minify-webpack-plugin instead
-      minimize: false
+      minimize: isEnvProduction,
+      minimizer: [
+        new TerserPlugin({
+          terserOptions: {
+            parse: {
+              ecma: 8
+            },
+            compress: {
+              ecma: 5,
+              warnings: false,
+              comparisons: false,
+              inline: 2
+            },
+            mangle: {
+              safari10: true
+            },
+            keep_classnames: false,
+            keep_fnames: false,
+            output: {
+              ecma: 5,
+              comments: false,
+              ascii_only: true
+            }
+          },
+          sourceMap: shouldUseSourceMap
+        }),
+        new OptimizeCSSAssetsPlugin({
+          cssProcessorOptions: {
+            parser: safePostCssParser,
+            map: shouldUseSourceMap
+              ? {
+                  inline: false,
+                  annotation: true
+                }
+              : false
+          },
+          cssProcessorPluginOptions: {
+            preset: ['default', { minifyFontValues: { removeQuotes: false } }]
+          }
+        })
+      ]
     },
     entry: options.viewPath,
     output: {
       path: buildPath,
-      filename: options.publishFileName
+      pathinfo: isEnvDevelopment,
+      filename: options.publishFileName,
+      futureEmitAssets: true,
+      libraryTarget: 'assign',
+      library: 'module'
     },
     externals: _.omit(options.externals, polyfills),
     module: {
+      strictExportPresence: true,
       rules: [
-        // First, run the linter.
-        // It's important to do this before Babel processes the JS.
-        {
-          test: /\.(js|mjs|jsx|ts|tsx)$/,
-          enforce: "pre",
-          use: [
-            {
-              options: {
-                cache: true,
-                formatter: require.resolve("../eslintFormatter"),
-                eslintPath: require.resolve("eslint"),
-                resolvePluginsRelativeTo: __dirname,
-                ignore: process.env.EXTEND_ESLINT === "true",
-                baseConfig: (() => {
-                  // We allow overriding the config only if the env variable is set
-                  if (process.env.EXTEND_ESLINT === "true") {
-                    const eslintCli = new eslint.CLIEngine();
-                    let eslintConfig;
-                    try {
-                      eslintConfig = eslintCli.getConfigForFile(
-                        path.join(options.componentPath, "src", "index.js")
-                      );
-                    } catch (e) {
-                      console.error(e);
-                      process.exit(1);
-                    }
-                    return eslintConfig;
-                  } else {
-                    return {
-                      extends: [require.resolve("eslint-config-react-app")]
-                    };
-                  }
-                })(),
-                useEslintrc: false
-              },
-              loader: require.resolve("eslint-loader")
-            }
-          ],
-          include: path.join(options.componentPath, "src")
+        shouldUseSourceMap && {
+          enforce: 'pre',
+          exclude: /@babel(?:\/|\\{1,2})runtime/,
+          test: /\.(js|mjs|jsx|ts|tsx|css)$/,
+          use: 'source-map-loader'
         },
         {
           oneOf: [
@@ -170,9 +182,11 @@ module.exports = options => {
               test: /\.css$/,
               use: getStyleLoaders({
                 importLoaders: 1,
-                modules: true,
-                localIdentName,
-                camelCase: true
+                sourceMap: false,
+                modules: {
+                  compileType: 'module',
+                  localIdentName
+                }
               })
             },
             {
@@ -180,40 +194,116 @@ module.exports = options => {
               use: getStyleLoaders(
                 {
                   importLoaders: 2,
-                  modules: true,
-                  localIdentName,
-                  camelCase: true
+                  sourceMap: false,
+                  modules: {
+                    compileType: 'icss'
+                  }
                 },
-                "sass-loader"
+                'sass-loader'
               )
             },
             {
               test: /\.(t|j)sx?$/,
               exclude: excludeRegex,
-              use: [
-                {
-                  loader: require.resolve("babel-loader"),
-                  options: {
-                    customize: require.resolve(
-                      "babel-preset-react-app/webpack-overrides"
-                    ),
-                    cacheCompression: false,
-                    compact: !!production,
-                    cacheDirectory: !production,
-                    babelrc: false,
-                    configFile: false,
-                    presets: [require.resolve("babel-preset-react-app")]
-                  }
-                }
-              ]
+              loader: require.resolve('babel-loader'),
+              options: {
+                customize: require.resolve('babel-preset-react-app/webpack-overrides'),
+                presets: [
+                  [
+                    require.resolve('babel-preset-react-app'),
+                    {
+                      runtime: 'classic'
+                    }
+                  ]
+                ],
+                babelrc: false,
+                configFile: false,
+                cacheIdentifier: getCacheIdentifier(
+                  isEnvProduction ? 'production' : 'development',
+                  [
+                    'babel-plugin-named-asset-import',
+                    'babel-preset-react-app',
+                    'react-dev-utils',
+                    'react-scripts'
+                  ]
+                ),
+                plugins: [
+                  [
+                    require.resolve('babel-plugin-named-asset-import'),
+                    {
+                      loaderMap: {
+                        svg: {
+                          ReactComponent: '@svgr/webpack?-svgo,+titleProp,+ref![path]'
+                        }
+                      }
+                    }
+                  ]
+                ].filter(Boolean),
+                cacheDirectory: true,
+                cacheCompression: false,
+                compact: isEnvProduction
+              }
             }
           ]
         }
-      ]
+      ].filter(Boolean)
     },
-    plugins,
+    plugins: [
+      new MiniCssExtractPlugin({
+        filename: '[name].css',
+        allChunks: true,
+        ignoreOrder: true
+      }),
+      new webpack.DefinePlugin({
+        'process.env.NODE_ENV': JSON.stringify(isEnvProduction ? 'production' : 'development')
+      }),
+      !skipTypecheck &&
+        new ForkTsCheckerWebpackPlugin({
+          typescript: resolve.sync('typescript', {
+            basedir: path.join(options.componentPath, 'node_modules')
+          }),
+          compilerOptions: {
+            allowJs: false
+          },
+          async: isEnvDevelopment,
+          useTypescriptIncrementalApi: true,
+          checkSyntacticErrors: true,
+          resolveModuleNameModule: process.versions.pnp
+            ? path.join(__dirname, '..', 'pnpTs.js')
+            : undefined,
+          resolveTypeReferenceDirectiveModule: process.versions.pnp
+            ? path.join(__dirname, '..', 'pnpTs.js')
+            : undefined,
+          tsconfig: path.join(options.componentPath, 'tsconfig.json'),
+          reportFiles: [
+            '**',
+            '!**/__tests__/**',
+            '!**/?(*.)(spec|test).*',
+            '!**/src/setupProxy.*',
+            '!**/src/setupTests.*'
+          ],
+          silent: true
+        }),
+      !disableESLintPlugin &&
+        new ESLintPlugin({
+          // Plugin options
+          extensions: ['js', 'mjs', 'jsx', 'ts', 'tsx'],
+          formatter: require.resolve('../eslintFormatter'),
+          eslintPath: require.resolve('eslint'),
+          failOnError: !(isEnvDevelopment && emitErrorsAsWarnings),
+          context: appSrc,
+          cache: true,
+          cacheLocation: path.resolve(appNodeModules, '.cache/.eslintcache'),
+          // ESLint class options
+          cwd: options.componentPath,
+          resolvePluginsRelativeTo: __dirname,
+          baseConfig: {
+            extends: [require.resolve('eslint-config-react-app/base')]
+          }
+        })
+    ].filter(Boolean),
     resolve: {
-      extensions: [".tsx", ".ts", ".js", ".json", ".css"]
+      extensions: ['.tsx', '.ts', '.js', '.json', '.css']
     }
   };
 };

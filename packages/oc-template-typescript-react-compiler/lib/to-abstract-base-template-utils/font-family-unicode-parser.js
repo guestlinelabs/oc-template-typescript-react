@@ -4,18 +4,16 @@ const RE_DOUBLE_COUTE = /"/g;
 const RE_SPACE = /[ ]+/g;
 const RE_UNICODE = /\\([\d\w]{4})/g;
 
-module.exports = function(source) {
+module.exports = function (source) {
   source = source.replace(RE_FONT_FAMILY, (str, fontNames) => {
     const strFontNames = fontNames
       .replace(RE_DOUBLE_COUTE, "'")
       .replace(RE_FONT_NAMES, (match, fontName, sep) => {
         if (match.includes("'")) {
           const replacement = fontName
-            .replace(RE_SPACE, " ")
-            .replace(RE_UNICODE, (m, unicode) =>
-              String.fromCharCode(parseInt(unicode, 16))
-            );
-          return `'${replacement}'${sep || ""}`;
+            .replace(RE_SPACE, ' ')
+            .replace(RE_UNICODE, (m, unicode) => String.fromCharCode(parseInt(unicode, 16)));
+          return `'${replacement}'${sep || ''}`;
         }
         return match;
       });

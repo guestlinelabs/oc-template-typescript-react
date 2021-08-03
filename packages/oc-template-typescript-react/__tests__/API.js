@@ -1,5 +1,5 @@
-const template = require("../index.js");
+const template = require('../index.js');
 
-test("should expose the correct methods", () => {
+test('should expose the correct methods', () => {
   expect(template).toMatchSnapshot();
 });
