@@ -29,6 +29,8 @@ $ npm install
 
 Like in [Create React App](https://create-react-app.dev/docs/setting-up-your-editor/#displaying-lint-output-in-the-editor), linting will be done during the build, and you can extend it from .eslintrc.json, by setting the EXTEND_ESLINT environment variable to true.
 
+It can also be disabled completely by setting the `DISABLE_ESLINT_PLUGIN` environment variable to `true`.
+
 ### package.json requirements
 
 - `template.src` - the react App entry point - should export a react component as `default`
@@ -85,9 +87,9 @@ An Higher order component that will make a `getData` function available via prop
 ##### Usage:
 
 ```javascript
-import { withDataProvider } from "oc-template-typescript-react-compiler/utils";
+import { withDataProvider } from 'oc-template-typescript-react-compiler/utils';
 
-const yourApp = props => {
+const yourApp = (props) => {
   // you can use props.getData here
 };
 
@@ -105,9 +107,9 @@ An Higher order component that will make a `getSetting` function available via p
 ##### Usage:
 
 ```javascript
-import { withSettingProvider } from "oc-template-typescript-react-compiler/utils";
+import { withSettingProvider } from 'oc-template-typescript-react-compiler/utils';
 
-const yourApp = props => {
+const yourApp = (props) => {
   // you can use props.getSetting here
 };
 
