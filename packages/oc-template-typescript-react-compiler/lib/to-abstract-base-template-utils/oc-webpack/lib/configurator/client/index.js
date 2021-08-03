@@ -33,7 +33,7 @@ function getCacheIdentifier(environment, packages) {
   return cacheIdentifier;
 }
 
-module.exports = options => {
+module.exports = (options) => {
   const buildPath = options.buildPath || '/build';
   const appNodeModules = path.join(options.componentPath, 'node_modules');
   const appSrc = path.join(options.componentPath, 'src');
