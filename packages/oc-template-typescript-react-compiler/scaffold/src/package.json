@@ -32,7 +32,6 @@
     "enzyme-adapter-react-16": "*",
     "jest": "*",
     "jest-run": "*",
-    "oc-template-typescript-react": "*",
     "oc-template-typescript-react-compiler": "*",
     "react": "16.9.0",
     "react-dom": "16.9.0",

@@ -1,18 +1,34 @@
 import { Context } from 'oc-template-typescript-react-compiler';
-import { AdditionalData } from './AdditionalData';
+import { AdditionalData, ClientProps, OcParameters } from './types';
 
-export function data(context: Context, callback: (error: any, data: any) => void) {
-  let name = context.params.name;
-  let shouldGetMoreData = context.params.getMoreData;
+const database = [
+  { name: 'John Doe', age: 34, hobbies: ['Swimming', 'Basketball'] },
+  { name: 'Jane Doe', age: 35, hobbies: ['Running', 'Rugby'] }
+];
+
+async function getUser(userId: number) {
+  return database[userId];
+}
+
+export async function data(
+  context: Context<OcParameters>,
+  callback: (error: any, data: ClientProps | AdditionalData) => void
+) {
+  const { userId } = context.params;
+  const user = await getUser(userId);
+  const shouldGetMoreData = context.params.getMoreData;
+  const [firstName, lastName] = user.name.split(/\s+/);
 
   if (shouldGetMoreData) {
     return callback(null, {
-      Age: 15,
-      HairColour: 'Orange'
-    } as AdditionalData);
+      age: user.age,
+      hobbies: user.hobbies
+    });
   }
 
   return callback(null, {
-    name: name
+    userId,
+    firstName,
+    lastName
   });
 }

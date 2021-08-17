@@ -18,8 +18,8 @@ Based on Nick Balestra's work on [oc-template-react](https://github.com/opencomp
 Initialize a component with the oc-template-react and follow the CLI instructions
 
 ```
-$ oc init <your-component-name> oc-template-typescript-react
-$ cd <your-component-name>
+$ npx oc init my-awesome-oc oc-template-typescript-react
+$ cd my-awesome-oc
 $ npm install
 ```
 
