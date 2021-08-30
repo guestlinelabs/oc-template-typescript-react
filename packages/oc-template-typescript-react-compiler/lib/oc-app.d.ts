@@ -14,13 +14,21 @@ interface OC {
     fire: (eventName: string, data?: any) => void;
     reset: () => void;
   };
-  renderNestedComponent: (ocElement: any, cb: () => void) => void;
-  $: (ocElement: any) => any;
+  renderNestedComponent: (ocElement: HTMLElement, cb: () => void) => void;
 }
 
 declare global {
   interface Window {
     oc: OC;
+  }
+
+  namespace JSX {
+    interface IntrinsicElements {
+      'oc-component': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement> & { href: string },
+        HTMLElement
+      >;
+    }
   }
 }
 
