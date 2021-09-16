@@ -45,17 +45,6 @@ export interface Env {
 
 export interface Plugins {}
 
-export interface RequestHeaders {
-  host: string;
-  connection: string;
-  accept: string;
-  'user-agent': string;
-  'content-type': string;
-  referer: string;
-  'accept-encoding': string;
-  'accept-language': string;
-}
-
 export interface External {
   global: string;
   url: string;
@@ -74,7 +63,7 @@ export interface Context<T = any> {
   env: Env;
   params: T;
   plugins: Plugins;
-  requestHeaders: RequestHeaders;
+  requestHeaders: Record<string, string>;
   staticPath: string;
   templates: Template[];
   setEmptyResponse: () => void;
