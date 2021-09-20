@@ -58,6 +58,7 @@ export interface Context<T = any> {
   params: T;
   plugins: Plugins;
   requestHeaders: Record<string, string>;
+  requestIp: string;
   staticPath: string;
   templates: Template[];
 }
