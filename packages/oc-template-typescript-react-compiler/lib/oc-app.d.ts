@@ -65,7 +65,8 @@ export interface Context<T = any> {
   plugins: Plugins;
   requestHeaders: Record<string, string>;
   requestIp: string;
+  setEmptyResponse: () => void;
+  setHeader: (header: string, value: string) => void;
   staticPath: string;
   templates: Template[];
-  setEmptyResponse: () => void;
 }
