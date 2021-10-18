@@ -14,12 +14,12 @@
       }
     },
     "parameters": {
-      "name": {
-        "default": "World",
-        "description": "Your name",
-        "example": "Jane Doe",
-        "mandatory": false,
-        "type": "string"
+      "userId": {
+        "default": 0,
+        "description": "The user id from the user database",
+        "example": 0,
+        "mandatory": true,
+        "type": "number"
       }
     }
   },
