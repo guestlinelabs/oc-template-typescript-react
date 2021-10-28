@@ -1,8 +1,8 @@
-const removeTsExtension = (path) => path.replace(/\.tsx?$/, '');
+const removeExtension = (path) => path.replace(/\.(t|j)sx?$/, '');
 
 const reactOCProviderTemplate = ({ viewPath }) => `
   import React from 'react';
-  import View from '${removeTsExtension(viewPath)}';
+  import View from '${removeExtension(viewPath)}';
 
   class OCProvider extends React.Component {
     componentDidMount(){

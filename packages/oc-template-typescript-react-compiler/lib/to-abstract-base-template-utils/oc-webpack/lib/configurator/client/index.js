@@ -33,7 +33,7 @@ function getCacheIdentifier(environment, packages) {
   return cacheIdentifier;
 }
 
-module.exports = options => {
+module.exports = (options) => {
   const buildPath = options.buildPath || '/build';
   const appNodeModules = path.join(options.componentPath, 'node_modules');
   const appSrc = path.join(options.componentPath, 'src');
@@ -41,7 +41,8 @@ module.exports = options => {
   const isEnvDevelopment = !isEnvProduction;
 
   process.env.BABEL_ENV = isEnvProduction ? 'production' : 'development';
-  const skipTypecheck = isEnvDevelopment && process.env.TSC_SKIP_TYPECHECK === 'true';
+  const skipTypecheck =
+    !options.usingTypescript || (isEnvDevelopment && process.env.TSC_SKIP_TYPECHECK === 'true');
   const buildIncludes = options.buildIncludes.concat('oc-template-typescript-react-compiler/utils');
   const excludeRegex = createExcludeRegex(buildIncludes);
   const localIdentName = isEnvDevelopment
@@ -303,7 +304,7 @@ module.exports = options => {
         })
     ].filter(Boolean),
     resolve: {
-      extensions: ['.tsx', '.ts', '.js', '.json', '.css']
+      extensions: ['.tsx', '.ts', '.js', '.jsx', '.json', '.css']
     }
   };
 };

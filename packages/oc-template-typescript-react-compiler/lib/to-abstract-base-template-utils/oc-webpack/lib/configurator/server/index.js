@@ -13,7 +13,8 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = function webpackConfigGenerator(options) {
   const production = options.production !== undefined ? !!options.production : true;
-  const skipTypecheck = !production && process.env.TSC_SKIP_TYPECHECK === 'true';
+  const skipTypecheck =
+    !options.usingTypescript || (!production && process.env.TSC_SKIP_TYPECHECK === 'true');
   const appSrc = path.join(options.componentPath, 'src');
   const appNodeModules = path.join(options.componentPath, 'node_modules');
 
@@ -138,7 +139,7 @@ module.exports = function webpackConfigGenerator(options) {
         // First, run the linter.
         // It's important to do this before Babel processes the JS
         {
-          test: /\.tsx?$/,
+          test: /\.(t|j)sx?$/,
           exclude: /node_modules/,
           loader: require.resolve('babel-loader'),
           options: {

@@ -12,9 +12,12 @@ const {
 } = require('./to-abstract-base-template-utils/oc-webpack');
 const higherOrderServerTemplate = require('./higherOrderServerTemplate');
 
+const hasTsExtension = (file) => !!file.match(/\.tsx?$/);
+
 module.exports = (options, callback) => {
   const componentPath = options.componentPath;
   const serverFileName = options.componentPackage.oc.files.data;
+  const usingTypescript = hasTsExtension(serverFileName);
   let serverPath = path.join(options.componentPath, serverFileName);
   if (process.platform === 'win32') {
     serverPath = serverPath.split('\\').join('\\\\');
@@ -39,6 +42,7 @@ module.exports = (options, callback) => {
   const config = webpackConfigurator({
     componentPath,
     serverPath: higherOrderServerPath,
+    usingTypescript,
     publishFileName,
     dependencies,
     stats,

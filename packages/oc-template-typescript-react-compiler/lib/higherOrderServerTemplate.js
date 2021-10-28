@@ -1,4 +1,4 @@
-const removeTsExtension = (path) => path.replace(/\.tsx?$/, '');
+const removeExtension = (path) => path.replace(/\.(j|t)sx?$/, '');
 
 const higherOrderServerTemplate = ({
   serverPath,
@@ -6,7 +6,7 @@ const higherOrderServerTemplate = ({
   componentName,
   componentVersion
 }) => `
-import { data as dataProvider } from '${removeTsExtension(serverPath)}';
+import { data as dataProvider } from '${removeExtension(serverPath)}';
 
 export const data = (context : any, callback : (error: any, data?: any) => void) => {
   dataProvider(context, (error: any, model: any) => {

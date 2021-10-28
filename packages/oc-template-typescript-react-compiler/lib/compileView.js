@@ -23,8 +23,11 @@ const fontFamilyUnicodeParser = require('./to-abstract-base-template-utils/font-
 const reactOCProviderTemplate = require('./reactOCProviderTemplate');
 const viewTemplate = require('./viewTemplate');
 
+const hasTsExtension = (file) => !!file.match(/\.tsx?$/);
+
 module.exports = (options, callback) => {
   const viewFileName = options.componentPackage.oc.files.template.src;
+  const usingTypescript = hasTsExtension(viewFileName);
   const componentPath = options.componentPath;
   let viewPath = path.join(options.componentPath, viewFileName);
   if (process.platform === 'win32') {
@@ -51,6 +54,7 @@ module.exports = (options, callback) => {
         return externals;
       }, {}),
       publishFileName,
+      usingTypescript,
       production,
       buildIncludes: componentPackage.oc.files.template.buildIncludes || []
     });

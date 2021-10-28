@@ -6,7 +6,7 @@ const getInfo = require('oc-template-typescript-react').getInfo;
 
 const compileServer = require('./compileServer');
 const compileView = require('./compileView');
-const verifyConfig = require('./verifyConfig');
+const verifyTypeScriptSetup = require('./verifyConfig');
 
 const compiler = createCompile({
   compileServer,
@@ -14,6 +14,8 @@ const compiler = createCompile({
   compileView,
   getInfo
 });
+
+const hasTsExtension = (file) => !!file.match(/\.tsx?$/);
 
 // OPTIONS
 // =======
@@ -27,7 +29,13 @@ const compiler = createCompile({
 // watch,
 // production
 module.exports = function compile(options, callback) {
-  verifyConfig(options.componentPath);
+  const viewFileName = options.componentPackage.oc.files.template.src;
+  const serverFileName = options.componentPackage.oc.files.data;
+  const usingTypescript = hasTsExtension(viewFileName) || hasTsExtension(serverFileName);
+
+  if (usingTypescript) {
+    verifyTypeScriptSetup(options.componentPath);
+  }
 
   return compiler(options, callback);
 };
