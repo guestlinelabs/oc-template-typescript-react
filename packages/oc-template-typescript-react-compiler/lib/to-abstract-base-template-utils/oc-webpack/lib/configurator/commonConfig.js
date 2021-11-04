@@ -117,6 +117,7 @@ module.exports = function getConfig({
                 tsBuildInfoFile: appTsBuildInfoFile
               }
             },
+            configFile: path.join(componentPath, 'tsconfig.json'),
             context: componentPath,
             diagnosticOptions: {
               syntactic: true
