@@ -86,8 +86,7 @@ module.exports = function getConfig({
               comments: false,
               ascii_only: true
             }
-          },
-          sourceMap: shouldUseSourceMap
+          }
         }),
         new CssMinimizerPlugin()
       ]
