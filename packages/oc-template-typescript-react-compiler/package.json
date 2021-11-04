@@ -1,6 +1,6 @@
 {
   "name": "oc-template-typescript-react-compiler",
-  "version": "3.6.6",
+  "version": "3.6.7",
   "description": "",
   "main": "index.js",
   "repository": {
@@ -55,7 +55,7 @@
     "memory-fs": "^0.4.1",
     "mini-css-extract-plugin": "^2.1.0",
     "node-dir": "0.1.17",
-    "oc-external-dependencies-handler": "1.0.6",
+    "oc-external-dependencies-handler": "1.1.0",
     "oc-generic-template-compiler": "2.0.4",
     "oc-get-unix-utc-timestamp": "1.0.2",
     "oc-hash-builder": "1.0.2",
