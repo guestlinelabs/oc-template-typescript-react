@@ -126,8 +126,8 @@ module.exports = options => {
                 importLoaders: 1,
                 sourceMap: false,
                 modules: {
-                  compileType: 'module',
-                  localIdentName
+                  mode: 'local',
+                  getLocalIdent: () => localIdentName
                 }
               })
             },

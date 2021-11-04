@@ -24,7 +24,8 @@ module.exports = function compiler(config, callback) {
     const info = stats.toJson();
     // handleSoftErrors
     if (stats.hasErrors()) {
-      softError = info.errors.toString();
+      softError =
+        typeof info.errors === 'string' ? info.errors : JSON.stringify(info.errors, null, 2);
       return callback(softError);
     }
     // handleWarnings
