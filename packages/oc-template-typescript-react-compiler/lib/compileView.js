@@ -10,7 +10,8 @@ const strings = require('oc-templates-messages');
 
 const reactComponentWrapper = (hash, content, nameSpace) => {
   nameSpace = nameSpace || 'oc';
-  return `var ${nameSpace}=${nameSpace}||{};${nameSpace}.reactComponents=${nameSpace}.reactComponents||{};${nameSpace}.reactComponents['${hash}']=${nameSpace}.reactComponents['${hash}']||(function(){var ${content}
+  return `var ${nameSpace}=${nameSpace}||{};${nameSpace}.reactComponents=${nameSpace}.reactComponents||{};${nameSpace}.reactComponents['${hash}']=${nameSpace}.reactComponents['${hash}']||(function(){
+    ${content}
 	; return module.default}())`;
 };
 

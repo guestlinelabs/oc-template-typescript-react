@@ -3,6 +3,7 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 const _ = require('lodash');
+const loaderUtils = require('loader-utils');
 const postcssNormalize = require('postcss-normalize');
 
 const commonConfig = require('../commonConfig');
@@ -34,9 +35,28 @@ module.exports = options => {
   process.env.BABEL_ENV = isEnvProduction ? 'production' : 'development';
   const buildIncludes = options.buildIncludes.concat('oc-template-typescript-react-compiler/utils');
   const excludeRegex = createExcludeRegex(buildIncludes);
-  const localIdentName = isEnvDevelopment
-    ? 'oc__[path][name]-[ext]__[local]__[hash:base64:8]'
-    : '[local]__[hash:base64:8]';
+
+  function getLocalIdent(context, localIdentName, localName, options) {
+    // Use the filename or folder name, based on some uses the index.js / index.module.(css|scss|sass) project style
+    const fileNameOrFolder = context.resourcePath.match(/index\.module\.(css|scss|sass)$/)
+      ? '[folder]'
+      : '[name]';
+    // Create a hash based on a the file location and class name. Will be unique across a project, and close to globally unique.
+    const hash = loaderUtils.getHashDigest(
+      path.posix.relative(context.rootContext, context.resourcePath) + localName,
+      'md5',
+      'base64',
+      5
+    );
+    // Use loaderUtils to find the file or folder name
+    const className = loaderUtils.interpolateName(
+      context,
+      fileNameOrFolder + '_' + localName + '__' + hash,
+      options
+    );
+    // Remove the .module that appears in every classname when based on the file and replace all "." with "_".
+    return className.replace('.module_', '_').replace(/\./g, '_');
+  }
 
   const getStyleLoaders = (cssOptions, preProcessor) => {
     const loaders = [
@@ -127,7 +147,7 @@ module.exports = options => {
                 sourceMap: false,
                 modules: {
                   mode: 'local',
-                  getLocalIdent: () => localIdentName
+                  getLocalIdent
                 }
               })
             },
