@@ -2,8 +2,7 @@ const path = require('path');
 const resolve = require('resolve');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const safePostCssParser = require('postcss-safe-parser');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const webpack = require('webpack');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
@@ -12,6 +11,20 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 const shouldUseSourceMap = false;
 const emitErrorsAsWarnings = process.env.ESLINT_NO_DEV_ERRORS === 'true';
 const disableESLintPlugin = process.env.DISABLE_ESLINT_PLUGIN === 'true';
+
+const moduleFileExtensions = [
+  'web.mjs',
+  'mjs',
+  'web.js',
+  'js',
+  'web.ts',
+  'ts',
+  'web.tsx',
+  'tsx',
+  'json',
+  'web.jsx',
+  'jsx'
+];
 
 module.exports = function getConfig({
   componentPath,
@@ -25,13 +38,21 @@ module.exports = function getConfig({
     !usingTypescript || (isEnvDevelopment && process.env.TSC_SKIP_TYPECHECK === 'true');
   const appSrc = path.join(componentPath, 'src');
   const appNodeModules = path.join(componentPath, 'node_modules');
+  const appTsBuildInfoFile = path.join(
+    componentPath,
+    'node_modules',
+    '.cache',
+    'tsconfig.tsbuildinfo'
+  );
 
   const config = {
     mode: isEnvProduction ? 'production' : 'development',
     bail: isEnvProduction,
     entry,
     resolve: {
-      extensions: ['.tsx', '.ts', '.js', '.jsx', '.json', '.css']
+      extensions: moduleFileExtensions
+        .map((ext) => `.${ext}`)
+        .filter((ext) => usingTypescript || !ext.includes('ts'))
     },
     devtool: isEnvProduction
       ? shouldUseSourceMap
@@ -68,20 +89,7 @@ module.exports = function getConfig({
           },
           sourceMap: shouldUseSourceMap
         }),
-        new OptimizeCSSAssetsPlugin({
-          cssProcessorOptions: {
-            parser: safePostCssParser,
-            map: shouldUseSourceMap
-              ? {
-                  inline: false,
-                  annotation: true
-                }
-              : false
-          },
-          cssProcessorPluginOptions: {
-            preset: ['default', { minifyFontValues: { removeQuotes: false } }]
-          }
-        })
+        new CssMinimizerPlugin()
       ]
     },
     plugins: [
@@ -95,30 +103,44 @@ module.exports = function getConfig({
       }),
       !skipTypecheck &&
         new ForkTsCheckerWebpackPlugin({
-          typescript: resolve.sync('typescript', {
-            basedir: path.join(componentPath, 'node_modules')
-          }),
-          compilerOptions: {
-            allowJs: false
-          },
           async: isEnvDevelopment,
-          useTypescriptIncrementalApi: true,
-          checkSyntacticErrors: true,
-          resolveModuleNameModule: process.versions.pnp
-            ? path.join(__dirname, 'pnpTs.js')
-            : undefined,
-          resolveTypeReferenceDirectiveModule: process.versions.pnp
-            ? path.join(__dirname, 'pnpTs.js')
-            : undefined,
-          tsconfig: path.join(componentPath, 'tsconfig.json'),
-          reportFiles: [
-            '**',
-            '!**/__tests__/**',
-            '!**/?(*.)(spec|test).*',
-            '!**/src/setupProxy.*',
-            '!**/src/setupTests.*'
-          ],
-          silent: true
+          typescript: {
+            typescriptPath: resolve.sync('typescript', {
+              basedir: path.join(componentPath, 'node_modules')
+            }),
+            configOverwrite: {
+              compilerOptions: {
+                sourceMap: isEnvProduction ? shouldUseSourceMap : isEnvDevelopment,
+                skipLibCheck: true,
+                inlineSourceMap: false,
+                declarationMap: false,
+                noEmit: true,
+                incremental: true,
+                tsBuildInfoFile: appTsBuildInfoFile
+              }
+            },
+            context: componentPath,
+            diagnosticOptions: {
+              syntactic: true
+            },
+            mode: 'write-references'
+          },
+          issue: {
+            // This one is specifically to match during CI tests,
+            // as micromatch doesn't match
+            // '../cra-template-typescript/template/src/App.tsx'
+            // otherwise.
+            include: [{ file: '../**/src/**/*.{ts,tsx}' }, { file: '**/src/**/*.{ts,tsx}' }],
+            exclude: [
+              { file: '**/src/**/__tests__/**' },
+              { file: '**/src/**/?(*.){spec|test}.*' },
+              { file: '**/src/setupProxy.*' },
+              { file: '**/src/setupTests.*' }
+            ]
+          },
+          logger: {
+            infrastructure: 'silent'
+          }
         }),
       !disableESLintPlugin &&
         new ESLintPlugin({

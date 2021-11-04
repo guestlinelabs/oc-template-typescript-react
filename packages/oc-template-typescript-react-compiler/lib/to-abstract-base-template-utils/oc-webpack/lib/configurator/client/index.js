@@ -117,7 +117,7 @@ module.exports = options => {
           enforce: 'pre',
           exclude: /@babel(?:\/|\\{1,2})runtime/,
           test: /\.(js|mjs|jsx|ts|tsx|css)$/,
-          use: 'source-map-loader'
+          loader: require.resolve('source-map-loader')
         },
         {
           oneOf: [
@@ -146,7 +146,7 @@ module.exports = options => {
               )
             },
             {
-              test: /\.(t|j)sx?$/,
+              test: /\.(js|mjs|jsx|ts|tsx)$/,
               exclude: excludeRegex,
               loader: require.resolve('babel-loader'),
               options: {
