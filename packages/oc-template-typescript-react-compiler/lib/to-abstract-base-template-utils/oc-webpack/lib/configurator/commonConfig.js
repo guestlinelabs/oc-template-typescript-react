@@ -93,9 +93,8 @@ module.exports = function getConfig({
     },
     plugins: [
       new MiniCssExtractPlugin({
-        filename: '[name].css',
-        allChunks: true,
-        ignoreOrder: true
+        filename: '[name].[contenthash:8].css',
+        chunkFilename: '[name].[contenthash:8].chunk.css'
       }),
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify(isEnvProduction ? 'production' : 'development')
