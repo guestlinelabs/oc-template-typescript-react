@@ -33,7 +33,6 @@ module.exports = function compile(options, callback) {
   const serverFileName = options.componentPackage.oc.files.data;
   const usingTypescript = hasTsExtension(viewFileName) || hasTsExtension(serverFileName);
 
-  console.log('IDONTKNOW');
   if (usingTypescript) {
     verifyTypeScriptSetup(options.componentPath);
   }

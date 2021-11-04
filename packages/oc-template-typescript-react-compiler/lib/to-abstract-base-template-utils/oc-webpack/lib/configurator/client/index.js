@@ -105,7 +105,6 @@ module.exports = options => {
       path: buildPath,
       pathinfo: isEnvDevelopment,
       filename: options.publishFileName,
-      futureEmitAssets: true,
       libraryTarget: 'assign',
       library: 'module'
     },
