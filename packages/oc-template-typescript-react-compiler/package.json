@@ -1,6 +1,6 @@
 {
   "name": "oc-template-typescript-react-compiler",
-  "version": "3.6.7",
+  "version": "3.6.8",
   "description": "",
   "main": "index.js",
   "repository": {
@@ -78,8 +78,6 @@
     "style-loader": "^3.0.0",
     "terser-webpack-plugin": "^5.1.4",
     "text-table": "^0.2.0",
-    "ts-loader": "^6.2.0",
-    "ts-pnp": "1.2.0",
     "webpack": "^5.61.0"
   },
   "peerDependencies": {

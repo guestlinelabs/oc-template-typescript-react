@@ -26,9 +26,10 @@ function getCacheIdentifier(environment, packages) {
   return cacheIdentifier;
 }
 
-module.exports = options => {
+module.exports = (options) => {
   const buildPath = options.buildPath || '/build';
   const appSrc = path.join(options.componentPath, 'src');
+  const appPackage = path.join(options.componentPath, '_package');
   const isEnvProduction = !!options.production;
   const isEnvDevelopment = !isEnvProduction;
 
@@ -166,6 +167,7 @@ module.exports = options => {
             },
             {
               test: /\.(js|mjs|jsx|ts|tsx)$/,
+              include: [appSrc, appPackage],
               exclude: excludeRegex,
               loader: require.resolve('babel-loader'),
               options: {
@@ -207,6 +209,30 @@ module.exports = options => {
               }
             }
           ]
+        },
+        {
+          test: /\.(js|mjs)$/,
+          exclude: /@babel(?:\/|\\{1,2})runtime/,
+          loader: require.resolve('babel-loader'),
+          options: {
+            babelrc: false,
+            configFile: false,
+            compact: false,
+            presets: [[require.resolve('babel-preset-react-app/dependencies'), { helpers: true }]],
+            cacheDirectory: true,
+            cacheCompression: false,
+            cacheIdentifier: getCacheIdentifier(
+              isEnvProduction ? 'production' : isEnvDevelopment && 'development',
+              [
+                'babel-plugin-named-asset-import',
+                'babel-preset-react-app',
+                'react-dev-utils',
+                'react-scripts'
+              ]
+            ),
+            sourceMaps: shouldUseSourceMap,
+            inputSourceMap: shouldUseSourceMap
+          }
         }
       ].filter(Boolean)
     }
