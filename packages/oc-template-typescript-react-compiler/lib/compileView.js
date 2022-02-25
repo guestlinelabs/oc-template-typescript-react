@@ -27,13 +27,19 @@ const viewTemplate = require('./viewTemplate');
 const hasTsExtension = (file) => !!file.match(/\.tsx?$/);
 
 module.exports = (options, callback) => {
+  function processRelativePath(relativePath) {
+    let pathStr = path.join(options.componentPath, relativePath);
+    if (process.platform === 'win32') {
+      return pathStr.split('\\').join('\\\\');
+    }
+    return pathStr;
+  }
+
   const viewFileName = options.componentPackage.oc.files.template.src;
   const usingTypescript = hasTsExtension(viewFileName);
   const componentPath = options.componentPath;
-  let viewPath = path.join(options.componentPath, viewFileName);
-  if (process.platform === 'win32') {
-    viewPath = viewPath.split('\\').join('\\\\');
-  }
+  const viewPath = processRelativePath(viewFileName);
+  const includePaths = [options.include].flat().filter(Boolean).map(processRelativePath);
   const publishPath = options.publishPath;
   const tempPath = path.join(publishPath, 'temp');
   const publishFileName = options.publishFileName || 'template.js';
@@ -50,6 +56,7 @@ module.exports = (options, callback) => {
     const config = webpackConfigurator({
       componentPath,
       viewPath: options.viewPath,
+      includePaths,
       externals: externals.reduce((externals, dep) => {
         externals[dep.name] = dep.global;
         return externals;

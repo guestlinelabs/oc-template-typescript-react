@@ -167,7 +167,7 @@ module.exports = (options) => {
             },
             {
               test: /\.(js|mjs|jsx|ts|tsx)$/,
-              include: [appSrc, appPackage],
+              include: [appSrc, appPackage, ...options.includePaths],
               exclude: excludeRegex,
               loader: require.resolve('babel-loader'),
               options: {
