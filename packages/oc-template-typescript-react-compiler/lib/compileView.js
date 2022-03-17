@@ -81,10 +81,11 @@ module.exports = (options, callback) => {
       fs.outputFileSync(bundlePath, wrappedBundle);
 
       let css = null;
-      if (data.build['main.css']) {
+      const cssFile = Object.keys(data.build).filter((x) => x.endsWith('.css'))[0];
+      if (cssFile) {
         // This is an awesome hack by KimTaro that will blow your mind.
         // Remove it once this get merged: https://github.com/webpack-contrib/css-loader/pull/523
-        css = fontFamilyUnicodeParser(memoryFs.readFileSync(`/build/main.css`, 'UTF8'));
+        css = fontFamilyUnicodeParser(memoryFs.readFileSync(`/build/${cssFile}`, 'UTF8'));
 
         const cssPath = path.join(publishPath, `styles.css`);
         // We convert single quotes to double quotes in order to
