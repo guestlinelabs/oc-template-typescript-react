@@ -46,11 +46,13 @@
     },
     "react": {
       "global": "React",
-      "url": "https://unpkg.com/react@16.9.0/umd/react.production.min.js"
+      "url": "https://unpkg.com/react@16.9.0/umd/react.production.min.js",
+      "devUrl": "https://unpkg.com/react@16.9.0/umd/react.development.js"
     },
     "react-dom": {
       "global": "ReactDOM",
-      "url": "https://unpkg.com/react-dom@16.9.0/umd/react-dom.production.min.js"
+      "url": "https://unpkg.com/react-dom@16.9.0/umd/react-dom.production.min.js",
+      "devUrl": "https://unpkg.com/react-dom@16.9.0/umd/react-dom.development.js"
     }
   }
 }
