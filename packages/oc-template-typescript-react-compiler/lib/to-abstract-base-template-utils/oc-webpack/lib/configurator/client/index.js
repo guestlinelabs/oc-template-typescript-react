@@ -9,10 +9,6 @@ const postcssNormalize = require('postcss-normalize');
 const commonConfig = require('../commonConfig');
 const createExcludeRegex = require('../createExcludeRegex');
 
-// const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
-// DISABLE UNTIL FIGURE HOW TO MAKE IT WORK WITH TESTS
-const shouldUseSourceMap = false;
-
 function getCacheIdentifier(environment, packages) {
   let cacheIdentifier = environment == null ? '' : environment.toString();
   for (const packageName of packages) {
@@ -32,6 +28,8 @@ module.exports = (options) => {
   const appPackage = path.join(options.componentPath, '_package');
   const isEnvProduction = !!options.production;
   const isEnvDevelopment = !isEnvProduction;
+
+  const shouldUseSourceMaps = options.generateSourceMaps;
 
   process.env.BABEL_ENV = isEnvProduction ? 'production' : 'development';
   const buildIncludes = options.buildIncludes.concat('oc-template-typescript-react-compiler/utils');
@@ -87,7 +85,7 @@ module.exports = (options) => {
               postcssNormalize()
             ]
           },
-          sourceMap: isEnvProduction && shouldUseSourceMap
+          sourceMap: isEnvProduction && shouldUseSourceMaps
         }
       }
     ].filter(Boolean);
@@ -96,7 +94,7 @@ module.exports = (options) => {
         {
           loader: require.resolve('resolve-url-loader'),
           options: {
-            sourceMap: isEnvProduction ? shouldUseSourceMap : true,
+            sourceMap: isEnvProduction ? shouldUseSourceMaps : true,
             root: appSrc
           }
         },
@@ -133,7 +131,7 @@ module.exports = (options) => {
     module: {
       strictExportPresence: true,
       rules: [
-        shouldUseSourceMap && {
+        shouldUseSourceMaps && {
           enforce: 'pre',
           exclude: /@babel(?:\/|\\{1,2})runtime/,
           test: /\.(js|mjs|jsx|ts|tsx|css)$/,
@@ -230,8 +228,8 @@ module.exports = (options) => {
                 'react-scripts'
               ]
             ),
-            sourceMaps: shouldUseSourceMap,
-            inputSourceMap: shouldUseSourceMap
+            sourceMaps: shouldUseSourceMaps,
+            inputSourceMap: shouldUseSourceMaps
           }
         }
       ].filter(Boolean)

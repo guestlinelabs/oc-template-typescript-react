@@ -53,6 +53,7 @@ module.exports = (options, callback) => {
   const reactOCProviderPath = path.join(tempPath, reactOCProviderName);
 
   const compile = (options, cb) => {
+    const generateSourceMaps = process.env.GENERATE_SOURCEMAP !== 'false' && (process.env.GENERATE_SOURCEMAP === 'true' || !production);
     const config = webpackConfigurator({
       componentPath,
       viewPath: options.viewPath,
@@ -64,8 +65,10 @@ module.exports = (options, callback) => {
       publishFileName,
       usingTypescript,
       production,
-      buildIncludes: componentPackage.oc.files.template.buildIncludes || []
+      buildIncludes: componentPackage.oc.files.template.buildIncludes || [],
+      generateSourceMaps
     });
+
     compiler(config, (err, data) => {
       if (err) {
         return cb(err);
@@ -79,6 +82,12 @@ module.exports = (options, callback) => {
       const bundlePath = path.join(publishPath, `${bundleName}.js`);
       const wrappedBundle = reactComponentWrapper(bundleHash, bundle);
       fs.outputFileSync(bundlePath, wrappedBundle);
+
+      if (generateSourceMaps) {
+        const sourceMap = memoryFs.readFileSync(`/build/${config.output.filename}.map`, 'UTF8');
+        const mapBunldePath = path.join(publishPath, `${publishFileName}.map`);
+        fs.outputFileSync(mapBunldePath, sourceMap);
+      }
 
       let css = null;
       const cssFile = Object.keys(data.build).filter((x) => x.endsWith('.css'))[0];
