@@ -7,8 +7,6 @@ const webpack = require('webpack');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 
-// const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
-const shouldUseSourceMap = false;
 const emitErrorsAsWarnings = process.env.ESLINT_NO_DEV_ERRORS === 'true';
 const disableESLintPlugin = process.env.DISABLE_ESLINT_PLUGIN === 'true';
 
@@ -31,7 +29,8 @@ module.exports = function getConfig({
   isEnvProduction,
   entry,
   usingTypescript,
-  configPath
+  configPath,
+  shouldUseSourceMaps
 }) {
   const isEnvDevelopment = !isEnvProduction;
   const skipTypecheck =
@@ -55,7 +54,7 @@ module.exports = function getConfig({
         .filter((ext) => usingTypescript || !ext.includes('ts'))
     },
     devtool: isEnvProduction
-      ? shouldUseSourceMap
+      ? shouldUseSourceMaps
         ? 'source-map'
         : false
       : 'cheap-module-source-map',
@@ -108,7 +107,7 @@ module.exports = function getConfig({
             }),
             configOverwrite: {
               compilerOptions: {
-                sourceMap: isEnvProduction ? shouldUseSourceMap : isEnvDevelopment,
+                sourceMap: isEnvProduction ? shouldUseSourceMaps : isEnvDevelopment,
                 skipLibCheck: true,
                 inlineSourceMap: false,
                 declarationMap: false,

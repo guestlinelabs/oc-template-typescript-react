@@ -85,7 +85,7 @@ module.exports = (options) => {
               postcssNormalize()
             ]
           },
-          sourceMap: isEnvProduction && shouldUseSourceMaps
+          sourceMap: shouldUseSourceMaps
         }
       }
     ].filter(Boolean);
@@ -94,7 +94,7 @@ module.exports = (options) => {
         {
           loader: require.resolve('resolve-url-loader'),
           options: {
-            sourceMap: isEnvProduction ? shouldUseSourceMaps : true,
+            sourceMap: shouldUseSourceMaps,
             root: appSrc
           }
         },
@@ -117,7 +117,8 @@ module.exports = (options) => {
       isEnvProduction,
       entry: options.viewPath,
       usingTypescript: options.usingTypescript,
-      componentPath: options.componentPath
+      componentPath: options.componentPath,
+      shouldUseSourceMaps,
     }),
     context: options.componentPath,
     output: {
