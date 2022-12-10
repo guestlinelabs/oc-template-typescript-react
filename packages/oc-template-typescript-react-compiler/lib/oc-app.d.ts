@@ -57,10 +57,10 @@ export interface Template {
   externals: External[];
 }
 
-export interface Context<T = any> {
+export interface Context<T = any, E = Env> {
   acceptLanguage: AcceptLanguage[];
   baseUrl: string;
-  env: Env;
+  env: E
   params: T;
   plugins: Plugins;
   requestHeaders: Record<string, string>;
