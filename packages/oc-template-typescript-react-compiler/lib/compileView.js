@@ -56,7 +56,6 @@ module.exports = (options, callback) => {
   const reactOCProviderPath = path.join(tempPath, reactOCProviderName);
 
   const compile = (options, cb) => {
-    console.log('HILINK');
     const config = webpackConfigurator({
       componentPath,
       viewPath: options.viewPath,

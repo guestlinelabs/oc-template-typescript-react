@@ -1,6 +1,6 @@
 {
   "name": "oc-template-typescript-react-compiler",
-  "version": "3.8.1",
+  "version": "3.9.0-beta.1",
   "description": "",
   "main": "index.js",
   "repository": {
