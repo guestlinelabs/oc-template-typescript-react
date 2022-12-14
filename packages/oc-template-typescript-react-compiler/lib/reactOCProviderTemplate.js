@@ -1,9 +1,8 @@
 const removeExtension = (path) => path.replace(/\.(t|j)sx?$/, '');
 
-const reactOCProviderTemplate = ({ useDataPath, viewPath }) => `
+const reactOCProviderTemplate = ({ viewPath }) => `
   import React from 'react';
   import View from '${removeExtension(viewPath)}';
-  //import { DataProvider } from '${useDataPath}';
   import { DataProvider } from 'oc-template-typescript-react-compiler/utils/useData'
 
   class OCProvider extends React.Component {
