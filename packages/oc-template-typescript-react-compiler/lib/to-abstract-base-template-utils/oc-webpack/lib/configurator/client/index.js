@@ -30,6 +30,10 @@ module.exports = (options) => {
   const buildPath = options.buildPath || '/build';
   const appSrc = path.join(options.componentPath, 'src');
   const appPackage = path.join(options.componentPath, '_package');
+  const compilerUtilsPath = path.join(
+    options.componentPath,
+    'node_modules/oc-template-typescript-react-compiler/utils'
+  );
   const isEnvProduction = !!options.production;
   const isEnvDevelopment = !isEnvProduction;
 
@@ -167,7 +171,7 @@ module.exports = (options) => {
             },
             {
               test: /\.(js|mjs|jsx|ts|tsx)$/,
-              include: [appSrc, appPackage, ...options.includePaths],
+              include: [appSrc, appPackage, compilerUtilsPath, ...options.includePaths],
               exclude: excludeRegex,
               loader: require.resolve('babel-loader'),
               options: {

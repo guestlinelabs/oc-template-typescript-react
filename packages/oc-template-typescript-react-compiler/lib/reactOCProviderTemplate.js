@@ -1,8 +1,10 @@
 const removeExtension = (path) => path.replace(/\.(t|j)sx?$/, '');
 
-const reactOCProviderTemplate = ({ viewPath }) => `
+const reactOCProviderTemplate = ({ useDataPath, viewPath }) => `
   import React from 'react';
   import View from '${removeExtension(viewPath)}';
+  //import { DataProvider } from '${useDataPath}';
+  import { DataProvider } from 'oc-template-typescript-react-compiler/utils/useData'
 
   class OCProvider extends React.Component {
     componentDidMount(){
@@ -36,11 +38,13 @@ const reactOCProviderTemplate = ({ viewPath }) => `
     }
 
     render() {
-      const { _staticPath, _baseUrl, _componentName, _componentVersion, ...rest } = (this.props as any);        
+      const { _staticPath, _baseUrl, _componentName, _componentVersion, ...rest } = (this.props as any);
       (rest as any).getData = (parameters: any, cb: (error: any, parameters?: any, props?: any) => void) => this.getData(this.props, parameters, cb);
       (rest as any).getSetting = (setting: string) => this.getSetting(this.props, setting);
       return (
-        <View { ...rest } />
+        <DataProvider value={{...rest}}>
+          <View { ...rest } />
+        </DataProvider>
       );
     }
   }

@@ -39,6 +39,9 @@ module.exports = (options, callback) => {
   const usingTypescript = hasTsExtension(viewFileName);
   const componentPath = options.componentPath;
   const viewPath = processRelativePath(viewFileName);
+  const useDataPath = processRelativePath(
+    'node_modules/oc-template-typescript-react-compiler/utils/useData'
+  );
   const includePaths = [options.include].flat().filter(Boolean).map(processRelativePath);
   const publishPath = options.publishPath;
   const tempPath = path.join(publishPath, 'temp');
@@ -48,11 +51,12 @@ module.exports = (options, callback) => {
   const externals = getInfo().externals;
   const production = options.production;
 
-  const reactOCProviderContent = reactOCProviderTemplate({ viewPath });
+  const reactOCProviderContent = reactOCProviderTemplate({ useDataPath, viewPath });
   const reactOCProviderName = 'reactOCProvider.tsx';
   const reactOCProviderPath = path.join(tempPath, reactOCProviderName);
 
   const compile = (options, cb) => {
+    console.log('HILINK');
     const config = webpackConfigurator({
       componentPath,
       viewPath: options.viewPath,
