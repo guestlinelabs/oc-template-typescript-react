@@ -8,7 +8,8 @@ type Data<T = any> = T & {
 }
 
 type PromiseData<T = any> = T & {
-  getData<O = any>(parameters?: Partial<T>): Promise<O>
+  getData<O = any>(parameters?: Partial<T>): Promise<O>;
+  getSetting(setting: 'name' | 'version' | 'baseUrl' | 'staticPath'): string
 }
 
 export const DataProvider = ({ children, ...props }: any) => {
