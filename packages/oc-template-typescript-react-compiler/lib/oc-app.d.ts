@@ -10,7 +10,7 @@ interface OC {
   };
   events: {
     on: (eventName: string, fn: (...data: any[]) => void) => void;
-    off: (eventName: string, fn: (...data: any[]) => void) => void;
+    off: (eventName: string, fn?: (...data: any[]) => void) => void;
     fire: (eventName: string, data?: any) => void;
     reset: () => void;
   };
