@@ -11,11 +11,9 @@ describe('App - Page', () => {
   });
 
   it('Gets more data when clicking the button', () => {
-    render(
-      <App firstName="firstName" lastName="lastName" userId={0} getData={getData} />
-    );
+    render(<App firstName="firstName" lastName="lastName" userId={0} getData={getData} />);
 
-    const hobbiesElement = screen.getByText(/Hobbies/i);
-    expect(hobbiesElement).toBeInTheDocument();
+    const extraInfoButton = screen.getByText(/Get extra information/i);
+    expect(extraInfoButton).toBeInTheDocument();
   });
 });
