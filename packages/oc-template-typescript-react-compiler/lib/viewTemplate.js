@@ -21,7 +21,13 @@ const viewTemplate = ({ reactRoot, css, externals, bundleHash, bundleName }) => 
           'function(ReactComponent){' +
             'var targetNode = document.getElementById("' + templateId + '");' +
             'targetNode.setAttribute("id","");' +
-            'ReactDOM.render(React.createElement(ReactComponent,' +  props + '),targetNode);' +
+            'var reactElement = React.createElement(ReactComponent,' +  props + ');' +
+            'if (ReactDOM.createRoot) {' +
+              'var root = ReactDOM.createRoot(targetNode);' +
+              'root.render(reactElement);' +
+            '} else {' +
+              'ReactDOM.render(reactElement, targetNode);' +
+            '}' +
           '}' +
         ');' +
       '});' +
