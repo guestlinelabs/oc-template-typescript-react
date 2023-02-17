@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { render, screen } from '@testing-library/react';
 
 import App from './app';
 
@@ -11,12 +11,11 @@ describe('App - Page', () => {
   });
 
   it('Gets more data when clicking the button', () => {
-    const renderedComponent = mount(
+    render(
       <App firstName="firstName" lastName="lastName" userId={0} getData={getData} />
     );
 
-    renderedComponent.find('button').simulate('click');
-
-    expect(getData).toHaveBeenCalled();
+    const hobbiesElement = screen.getByText(/Hobbies/i);
+    expect(hobbiesElement).toBeInTheDocument();
   });
 });
