@@ -8,11 +8,12 @@ const ocViewWrapper = require('oc-view-wrapper');
 const path = require('path');
 const strings = require('oc-templates-messages');
 
-const reactComponentWrapper = (hash, content, nameSpace) => {
-  nameSpace = nameSpace || 'oc';
-  return `var ${nameSpace}=${nameSpace}||{};${nameSpace}.reactComponents=${nameSpace}.reactComponents||{};${nameSpace}.reactComponents['${hash}']=${nameSpace}.reactComponents['${hash}']||(function(){
-    ${content}
-	; return module.default}())`;
+const reactBundleWrapper = (content) => {
+  const iife = `(function() {
+  ${content}
+  ; return module.default}());`;
+
+  return iife;
 };
 
 const {
@@ -76,10 +77,7 @@ module.exports = (options, callback) => {
       const bundle = memoryFs.readFileSync(`/build/${config.output.filename}`, 'UTF8');
 
       const bundleHash = hashBuilder.fromString(bundle);
-      const bundleName = 'react-component';
-      const bundlePath = path.join(publishPath, `${bundleName}.js`);
-      const wrappedBundle = reactComponentWrapper(bundleHash, bundle);
-      fs.outputFileSync(bundlePath, wrappedBundle);
+      const wrappedBundle = reactBundleWrapper(bundle);
 
       let css = null;
       const cssFile = Object.keys(data.build).filter((x) => x.endsWith('.css'))[0];
@@ -99,8 +97,8 @@ module.exports = (options, callback) => {
         reactRoot,
         css,
         externals,
-        bundleHash,
-        bundleName
+        wrappedBundle,
+        hash: bundleHash
       });
 
       const templateStringCompressed = production

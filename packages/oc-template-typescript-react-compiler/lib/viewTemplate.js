@@ -1,9 +1,11 @@
-const viewTemplate = ({ reactRoot, css, externals, bundleHash, bundleName }) => `function(model){
+const viewTemplate = ({ reactRoot, css, externals, wrappedBundle, hash }) => `function(model){
   var modelHTML =  model.__html ? model.__html : '';
   var staticPath = model.reactComponent.props._staticPath;
   var props = JSON.stringify(model.reactComponent.props);
   window.oc = window.oc || {};
   window.oc.__typescriptReactTemplate = window.oc.__typescriptReactTemplate || { count: 0 };
+  oc.reactComponents = oc.reactComponents || {};
+  oc.reactComponents['${hash}'] = oc.reactComponents['${hash}'] || (${wrappedBundle});
   var count = window.oc.__typescriptReactTemplate.count;
   var templateId = "${reactRoot}-" + count;
   window.oc.__typescriptReactTemplate.count++;
@@ -15,21 +17,15 @@ const viewTemplate = ({ reactRoot, css, externals, bundleHash, bundleName }) => 
     'oc.cmd.push(function(oc){' +
     '${css ? "oc.events.fire(\\'oc:cssDidMount\\', \\'" + css + "\\');" : ''}' +
       'oc.requireSeries(${JSON.stringify(externals)}, function(){' +
-        'oc.require(' +
-          '["oc", "reactComponents", "${bundleHash}"],' + 
-          '"' + staticPath + '${bundleName}.js",' +
-          'function(ReactComponent){' +
-            'var targetNode = document.getElementById("' + templateId + '");' +
-            'targetNode.setAttribute("id","");' +
-            'var reactElement = React.createElement(ReactComponent,' +  props + ');' +
-            'if (ReactDOM.createRoot) {' +
-              'var root = ReactDOM.createRoot(targetNode);' +
-              'root.render(reactElement);' +
-            '} else {' +
-              'ReactDOM.render(reactElement, targetNode);' +
-            '}' +
-          '}' +
-        ');' +
+        'var targetNode = document.getElementById("' + templateId + '");' +
+        'targetNode.setAttribute("id","");' +
+        'var reactElement = React.createElement(oc.reactComponents["${hash}"],' +  props + ');' +
+        'if (ReactDOM.createRoot) {' +
+          'var root = ReactDOM.createRoot(targetNode);' +
+          'root.render(reactElement);' +
+        '} else {' +
+          'ReactDOM.render(reactElement, targetNode);' +
+        '}' +
       '});' +
     '});' +
   '</script>'
