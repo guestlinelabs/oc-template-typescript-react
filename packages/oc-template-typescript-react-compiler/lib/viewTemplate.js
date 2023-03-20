@@ -5,7 +5,7 @@ const viewTemplate = ({ reactRoot, css, externals, wrappedBundle, hash }) => `fu
   window.oc = window.oc || {};
   window.oc.__typescriptReactTemplate = window.oc.__typescriptReactTemplate || { count: 0 };
   oc.reactComponents = oc.reactComponents || {};
-  oc.reactComponents['${hash}'] = ${wrappedBundle};
+  oc.reactComponents['${hash}'] = oc.reactComponents['${hash}'] || (${wrappedBundle});
   var count = window.oc.__typescriptReactTemplate.count;
   var templateId = "${reactRoot}-" + count;
   window.oc.__typescriptReactTemplate.count++;

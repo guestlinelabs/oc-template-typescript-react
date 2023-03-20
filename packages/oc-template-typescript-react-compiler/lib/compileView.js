@@ -11,7 +11,7 @@ const strings = require('oc-templates-messages');
 const reactBundleWrapper = (content) => {
   const iife = `(function() {
   ${content}
-  ; return module.default}());`
+  ; return module.default}());`;
 
   return iife;
 };
