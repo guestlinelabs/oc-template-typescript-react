@@ -43,5 +43,9 @@
       "!packages/**/utils/**/*"
     ]
   },
-  "dependencies": {}
+  "dependencies": {
+    "@vitejs/plugin-react": "^3.1.0",
+    "vite": "^4.2.1",
+    "vite-plugin-environment": "^1.1.3"
+  }
 }
