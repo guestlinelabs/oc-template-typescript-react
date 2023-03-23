@@ -35,7 +35,7 @@ async function compileServer(options) {
     const result = await vite.build({
       root: componentPath,
       mode: production ? 'production' : 'development',
-      logLevel: 'silent',
+      logLevel: options.verbose ? 'info' : 'silent',
       build: {
         lib: { entry: higherOrderServerPath, formats: ['cjs'] },
         write: false,
