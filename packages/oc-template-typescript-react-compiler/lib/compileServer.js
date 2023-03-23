@@ -34,7 +34,6 @@ module.exports = (options, callback) => {
     serverPath,
     componentName,
     componentVersion,
-    bundleHashKey: options.compiledViewInfo.bundle.hashKey
   });
   const tempFolder = path.join(serverPath, '../_package/temp');
   const higherOrderServerPath = path.join(tempFolder, '__oc_higherOrderServer.ts');
@@ -86,10 +85,10 @@ module.exports = (options, callback) => {
               err
                 ? null
                 : {
-                    type: 'node.js',
-                    hashKey: hashBuilder.fromString(compiledFiles[publishFileName]),
-                    src: publishFileName
-                  }
+                  type: 'node.js',
+                  hashKey: hashBuilder.fromString(compiledFiles[publishFileName]),
+                  src: publishFileName
+                }
             )
         );
       }
