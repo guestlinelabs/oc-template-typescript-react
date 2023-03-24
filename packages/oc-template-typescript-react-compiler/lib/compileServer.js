@@ -5,7 +5,7 @@ const { callbackify } = require('util');
 const hashBuilder = require('oc-hash-builder');
 const higherOrderServerTemplate = require('./higherOrderServerTemplate');
 
-const externals = ['got']
+const externals = ['got'];
 
 async function compileServer(options) {
   const componentPath = options.componentPath;
@@ -24,7 +24,7 @@ async function compileServer(options) {
   const higherOrderServerContent = higherOrderServerTemplate({
     serverPath,
     componentName,
-    componentVersion,
+    componentVersion
   });
   const tempFolder = path.join(serverPath, '../_package/temp');
   const higherOrderServerPath = path.join(tempFolder, '__oc_higherOrderServer.ts');
@@ -41,7 +41,7 @@ async function compileServer(options) {
         write: false,
         minify: production,
         rollupOptions: {
-          external: externals,
+          external: externals
         }
       }
     });
@@ -55,11 +55,10 @@ async function compileServer(options) {
       type: 'node.js',
       hashKey: hashBuilder.fromString(bundle),
       src: publishFileName
-    }
+    };
   } finally {
     await fs.remove(tempFolder);
   }
 }
-
 
 module.exports = callbackify(compileServer);

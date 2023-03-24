@@ -33,13 +33,13 @@ function formatter(results) {
   let hasErrors = false;
   let reportContainsErrorRuleIDs = false;
 
-  results.forEach(result => {
+  results.forEach((result) => {
     let messages = result.messages;
     if (messages.length === 0) {
       return;
     }
 
-    messages = messages.map(message => {
+    messages = messages.map((message) => {
       let messageType;
       if (isError(message) && !emitErrorsAsWarnings) {
         messageType = 'error';
@@ -67,11 +67,11 @@ function formatter(results) {
 
     // if there are error messages, we want to show only errors
     if (hasErrors) {
-      messages = messages.filter(m => m[2] === 'error');
+      messages = messages.filter((m) => m[2] === 'error');
     }
 
     // add color to rule keywords
-    messages.forEach(m => {
+    messages.forEach((m) => {
       m[4] = m[2] === 'error' ? chalk.red(m[4]) : chalk.yellow(m[4]);
       m.splice(2, 1);
     });

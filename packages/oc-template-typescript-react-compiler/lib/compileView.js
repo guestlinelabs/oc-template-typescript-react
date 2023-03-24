@@ -1,6 +1,6 @@
 const fs = require('fs-extra');
 const vite = require('vite');
-const react = require('@vitejs/plugin-react')
+const react = require('@vitejs/plugin-react');
 const path = require('path');
 const EnvironmentPlugin = require('vite-plugin-environment').default;
 const hashBuilder = require('oc-hash-builder');
@@ -41,7 +41,7 @@ async function compileView(options) {
   const globals = externals.reduce((externals, dep) => {
     externals[dep.name] = dep.global;
     return externals;
-  }, {})
+  }, {});
 
   const result = await vite.build({
     root: componentPath,
@@ -62,7 +62,11 @@ async function compileView(options) {
   });
   const out = Array.isArray(result) ? result[0] : result;
 
-  const bundle = out.output[0].code;
+  const bundle = out.output.find((x) => x.facadeModuleId.endsWith(reactOCProviderName)).code;
+  const cssStyles = out.output
+    .filter((x) => x.type === 'asset' && x.name.endsWith('.css'))
+    .map((x) => x.source.replace(/\n/g, '') ?? '')
+    .join(' ');
   const bundleHash = hashBuilder.fromString(bundle);
   const wrappedBundle = `(function() {
     ${bundle}
@@ -73,7 +77,7 @@ async function compileView(options) {
   const reactRoot = `oc-reactRoot-${componentPackage.name}`;
   const templateString = viewTemplate({
     reactRoot,
-    css: '',
+    css: cssStyles,
     externals,
     wrappedBundle,
     hash: bundleHash
@@ -93,8 +97,8 @@ async function compileView(options) {
       type: options.componentPackage.oc.files.template.type,
       hashKey: hash,
       src: publishFileName
-    },
-  }
+    }
+  };
 }
 
 module.exports = callbackify(compileView);

@@ -60,7 +60,7 @@ export interface Template {
 export interface Context<T = any, E = Env> {
   acceptLanguage: AcceptLanguage[];
   baseUrl: string;
-  env: E
+  env: E;
   params: T;
   plugins: Plugins;
   requestHeaders: Record<string, string>;

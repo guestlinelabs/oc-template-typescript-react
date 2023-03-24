@@ -1,10 +1,6 @@
 const removeExtension = (path) => path.replace(/\.(j|t)sx?$/, '');
 
-const higherOrderServerTemplate = ({
-  serverPath,
-  componentName,
-  componentVersion
-}) => `
+const higherOrderServerTemplate = ({ serverPath, componentName, componentVersion }) => `
 import { data as dataProvider } from '${removeExtension(serverPath)}';
 
 export const data = (context : any, callback : (error: any, data?: any) => void) => {
