@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "oc dev ..",
+    "build": "tsc --noEmit && oc package .",
     "test": "vitest"
   },
   "oc": {
