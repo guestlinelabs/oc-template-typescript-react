@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import { useData } from 'oc-template-typescript-react-compiler/utils/useData';
 import styles from './styles.css';
 import type { AdditionalData, ClientProps } from './types';
