@@ -1,4 +1,4 @@
-import React from 'react';
+import {useState} from 'react';
 import { useData } from 'oc-template-typescript-react-compiler/utils/useData';
 import styles from './styles.css';
 import type { AdditionalData, ClientProps } from './types';
@@ -10,8 +10,8 @@ interface AppProps extends ClientProps {
 const App: React.FC<ClientProps> = () => {
   const { firstName, lastName, userId, getData, getSetting } = useData<AppProps>();
   const staticPath = getSetting('staticPath');
-  const [additionalData, setAdditionalData] = React.useState<AdditionalData | null>(null);
-  const [error, setError] = React.useState('');
+  const [additionalData, setAdditionalData] = useState<AdditionalData | null>(null);
+  const [error, setError] = useState('');
 
   const fetchMoreData = async () => {
     setError('');
