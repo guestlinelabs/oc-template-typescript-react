@@ -1,24 +1,25 @@
 import React from 'react';
+import { useData } from 'oc-template-typescript-react-compiler/utils/useData';
 import styles from './styles.css';
-import { AdditionalData, ClientProps, GetData } from './types';
+import { AdditionalData, ClientProps } from './types';
 
 interface AppProps extends ClientProps {
-  getData: GetData;
+  getMoreData?: boolean;
 }
 
-const App: React.FC<AppProps> = ({ firstName, lastName, getData, userId }) => {
+const App: React.FC<ClientProps> = () => {
+  const { firstName, lastName, userId, getData } = useData<AppProps>();
   const [additionalData, setAdditionalData] = React.useState<AdditionalData | null>(null);
   const [error, setError] = React.useState('');
 
-  const fetchMoreData = () => {
+  const fetchMoreData = async () => {
     setError('');
-    getData({ userId, getMoreData: true }, (err, data) => {
-      if (err) {
-        setError(String(err));
-      } else {
-        setAdditionalData(data);
-      }
-    });
+    try {
+      const data = await getData({ userId, getMoreData: true });
+      setAdditionalData(data);
+    } catch (err) {
+      setError(String(err));
+    }
   };
 
   if (error) {
