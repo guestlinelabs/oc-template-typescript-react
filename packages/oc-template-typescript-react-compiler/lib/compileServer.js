@@ -2,10 +2,11 @@ const vite = require('vite');
 const fs = require('fs-extra');
 const path = require('path');
 const { callbackify } = require('util');
+const coreModules = require('builtin-modules');
 const hashBuilder = require('oc-hash-builder');
 const higherOrderServerTemplate = require('./higherOrderServerTemplate');
 
-const externals = ['got'];
+const nodeModuleMatcher = /^[a-z@][a-z\-/0-9.]+$/i;
 
 async function compileServer(options) {
   const componentPath = options.componentPath;
@@ -16,7 +17,7 @@ async function compileServer(options) {
   }
   const publishFileName = options.publishFileName || 'server.js';
   const publishPath = options.publishPath;
-  // const dependencies = options.componentPackage.dependencies || {};
+  const dependencies = options.componentPackage.dependencies || {};
   const componentName = options.componentPackage.name;
   const componentVersion = options.componentPackage.version;
   const production = !!options.production;
@@ -28,6 +29,7 @@ async function compileServer(options) {
   });
   const tempFolder = path.join(publishPath, 'temp');
   const higherOrderServerPath = path.join(tempFolder, '__oc_higherOrderServer.ts');
+  const externals = [...Object.keys(dependencies), ...coreModules]
 
   try {
     await fs.outputFile(higherOrderServerPath, higherOrderServerContent);
@@ -41,7 +43,15 @@ async function compileServer(options) {
         write: false,
         minify: production,
         rollupOptions: {
-          external: externals
+          external: (id) => {
+            if (nodeModuleMatcher.test(id)) {
+              if (!externals.includes(id)) {
+                throw new Error(`Missing dependencies from package.json => ${id}`)
+              }
+              return true;
+            }
+            return false;
+          }
         }
       }
     });
