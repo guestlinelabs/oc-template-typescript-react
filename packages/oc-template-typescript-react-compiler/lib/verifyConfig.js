@@ -70,7 +70,7 @@ function verifyTypeScriptSetup(componentPath) {
     // noFallthroughCasesInSwitch: { suggested: true },
 
     // These values are required and cannot be changed by the user
-    // Keep this in sync with the webpack config
+    // Keep this in sync with the rollup config
     module: {
       parsedValue: ts.ModuleKind.ESNext,
       value: 'esnext',
@@ -79,9 +79,9 @@ function verifyTypeScriptSetup(componentPath) {
     moduleResolution: {
       parsedValue: ts.ModuleResolutionKind.NodeJs,
       value: 'node',
-      reason: 'to match webpack resolution'
+      reason: 'to match rollup resolution'
     },
-    resolveJsonModule: { value: true, reason: 'to match webpack loader' },
+    resolveJsonModule: { value: true, reason: 'to match rollup loader' },
     isolatedModules: { value: true, reason: 'implementation limitation' },
     jsx: {
       parsedValue: ts.JsxEmit.ReactJSX,
