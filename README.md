@@ -1,6 +1,6 @@
 # oc-template-typescript-react
 
-react-templates with typescript support & utilties for the [OpenComponents](https://github.com/opentable/oc) template system
+React-templates with TypeScript support & utilities for the [OpenComponents](https://github.com/opentable/oc) template system
 
 Based on Nick Balestra's work on [oc-template-react](https://github.com/opencomponents/oc-template-react)
 
@@ -25,7 +25,7 @@ $ npm install
 
 ## Extra info:
 
-### linting
+### Linting
 
 Like in [Create React App](https://create-react-app.dev/docs/setting-up-your-editor/#displaying-lint-output-in-the-editor), linting will be done during the build, and you can extend it from .eslintrc.json, by setting the EXTEND_ESLINT environment variable to true.
 
@@ -78,43 +78,35 @@ Externals are not bundled when packaging and publishing the component, for bette
 
 The compiler exposes some utilities that could be used by your React application:
 
-### HOCs
+### Hooks
 
-#### withDataProvider
+#### useData
 
-An Higher order component that will make a `getData` function available via props.
+A hook that will make a `getData` function available via props, plus
+the initial data passed from the server to the component.
 
 ##### Usage:
 
 ```javascript
-import { withDataProvider } from 'oc-template-typescript-react-compiler/utils';
+import { useData } from 'oc-template-typescript-react-compiler/utils/useData';
 
-const yourApp = (props) => {
-  // you can use props.getData here
+const App = (props) => {
+  // getData and getSetting are always available
+  const { id, getData, getSetting } = useData<{ id: number }>();
+  const staticPath = getSetting('staticPath');
+
+  return (
+    <div>
+      <h1>Id: {id}</h1>
+      <img src={`${staticPath}/public/logo.png`} alt="Logo" />
+    </div>
+  )
 };
 
 yourEnhancedApp = withDataProvider(yourApp);
 ```
 
-`getData` accept two arguments: `(params, callback) => callback(err, result)`. It will perform a post back request to the component endpoint with the specified query perams invoking the callback with the results.
-
-For more details, check the [`example app`](/acceptance-components/react-app/app.js)
-
-#### withSettingProvider
-
-An Higher order component that will make a `getSetting` function available via props.
-
-##### Usage:
-
-```javascript
-import { withSettingProvider } from 'oc-template-typescript-react-compiler/utils';
-
-const yourApp = (props) => {
-  // you can use props.getSetting here
-};
-
-yourEnhancedApp = withSettingProvider(yourApp);
-```
+`getData` accept one argument: `(params) => Promise<result>`. It will perform a post back request to the component endpoint with the specified query perams invoking the callback with the results.
 
 `getSetting` accept one argument: `settingName => settingValue`. It will return the value for the requested setting.
 
@@ -124,3 +116,5 @@ Settings available at the moment:
 - `getSetting('version')` : return the version of the OC component
 - `getSetting('baseUrl')` : return the [baseUrl of the oc-registry](https://github.com/opentable/oc/wiki/The-server.js#context-properties)
 - `getSetting('staticPath')` : return the path to the [static assets](https://github.com/opentable/oc/wiki/The-server.js#add-static-resource-to-the-component) of the OC component
+
+For more details, check the [`example app`](/acceptance-components/react-app/app.js)
