@@ -26,7 +26,7 @@ async function compileServer(options) {
     componentName,
     componentVersion
   });
-  const tempFolder = path.join(serverPath, '../_package/temp');
+  const tempFolder = path.join(publishPath, 'temp');
   const higherOrderServerPath = path.join(tempFolder, '__oc_higherOrderServer.ts');
 
   try {
