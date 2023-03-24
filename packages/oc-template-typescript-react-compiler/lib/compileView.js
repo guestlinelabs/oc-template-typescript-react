@@ -8,6 +8,7 @@ const ocViewWrapper = require('oc-view-wrapper');
 const { callbackify } = require('util');
 const viewTemplate = require('./viewTemplate');
 const reactOCProviderTemplate = require('./reactOCProviderTemplate');
+const cssModules = require('./cssModulesPlugin');
 
 const clientName = 'clientBundle';
 
@@ -46,7 +47,7 @@ async function compileView(options) {
   const result = await vite.build({
     root: componentPath,
     mode: production ? 'production' : 'development',
-    plugins: [react(), EnvironmentPlugin(['NODE_ENV'])],
+    plugins: [react(), EnvironmentPlugin(['NODE_ENV']), cssModules()],
     logLevel: 'silent',
     build: {
       lib: { entry: reactOCProviderPath, formats: ['iife'], name: clientName },
@@ -61,7 +62,6 @@ async function compileView(options) {
     }
   });
   const out = Array.isArray(result) ? result[0] : result;
-
   const bundle = out.output.find((x) => x.facadeModuleId.endsWith(reactOCProviderName)).code;
   const cssStyles = out.output
     .filter((x) => x.type === 'asset' && x.name.endsWith('.css'))
