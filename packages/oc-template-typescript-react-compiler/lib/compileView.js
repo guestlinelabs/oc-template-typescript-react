@@ -12,6 +12,19 @@ const cssModules = require('./cssModulesPlugin');
 
 const clientName = 'clientBundle';
 
+const partition = (array, predicate) => {
+  const matches = [];
+  const rest = [];
+  for (const element of array) {
+    if (predicate(element)) {
+      matches.push(element);
+    } else {
+      rest.push(element);
+    }
+  }
+  return [matches, rest];
+};
+
 async function compileView(options) {
   function processRelativePath(relativePath) {
     let pathStr = path.join(options.componentPath, relativePath);
@@ -20,6 +33,9 @@ async function compileView(options) {
     }
     return pathStr;
   }
+
+  const static = options.componentPackage.oc.files.static;
+  const staticFolder = Array.isArray(static) ? static[0] : static;
   const viewFileName = options.componentPackage.oc.files.template.src;
   const componentPath = options.componentPath;
   const viewPath = processRelativePath(viewFileName);
@@ -63,10 +79,11 @@ async function compileView(options) {
   });
   const out = Array.isArray(result) ? result[0] : result;
   const bundle = out.output.find((x) => x.facadeModuleId.endsWith(reactOCProviderName)).code;
-  const cssStyles = out.output
-    .filter((x) => x.type === 'asset' && x.name.endsWith('.css'))
-    .map((x) => x.source.replace(/\n/g, '') ?? '')
-    .join(' ');
+  const [cssAssets, otherAssets] = partition(
+    out.output.filter((x) => x.type === 'asset'),
+    (x) => x.fileName.endsWith('.css')
+  );
+  const cssStyles = cssAssets.map((x) => x.source.replace(/\n/g, '') ?? '').join(' ');
   const bundleHash = hashBuilder.fromString(bundle);
   const wrappedBundle = `(function() {
     ${bundle}
@@ -91,6 +108,18 @@ async function compileView(options) {
   await fs.unlink(reactOCProviderPath);
   await fs.mkdir(publishPath, { recursive: true });
   await fs.writeFile(path.join(publishPath, publishFileName), view);
+  if (staticFolder) {
+    for (const asset of otherAssets) {
+      // asset.fileName could have paths like assets/file.js
+      // so we need to create those extra directories
+      await fs.ensureFile(path.join(publishPath, staticFolder, asset.fileName));
+      await fs.writeFile(
+        path.join(publishPath, staticFolder, asset.fileName),
+        asset.source,
+        'utf-8'
+      );
+    }
+  }
 
   return {
     template: {
