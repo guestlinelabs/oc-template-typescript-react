@@ -29,7 +29,7 @@ async function compileServer(options) {
   });
   const tempFolder = path.join(publishPath, 'temp');
   const higherOrderServerPath = path.join(tempFolder, '__oc_higherOrderServer.ts');
-  const externals = [...Object.keys(dependencies), ...coreModules]
+  const externals = [...Object.keys(dependencies), ...coreModules];
 
   try {
     await fs.outputFile(higherOrderServerPath, higherOrderServerContent);
@@ -46,7 +46,7 @@ async function compileServer(options) {
           external: (id) => {
             if (nodeModuleMatcher.test(id)) {
               if (!externals.includes(id)) {
-                throw new Error(`Missing dependencies from package.json => ${id}`)
+                throw new Error(`Missing dependencies from package.json => ${id}`);
               }
               return true;
             }
