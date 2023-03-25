@@ -40,7 +40,6 @@ async function compileView(options) {
   const componentPath = options.componentPath;
   const viewPath = processRelativePath(viewFileName);
 
-  // const includePaths = [options.include].flat().filter(Boolean).map(processRelativePath);
   const publishPath = options.publishPath;
   const tempPath = path.join(publishPath, 'temp');
   const publishFileName = options.publishFileName || 'template.js';
