@@ -35,6 +35,7 @@ async function compileServer(options) {
     await fs.outputFile(higherOrderServerPath, higherOrderServerContent);
 
     const result = await vite.build({
+      appType: 'custom',
       root: componentPath,
       mode: production ? 'production' : 'development',
       logLevel: options.verbose ? 'info' : 'silent',

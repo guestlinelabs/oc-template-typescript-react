@@ -61,6 +61,7 @@ async function compileView(options) {
   }, {});
 
   const result = await vite.build({
+    appType: 'custom',
     root: componentPath,
     mode: production ? 'production' : 'development',
     plugins: [react(), EnvironmentPlugin(['NODE_ENV']), cssModules()],
