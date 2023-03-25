@@ -4,11 +4,13 @@ exports[`should return the correct info 1`] = `
 Object {
   "externals": Array [
     Object {
+      "devUrl": "https://unpkg.com/react@18.2.0/umd/react.development.js",
       "global": "React",
       "name": "react",
       "url": "https://unpkg.com/react@18.2.0/umd/react.production.min.js",
     },
     Object {
+      "devUrl": "https://unpkg.com/react-dom@18.2.0/umd/react-dom.development.js",
       "global": "ReactDOM",
       "name": "react-dom",
       "url": "https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js",
