@@ -1,15 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should return the correct info 1`] = `
-Object {
-  "externals": Array [
-    Object {
+{
+  "externals": [
+    {
       "devUrl": "https://unpkg.com/react@18.2.0/umd/react.development.js",
       "global": "React",
       "name": "react",
       "url": "https://unpkg.com/react@18.2.0/umd/react.production.min.js",
     },
-    Object {
+    {
       "devUrl": "https://unpkg.com/react-dom@18.2.0/umd/react-dom.development.js",
       "global": "ReactDOM",
       "name": "react-dom",

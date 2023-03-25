@@ -1,5 +1,3 @@
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 100000;
-
 process.env.TSC_SKIP_TYPECHECK = 'true';
 
 const _ = require('lodash');
@@ -79,14 +77,14 @@ const execute = (options, cb) => {
           return {
             source: !filePath.match(/\.png$/)
               ? source
-                  .replace(/"date":\d+/, '')
-                  .replace(/"hashKey":".*?",/g, '')
-                  .replace(/omponents\['.*?'\]/g, "omponents['dummyContent']")
-                  .replace(/key:'.*?'/g, '')
-                  .replace(
-                    /\["oc",.*?"reactComponents",.*?".*?"\]/g,
-                    '["oc", "reactComponents", "dummyContent"]'
-                  )
+                .replace(/"date":\d+/, '')
+                .replace(/"hashKey":".*?",/g, '')
+                .replace(/omponents\['.*?'\]/g, "omponents['dummyContent']")
+                .replace(/key:'.*?'/g, '')
+                .replace(
+                  /\["oc",.*?"reactComponents",.*?".*?"\]/g,
+                  '["oc", "reactComponents", "dummyContent"]'
+                )
               : 'img-binary',
             path: path.relative(__dirname, filePath)
           };

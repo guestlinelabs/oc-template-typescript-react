@@ -34,8 +34,8 @@ async function compileView(options) {
     return pathStr;
   }
 
-  const static = options.componentPackage.oc.files.static;
-  const staticFolder = Array.isArray(static) ? static[0] : static;
+  const staticFiles = options.componentPackage.oc.files.static;
+  const staticFolder = Array.isArray(staticFiles) ? staticFiles[0] : staticFiles;
   const viewFileName = options.componentPackage.oc.files.template.src;
   const componentPath = options.componentPath;
   const viewPath = processRelativePath(viewFileName);
