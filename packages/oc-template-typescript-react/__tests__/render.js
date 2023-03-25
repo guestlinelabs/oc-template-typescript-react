@@ -32,7 +32,7 @@ describe('render method', () => {
 
     render({ model, template }, callback);
     test('should correctly invoke the callback', () => {
-      expect(callback).toBeCalledWith(new Error("Cannot read property 'src' of undefined"));
+      expect(callback).toBeCalledWith(new TypeError("Cannot read properties of undefined (reading 'src')"));
     });
   });
 });
