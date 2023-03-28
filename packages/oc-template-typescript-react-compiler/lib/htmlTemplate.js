@@ -1,15 +1,15 @@
-const viewTemplate = ({ reactRoot, css, externals, wrappedBundle, hash }) => `function(model){
+const viewTemplate = ({ templateId, css, externals, bundle, hash }) => `function(model){
   var modelHTML =  model.__html ? model.__html : '';
   var staticPath = model.reactComponent.props._staticPath;
   var props = JSON.stringify(model.reactComponent.props);
   window.oc = window.oc || {};
   window.oc.__typescriptReactTemplate = window.oc.__typescriptReactTemplate || { count: 0 };
   oc.reactComponents = oc.reactComponents || {};
-  oc.reactComponents['${hash}'] = oc.reactComponents['${hash}'] || (${wrappedBundle});
+  oc.reactComponents['${hash}'] = oc.reactComponents['${hash}'] || (${bundle});
   var count = window.oc.__typescriptReactTemplate.count;
-  var templateId = "${reactRoot}-" + count;
+  var templateId = "${templateId}-" + count;
   window.oc.__typescriptReactTemplate.count++;
-  return '<div id="' + templateId + '" class="${reactRoot}">' + modelHTML + '</div>' +
+  return '<div id="' + templateId + '" class="${templateId}">' + modelHTML + '</div>' +
     '${css ? '<style>' + css + '</style>' : ''}' +
     '<script>' +
     'window.oc = window.oc || {};' +

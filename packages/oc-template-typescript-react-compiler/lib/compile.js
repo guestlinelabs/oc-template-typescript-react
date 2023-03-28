@@ -3,15 +3,30 @@
 const createCompile = require('oc-generic-template-compiler').createCompile;
 const compileStatics = require('oc-statics-compiler');
 const getInfo = require('oc-template-typescript-react').getInfo;
+const react = require('@vitejs/plugin-react');
 
-const compileServer = require('./compileServer');
-const compileView = require('./compileView');
+const viteView = require('./to-publish/viteView');
+const viteServer = require('./to-publish/viteServer');
 const verifyTypeScriptSetup = require('./verifyConfig');
+const higherOrderServerTemplate = require('./higherOrderServerTemplate');
+const reactOCProviderTemplate = require('./reactOCProviderTemplate');
+const htmlTemplate = require('./htmlTemplate');
 
 const compiler = createCompile({
-  compileServer,
+  compileView: (options, cb) =>
+    viteView(
+      {
+        ...options,
+        plugins: [react()],
+        viewWrapper: ({ viewPath }) => reactOCProviderTemplate({ viewPath }),
+        htmlTemplate,
+        externals: getInfo().externals
+      },
+      cb
+    ),
+  compileServer: (options, cb) =>
+    viteServer({ ...options, serverWrapper: higherOrderServerTemplate }, cb),
   compileStatics,
-  compileView,
   getInfo
 });
 
