@@ -66,6 +66,7 @@ async function compileView(options) {
     plugins: [react(), EnvironmentPlugin(['NODE_ENV']), cssModules()],
     logLevel: 'silent',
     build: {
+      sourcemap: !production,
       lib: { entry: reactOCProviderPath, formats: ['iife'], name: clientName },
       write: false,
       minify: production,
