@@ -81,7 +81,7 @@ async function compileView(options) {
     out.output.filter((x) => x.type === 'asset'),
     (x) => x.fileName.endsWith('.css')
   );
-  const cssStyles = cssAssets.map((x) => x.source.replace(/\n/g, '') ?? '').join(' ');
+  const cssStyles = cssAssets.map((x) => x.source.replace(/\r?\n/g, '') ?? '').join(' ').replace(/'/g, '"');
   const bundleHash = hashBuilder.fromString(bundle);
   const wrappedBundle = `(function() {
     ${bundle}
