@@ -33,11 +33,14 @@ async function compileServer(options) {
   try {
     await fs.outputFile(higherOrderServerPath, higherOrderServerContent);
 
+    const baseConfig = await vite.loadConfigFromFile(process.cwd()).catch(() => null);
+    const basePlugins = baseConfig?.config?.plugins ?? [];
+
     const result = await vite.build({
       appType: 'custom',
       root: componentPath,
       mode: production ? 'production' : 'development',
-      plugins: options.plugins,
+      plugins: [...options.plugins, ...basePlugins],
       logLevel: options.verbose ? 'info' : 'silent',
       build: {
         lib: { entry: higherOrderServerPath, formats: ['cjs'] },

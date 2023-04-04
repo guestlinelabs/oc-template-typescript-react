@@ -56,11 +56,14 @@ async function compileView(options) {
     return externals;
   }, {});
 
+  const baseConfig = await vite.loadConfigFromFile(process.cwd()).catch(() => null);
+  const basePlugins = baseConfig?.config?.plugins ?? [];
+
   const result = await vite.build({
     appType: 'custom',
     root: componentPath,
     mode: production ? 'production' : 'development',
-    plugins: [...options.plugins, EnvironmentPlugin(['NODE_ENV']), cssModules()],
+    plugins: [...options.plugins, EnvironmentPlugin(['NODE_ENV']), cssModules(), ...basePlugins],
     logLevel: 'silent',
     build: {
       sourcemap: !production,
