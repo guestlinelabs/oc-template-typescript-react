@@ -14,7 +14,7 @@
     "noFallthroughCasesInSwitch": true,
 
     // These values are required and cannot be changed by the user
-    // Keep this in sync with the webpack config
+    // Keep this in sync with the rollup config
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,

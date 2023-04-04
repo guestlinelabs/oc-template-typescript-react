@@ -1,24 +1,26 @@
-import React from 'react';
+import { useState } from 'react';
+import { useData } from 'oc-template-typescript-react-compiler/utils/useData';
 import styles from './styles.css';
-import { AdditionalData, ClientProps, GetData } from './types';
+import type { AdditionalData, ClientProps } from './types';
 
 interface AppProps extends ClientProps {
-  getData: GetData;
+  getMoreData?: boolean;
 }
 
-const App: React.FC<AppProps> = ({ firstName, lastName, getData, userId }) => {
-  const [additionalData, setAdditionalData] = React.useState<AdditionalData | null>(null);
-  const [error, setError] = React.useState('');
+const App: React.FC<ClientProps> = () => {
+  const { firstName, lastName, userId, getData, getSetting } = useData<AppProps>();
+  const staticPath = getSetting('staticPath');
+  const [additionalData, setAdditionalData] = useState<AdditionalData | null>(null);
+  const [error, setError] = useState('');
 
-  const fetchMoreData = () => {
+  const fetchMoreData = async () => {
     setError('');
-    getData({ userId, getMoreData: true }, (err, data) => {
-      if (err) {
-        setError(String(err));
-      } else {
-        setAdditionalData(data);
-      }
-    });
+    try {
+      const data = await getData({ userId, getMoreData: true });
+      setAdditionalData(data);
+    } catch (err) {
+      setError(String(err));
+    }
   };
 
   if (error) {
@@ -27,6 +29,7 @@ const App: React.FC<AppProps> = ({ firstName, lastName, getData, userId }) => {
 
   return (
     <div className={styles.container}>
+      <img width="50" height="50" src={`${staticPath}/public/logo.png`} alt="Logo" />
       <h1 style={{ margin: '0 0 20px 0' }}>
         Hello, <span style={{ textDecoration: 'underline' }}>{firstName}</span> {lastName}
       </h1>
