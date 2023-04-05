@@ -6,6 +6,7 @@ const coreModules = require('builtin-modules');
 const hashBuilder = require('oc-hash-builder');
 
 const nodeModuleMatcher = /^[a-z@][a-z\-/0-9.]+$/i;
+const removeExtension = (path) => path.replace(/\.(j|t)sx?$/, '');
 
 async function compileServer(options) {
   const componentPath = options.componentPath;
@@ -21,7 +22,8 @@ async function compileServer(options) {
   const componentVersion = options.componentPackage.version;
   const production = !!options.production;
 
-  const higherOrderServerContent = options.serverWrapper({
+  const wrapperFn = options.serverWrapper || (({ serverPath }) => `export { data } from ${removeExtension(serverPath)}`)
+  const higherOrderServerContent = wrapperFn({
     serverPath,
     componentName,
     componentVersion

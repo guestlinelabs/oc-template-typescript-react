@@ -8,6 +8,7 @@ const { callbackify } = require('util');
 const cssModules = require('./cssModulesPlugin');
 
 const clientName = 'clientBundle';
+const removeExtension = (path) => path.replace(/\.(t|j)sx?$/, '');
 
 const partition = (array, predicate) => {
   const matches = [];
@@ -45,11 +46,12 @@ async function compileView(options) {
   const production = !!options.production;
   const viewExtension = viewFileName.match(/\.\w{1,5}$/)?.[0] ?? '.js';
 
-  const viewWrapperContent = options.viewWrapper({ viewPath });
+  const viewWrapperFn = options.viewWrapper || (({ viewPath }) => `export { default } from '${removeExtension(viewPath)}';`)
+  const viewWrapperContent = viewWrapperFn({ viewPath });
   const viewWrapperName = `_viewWrapperEntry${viewExtension}`;
-  const viewWrapperPAth = path.join(tempPath, viewWrapperName);
+  const viewWrapperPath = path.join(tempPath, viewWrapperName);
 
-  await fs.outputFile(viewWrapperPAth, viewWrapperContent);
+  await fs.outputFile(viewWrapperPath, viewWrapperContent);
 
   const globals = externals.reduce((externals, dep) => {
     externals[dep.name] = dep.global;
@@ -67,7 +69,7 @@ async function compileView(options) {
     logLevel: 'silent',
     build: {
       sourcemap: !production,
-      lib: { entry: viewWrapperPAth, formats: ['iife'], name: clientName },
+      lib: { entry: viewWrapperPath, formats: ['iife'], name: clientName },
       write: false,
       minify: production,
       rollupOptions: {
@@ -109,7 +111,7 @@ async function compileView(options) {
   const hash = hashBuilder.fromString(templateStringCompressed);
   const view = ocViewWrapper(hash, templateStringCompressed);
 
-  await fs.unlink(viewWrapperPAth);
+  await fs.unlink(viewWrapperPath);
   await fs.mkdir(publishPath, { recursive: true });
   await fs.writeFile(path.join(publishPath, publishFileName), view);
   if (staticFolder) {
