@@ -3,10 +3,9 @@
 const createCompile = require('oc-generic-template-compiler').createCompile;
 const compileStatics = require('oc-statics-compiler');
 const getInfo = require('oc-template-typescript-react').getInfo;
+const { viteView, viteServer } = require('oc-vite-compiler');
 const react = require('@vitejs/plugin-react');
 
-const viteView = require('./to-publish/viteView');
-const viteServer = require('./to-publish/viteServer');
 const verifyTypeScriptSetup = require('./verifyConfig');
 const higherOrderServerTemplate = require('./higherOrderServerTemplate');
 const reactOCProviderTemplate = require('./reactOCProviderTemplate');
