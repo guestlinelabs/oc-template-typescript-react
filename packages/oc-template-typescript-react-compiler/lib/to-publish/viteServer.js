@@ -40,7 +40,7 @@ async function compileServer(options) {
       appType: 'custom',
       root: componentPath,
       mode: production ? 'production' : 'development',
-      plugins: [...options.plugins, ...basePlugins],
+      plugins: [...options?.plugins ?? [], ...basePlugins],
       logLevel: options.verbose ? 'info' : 'silent',
       build: {
         lib: { entry: higherOrderServerPath, formats: ['cjs'] },
