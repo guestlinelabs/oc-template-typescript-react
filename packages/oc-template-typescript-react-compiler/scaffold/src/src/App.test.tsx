@@ -6,6 +6,7 @@ import { DataProvider } from 'oc-template-typescript-react-compiler/utils/useDat
 import App from './App';
 
 const getData = vi.fn();
+const getSetting = vi.fn();
 
 describe('App - Page', () => {
   beforeEach(() => {
@@ -17,8 +18,17 @@ describe('App - Page', () => {
 
   it('Gets more data when clicking the button', () => {
     getData.mockImplementationOnce(() => Promise.resolve({}));
+    getSetting.mockImplementationOnce(() => ({}));
     render(
-      <DataProvider value={{ firstName: 'firstName', lastName: 'lastName', userId: 0, getData }}>
+      <DataProvider
+        value={{
+          firstName: 'firstName',
+          lastName: 'lastName',
+          userId: 0,
+          getData,
+          getSetting
+        }}
+      >
         <App firstName="firstName" lastName="lastName" userId={0} />
       </DataProvider>
     );
