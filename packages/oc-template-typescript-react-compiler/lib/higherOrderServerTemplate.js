@@ -1,6 +1,11 @@
 const removeExtension = (path) => path.replace(/\.(j|t)sx?$/, '');
 
-const higherOrderServerTemplate = ({ serverPath, componentName, componentVersion, bundleHashKey }) => {
+const higherOrderServerTemplate = ({
+  serverPath,
+  componentName,
+  componentVersion,
+  bundleHashKey
+}) => {
   return `
 import { data as dataProvider } from '${removeExtension(serverPath)}';
 
@@ -26,7 +31,7 @@ export const data = (context : any, callback : (error: any, data?: any) => void)
     }));
   });
 }
-`
+`;
 };
 
 module.exports = higherOrderServerTemplate;

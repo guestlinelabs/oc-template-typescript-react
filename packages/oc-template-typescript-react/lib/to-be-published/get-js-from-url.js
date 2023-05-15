@@ -2,7 +2,14 @@
 const request = require("minimal-request");
 const vm = require("vm");
 
-module.exports = ({ url, key, reactKey, globals, timeout = 5000, extractor }) => cb => {
+module.exports = ({
+  url,
+  key,
+  reactKey,
+  globals,
+  timeout = 5000,
+  extractor
+}) => cb => {
   request(
     {
       url,
@@ -21,11 +28,13 @@ module.exports = ({ url, key, reactKey, globals, timeout = 5000, extractor }) =>
       const context = Object.assign({}, globals);
 
       try {
-        vm.runInNewContext(`
+        vm.runInNewContext(
+          `
         ${jsAsText}
         oc.components['${key}']();
         `,
-          context);
+          context
+        );
       } catch (err) {
         return cb(err);
       }

@@ -1,9 +1,9 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
-const ReactDOMServer = require('react-dom/server');
+const React = require("react");
+const ReactDOM = require("react-dom");
+const ReactDOMServer = require("react-dom/server");
 
-const createPredicate = require('./to-be-published/get-js-from-url');
-const tryGetCached = require('./to-be-published/try-get-cached');
+const createPredicate = require("./to-be-published/get-js-from-url");
+const tryGetCached = require("./to-be-published/try-get-cached");
 
 module.exports = (options, callback) => {
   try {
@@ -18,19 +18,21 @@ module.exports = (options, callback) => {
       url,
       globals: {
         React,
-        ReactDOM,
+        ReactDOM
       },
-      extractor,
+      extractor
     });
 
-    tryGetCached('reactComponent', reactKey, getJsFromUrl, (err, CachedApp) => {
+    tryGetCached("reactComponent", reactKey, getJsFromUrl, (err, CachedApp) => {
       if (err) return callback(err);
       try {
-        const reactHtml = ReactDOMServer.renderToString(React.createElement(CachedApp, props));
+        const reactHtml = ReactDOMServer.renderToString(
+          React.createElement(CachedApp, props)
+        );
 
         const html = options.template(
           Object.assign({}, options.model, {
-            __html: reactHtml,
+            __html: reactHtml
           })
         );
         return callback(null, html);
