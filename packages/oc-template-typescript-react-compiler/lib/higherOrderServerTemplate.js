@@ -1,6 +1,7 @@
 const removeExtension = (path) => path.replace(/\.(j|t)sx?$/, '');
 
-const higherOrderServerTemplate = ({ serverPath, componentName, componentVersion }) => `
+const higherOrderServerTemplate = ({ serverPath, componentName, componentVersion, bundleHashKey }) => {
+  return `
 import { data as dataProvider } from '${removeExtension(serverPath)}';
 
 export const data = (context : any, callback : (error: any, data?: any) => void) => {
@@ -18,11 +19,14 @@ export const data = (context : any, callback : (error: any, data?: any) => void)
     const srcPath = srcPathHasProtocol ? context.staticPath : ("https:" + context.staticPath);
     return callback(null, Object.assign({}, {
       reactComponent: {
+        key: "${bundleHashKey}",
+        src: srcPath + "template.js",
         props
       }
     }));
   });
 }
-`;
+`
+};
 
 module.exports = higherOrderServerTemplate;

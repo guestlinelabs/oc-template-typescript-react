@@ -8,11 +8,13 @@ const tryGetCached = require('./to-be-published/try-get-cached');
 module.exports = (options, callback) => {
   try {
     const url = options.model.reactComponent.src;
-    const key = options.model.reactComponent.key;
+    const key = options.key;
+    const reactKey = options.model.reactComponent.key;
     const props = options.model.reactComponent.props;
     const extractor = (key, context) => context.oc.reactComponents[key];
     const getJsFromUrl = createPredicate({
       key,
+      reactKey,
       url,
       globals: {
         React,
@@ -21,7 +23,7 @@ module.exports = (options, callback) => {
       extractor,
     });
 
-    tryGetCached('reactComponent', key, getJsFromUrl, (err, CachedApp) => {
+    tryGetCached('reactComponent', reactKey, getJsFromUrl, (err, CachedApp) => {
       if (err) return callback(err);
       try {
         const reactHtml = ReactDOMServer.renderToString(React.createElement(CachedApp, props));

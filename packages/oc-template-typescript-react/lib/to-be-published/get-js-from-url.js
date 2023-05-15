@@ -2,7 +2,7 @@
 const request = require("minimal-request");
 const vm = require("vm");
 
-module.exports = ({ url, key, globals, timeout = 5000, extractor }) => cb => {
+module.exports = ({ url, key, reactKey, globals, timeout = 5000, extractor }) => cb => {
   request(
     {
       url,
@@ -21,11 +21,15 @@ module.exports = ({ url, key, globals, timeout = 5000, extractor }) => cb => {
       const context = Object.assign({}, globals);
 
       try {
-        vm.runInNewContext(jsAsText, context);
+        vm.runInNewContext(`
+        ${jsAsText}
+        oc.components['${key}']();
+        `,
+          context);
       } catch (err) {
         return cb(err);
       }
-      const cached = extractor(key, context);
+      const cached = extractor(reactKey, context);
       cb(null, cached);
     }
   );
