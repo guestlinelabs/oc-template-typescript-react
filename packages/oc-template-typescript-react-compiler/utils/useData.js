@@ -7,11 +7,11 @@ exports.useData = exports.DataProvider = void 0;
 const react_1 = __importDefault(require("react"));
 const DataContext = react_1.default.createContext({});
 const DataProvider = ({ children, ...props }) => {
-    return react_1.default.createElement(DataContext.Provider, { value: props }, children);
+    return react_1.default.createElement(DataContext.Provider, props, children);
 };
 exports.DataProvider = DataProvider;
 function useData() {
-    const { value: { getData, ...rest } } = react_1.default.useContext(DataContext);
+    const { getData, ...rest } = react_1.default.useContext(DataContext);
     const asyncGetData = react_1.default.useCallback((data) => {
         return new Promise((resolve, reject) => {
             // @ts-ignore
