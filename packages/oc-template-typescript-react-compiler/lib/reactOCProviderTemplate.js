@@ -21,8 +21,8 @@ const reactOCProviderTemplate = ({ viewPath }) => `
         if (err) {
           return cb(err);
         }
-        const { _staticPath, _baseUrl, _componentName, _componentVersion, ...rest } = (data.reactComponent.props as any); 
-        cb(null, rest, data.reactComponent.props);
+        const { _staticPath, _baseUrl, _componentName, _componentVersion, ...rest } = (data.component.props as any); 
+        cb(null, rest, data.component.props);
       });
     }
 

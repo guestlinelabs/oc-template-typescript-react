@@ -3,8 +3,8 @@ const viewTemplate = ({ templateId, css, externals, bundle, hash }) => `function
   oc.reactComponents['${hash}'] = oc.reactComponents['${hash}'] || (${bundle});
   if (!model) return;
   var modelHTML =  model.__html ? model.__html : '';
-  var staticPath = model.reactComponent.props._staticPath;
-  var props = JSON.stringify(model.reactComponent.props);
+  var staticPath = model.component.props._staticPath;
+  var props = JSON.stringify(model.component.props);
   oc = oc || {};
   oc.__typescriptReactTemplate = oc.__typescriptReactTemplate || { count: 0 };
   var count = oc.__typescriptReactTemplate.count;
