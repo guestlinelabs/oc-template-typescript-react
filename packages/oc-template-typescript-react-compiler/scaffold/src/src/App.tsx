@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useData } from 'oc-template-typescript-react-compiler/utils/useData';
 import styles from './styles.css';
+import logo from '../public/logo.png';
 import type { AdditionalData, ClientProps } from './types';
 
 interface AppProps extends ClientProps {
@@ -8,8 +9,7 @@ interface AppProps extends ClientProps {
 }
 
 const App: React.FC<ClientProps> = () => {
-  const { firstName, lastName, userId, getData, getSetting } = useData<AppProps>();
-  const staticPath = getSetting('staticPath');
+  const { firstName, lastName, userId, getData } = useData<AppProps>();
   const [additionalData, setAdditionalData] = useState<AdditionalData | null>(null);
   const [error, setError] = useState('');
 
@@ -29,7 +29,7 @@ const App: React.FC<ClientProps> = () => {
 
   return (
     <div className={styles.container}>
-      <img width="50" height="50" src={`${staticPath}/public/logo.png`} alt="Logo" />
+      <img width="50" height="50" src={logo} alt="Logo" />
       <h1 style={{ margin: '0 0 20px 0' }}>
         Hello, <span style={{ textDecoration: 'underline' }}>{firstName}</span> {lastName}
       </h1>
