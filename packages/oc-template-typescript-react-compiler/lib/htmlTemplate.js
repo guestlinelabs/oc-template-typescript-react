@@ -1,3 +1,5 @@
+const escapeCSS = require('cssesc');
+
 const viewTemplate = ({ templateId, css, externals, bundle, hash }) => `function(model){
   oc.reactComponents = oc.reactComponents || {};
   oc.reactComponents['${hash}'] = oc.reactComponents['${hash}'] || (${bundle});
@@ -11,7 +13,7 @@ const viewTemplate = ({ templateId, css, externals, bundle, hash }) => `function
   var templateId = "${templateId}-" + count;
   oc.__typescriptReactTemplate.count++;
   return '<div id="' + templateId + '" class="${templateId}">' + modelHTML + '</div>' +
-    '${css ? '<style>' + css + '</style>' : ''}' +
+    '${css ? '<style>' + escapeCSS(css) + '</style>' : ''}' +
     '<script>' +
     'oc = oc || {};' +
     'oc.cmd = oc.cmd || [];' +

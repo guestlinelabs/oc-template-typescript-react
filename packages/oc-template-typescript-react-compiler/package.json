@@ -26,6 +26,7 @@
   "dependencies": {
     "@vitejs/plugin-react": "^3.1.0",
     "chalk": "^3.0.0",
+    "cssesc": "^3.0.0",
     "immer": "^9.0.6",
     "oc-generic-template-compiler": "2.1.0",
     "oc-statics-compiler": "2.0.10",
