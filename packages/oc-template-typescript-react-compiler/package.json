@@ -1,6 +1,6 @@
 {
   "name": "oc-template-typescript-react-compiler",
-  "version": "5.2.5",
+  "version": "5.2.6",
   "description": "",
   "main": "index.js",
   "repository": {
@@ -31,7 +31,7 @@
     "oc-generic-template-compiler": "2.1.0",
     "oc-statics-compiler": "2.1.0",
     "oc-template-typescript-react": "4.1.0",
-    "oc-vite-compiler": "^2.1.1",
+    "oc-vite-compiler": "^2.1.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "resolve": "^1.20.0"
