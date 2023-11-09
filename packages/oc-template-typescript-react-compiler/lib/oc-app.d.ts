@@ -70,3 +70,11 @@ export interface Context<T = any, E = Env> {
   staticPath: string;
   templates: Template[];
 }
+
+type Callback<D, E = Error> = (error: E | null, data?: D) => void;
+
+export type DataProvider<
+  Parameters,
+  Return,
+  Environment = Env
+> = (context: Context<Parameters, Environment>, callback: Callback<Return>) => void;
