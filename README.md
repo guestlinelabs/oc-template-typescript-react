@@ -1,4 +1,8 @@
-# oc-template-typescript-react
+# This package has been deprecated
+
+**Use the new oc-template-react template on [vite-templates](https://github.com/opencomponents/vite-templates)**
+
+### oc-template-typescript-react
 
 React-templates with TypeScript support & utilities for the [OpenComponents](https://github.com/opentable/oc) template system
 
